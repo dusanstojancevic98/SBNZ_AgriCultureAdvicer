@@ -9,25 +9,38 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Zemljiste {
 
-    enum TipZemljista {
-        CRNICA, GAJNJACA, SMONICA, ALUVIJALNO, PEPELJUSA, CRVENICA
-    }
-
     @Getter
     @Setter
     private double povrsina;
+
+    @Getter
+    @Setter
+    private double sirina;
+
+    @Getter
+    @Setter
+    private double duzina;
+
+    @Getter
+    @Setter
+    private double nadmVisina;
+
     @Getter
     @Setter
     private double phVrednost;
+
     @Getter
     @Setter
     private double procenatHumusa;
+
     @Getter
     @Setter
     private double procenatKarbonata;
+
     @Getter
     @Setter
     private double nagibZemljista;
+
     @Getter
     @Setter
     private TipZemljista tipZemljista;

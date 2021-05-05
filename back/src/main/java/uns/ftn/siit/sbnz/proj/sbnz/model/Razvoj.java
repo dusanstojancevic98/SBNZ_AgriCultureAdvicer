@@ -5,19 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
 @AllArgsConstructor
-public class Konfiguracija {
-
-    @Setter
-    @Getter
-    private String naziv;
+@NoArgsConstructor
+public class Razvoj {
 
     @Getter
     @Setter
-    private Zemljiste zemljiste;
+    private String vlasnik;
 
-    @Getter
     @Setter
-    private VremenskiPodaci vremenskiPodaci;
+    @Getter
+    private Usev odabraniUsev;
 }

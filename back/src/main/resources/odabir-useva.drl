@@ -1,0 +1,38 @@
+import uns.ftn.siit.sbnz.proj.sbnz.model.Razvoj
+import uns.ftn.siit.sbnz.proj.sbnz.model.Zemljiste
+import uns.ftn.siit.sbnz.proj.sbnz.model.Usev
+import uns.ftn.siit.sbnz.proj.sbnz.model.Konfiguracija
+
+global Razvoj razvoj
+
+rule "odabir-useva"
+    when
+        Konfiguracija(naziv == "Razvoj")
+    then
+        System.out.println("PATLIDZAN");
+        razvoj.setOdabraniUsev(new Usev("Patlidzan"));
+        update(razvoj)
+end
+rule "odabir-useva-1"
+    when
+        $zemljiste:Zemljiste(povrsina <= 100)
+    then
+        System.out.println("SARGAREPA");
+        razvoj.setOdabraniUsev(new Usev("Sargarepa"));
+        update(razvoj)
+end
+
+rule "odabir-useva-2"
+    when
+        $usev: Usev(naziv == "Sargarepa")
+    then
+        System.out.println("SARGAREPAAAAAAAAAAA");
+end
+
+
+rule "odabir-useva-3"
+    when
+        $usev: Usev(naziv == "Patlidzan")
+    then
+        System.out.println("PATLIDZAAAAAAAAAAN");
+end
