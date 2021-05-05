@@ -27,5 +27,8 @@ public class Zemljiste {
     private double procenatKarbonata;
     @Getter
     @Setter
+    private double nagibZemljista;
+    @Getter
+    @Setter
     private TipZemljista tipZemljista;
 }
