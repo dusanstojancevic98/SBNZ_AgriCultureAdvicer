@@ -1,9 +1,10 @@
-import uns.ftn.siit.sbnz.proj.sbnz.model.Razvoj
-import uns.ftn.siit.sbnz.proj.sbnz.model.Zemljiste
-import uns.ftn.siit.sbnz.proj.sbnz.model.Usev
-import uns.ftn.siit.sbnz.proj.sbnz.model.Konfiguracija
+import uns.ftn.siit.sbnz.proj.sbnz.model.Razvoj;
+import uns.ftn.siit.sbnz.proj.sbnz.model.Zemljiste;
+import uns.ftn.siit.sbnz.proj.sbnz.model.Usev;
+import uns.ftn.siit.sbnz.proj.sbnz.model.Konfiguracija;
 
-global Razvoj razvoj
+global Razvoj razvoj;
+dialect  "mvel"
 
 rule "odabir-useva"
     when
@@ -11,8 +12,9 @@ rule "odabir-useva"
     then
         System.out.println("PATLIDZAN");
         razvoj.setOdabraniUsev(new Usev("Patlidzan"));
-        update(razvoj)
+        drools.getKnowledgeRuntime().setGlobal("razvoj", razvoj);
 end
+
 rule "odabir-useva-1"
     when
         $zemljiste:Zemljiste(povrsina <= 100)
