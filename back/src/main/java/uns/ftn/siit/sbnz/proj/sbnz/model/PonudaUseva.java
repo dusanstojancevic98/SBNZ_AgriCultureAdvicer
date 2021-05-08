@@ -1,23 +1,20 @@
 package uns.ftn.siit.sbnz.proj.sbnz.model;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
-public class Razvoj {
+public class PonudaUseva {
 
     @Getter
     @Setter
-    private String vlasnik;
+    private List<Usev> ponude = new ArrayList<>();
 
-    @Getter
-    @Setter
-    private PonudaUseva ponudaUseva;
-
-    @Setter
-    @Getter
-    private Usev odabraniUsev;
 }
