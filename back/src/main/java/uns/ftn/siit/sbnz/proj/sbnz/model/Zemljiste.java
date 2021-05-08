@@ -1,13 +1,19 @@
 package uns.ftn.siit.sbnz.proj.sbnz.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-@AllArgsConstructor
+import javax.persistence.*;
+
 @NoArgsConstructor
+@Entity
+@Table(name = "zemljista")
 public class Zemljiste {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter
+    @Setter
+    private Long id;
 
     @Getter
     @Setter

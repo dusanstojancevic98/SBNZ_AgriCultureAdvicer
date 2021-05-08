@@ -1,0 +1,97 @@
+import uns.ftn.siit.sbnz.proj.sbnz.model.Razvoj;
+import uns.ftn.siit.sbnz.proj.sbnz.model.Zemljiste;
+import uns.ftn.siit.sbnz.proj.sbnz.model.Usev;
+import uns.ftn.siit.sbnz.proj.sbnz.model.Konfiguracija;
+
+global Razvoj razvoj;
+dialect  "mvel"
+
+
+declare Povrce
+end
+
+declare Voce
+end
+
+
+declare Normalno
+end
+declare Konturno
+end
+declare GustoKonturno
+end
+declare Terasiranje
+end
+
+rule "nagib-normalno"
+    when
+        $konfig:Konfiguracija($zemljiste: zemljiste, $zemljiste.nagibZemljista <= 3 )
+    then
+        insert(new Normalno())
+end
+
+rule "nagib-konturno"
+    when
+
+        $konfig:Konfiguracija($zemljiste: zemljiste, $zemljiste.nagibZemljista > 3 && $zemljiste.nagibZemljista <= 7 )
+    then
+        insert(new Konturno())
+end
+
+rule "nagib-gusto-konturno"
+    when
+        $konfig:Konfiguracija($zemljiste: zemljiste, $zemljiste.nagibZemljista > 7 && $zemljiste.nagibZemljista <= 15 )
+    then
+        insert(new GustoKonturno())
+end
+
+rule "nagib-terasiranje"
+    when
+        $konfig:Konfiguracija($zemljiste: zemljiste, $zemljiste.nagibZemljista > 15 && $zemljiste.nagibZemljista <= 40 )
+    then
+        insert(new Terasiranje())
+end
+
+
+
+declare Hladna
+end
+declare Umerena
+end
+declare Zarka
+end
+//TODO dodati klimatska pravila
+
+rule "provera-povrsine"
+    when
+        $konfig:Konfiguracija($zemljiste: zemljiste, $zemljiste.povrsina == null)
+    then
+        $zemljiste.setPovrsina($zemljiste.getDuzina() * $zemljiste.getSirina());
+        $konfig.setZemljiste($zemljiste);
+        update($konfig);
+end
+
+
+
+rule "povrce"
+    when
+        $konfig:Konfiguracija($zemljiste: zemljiste, $zemljiste.povrsina != null && $zemljiste.povrsina < 100)
+    then
+        insert(new Povrce())
+end
+
+rule "voce"
+    when
+        $konfig:Konfiguracija($zemljiste: zemljiste, $zemljiste.povrsina != null && $zemljiste.povrsina > 100)
+    then
+        insert(new Voce())
+end
+
+rule "luk-uslovi"
+    when
+        Povrce();
+        $konfig:Konfiguracija($zemljiste: zemljiste, $zemljiste.phVrednost >= 6.0 && $zemljiste.phVrednost <= 7.5)
+    then
+        razvoj.getPonudaUseva().addUsev(new Usev("Beli luk", "Beli luk je vrsta luka bele boje izrazitog mirisa."));
+        drools.getWorkingMemory().setGlobal("razvoj", razvoj);
+end

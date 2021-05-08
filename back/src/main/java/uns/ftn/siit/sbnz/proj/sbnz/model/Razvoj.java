@@ -1,23 +1,41 @@
 package uns.ftn.siit.sbnz.proj.sbnz.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.sun.xml.bind.v2.model.core.ID;
+import lombok.*;
+import org.kie.api.definition.type.Key;
 
-@AllArgsConstructor
+import javax.persistence.*;
+
+@RequiredArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table(name = "razvoji")
 public class Razvoj {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter
+    @Setter
+    private Long id;
 
     @Getter
     @Setter
+    @NonNull
     private String vlasnik;
 
     @Getter
     @Setter
-    private PonudaUseva ponudaUseva;
+    @OneToOne
+    private PonudaUseva ponudaUseva = new PonudaUseva();
 
     @Setter
     @Getter
+    @OneToOne
     private Usev odabraniUsev;
+
+
+    @Setter
+    @Getter
+    @OneToOne
+    private Konfiguracija konfiguracija;
 }

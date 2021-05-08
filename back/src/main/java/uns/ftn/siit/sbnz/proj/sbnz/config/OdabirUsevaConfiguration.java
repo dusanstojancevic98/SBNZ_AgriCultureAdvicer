@@ -20,13 +20,14 @@ public class OdabirUsevaConfiguration {
     public KieContainer kieContainer() {
         KieServices kieServices = KieServices.Factory.get();
 
-        KieFileSystem kieFileSystem = kieServices.newKieFileSystem();
-        kieFileSystem.write(ResourceFactory.newClassPathResource(drlFile));
-        KieBuilder kieBuilder = kieServices.newKieBuilder(kieFileSystem);
-        kieBuilder.buildAll();
-        KieModule kieModule = kieBuilder.getKieModule();
+//        KieFileSystem kieFileSystem = kieServices.newKieFileSystem();
+//        kieFileSystem.write(ResourceFactory.newClassPathResource(drlFile));
+//        KieBuilder kieBuilder = kieServices.newKieBuilder(kieFileSystem);
+//        kieBuilder.buildAll();
+//        KieModule kieModule = kieBuilder.getKieModule();
 
-        return kieServices.newKieContainer(kieModule.getReleaseId());
+//        return kieServices.newKieContainer(kieModule.getReleaseId());
+        return kieServices.getKieClasspathContainer();
     }
 
 }

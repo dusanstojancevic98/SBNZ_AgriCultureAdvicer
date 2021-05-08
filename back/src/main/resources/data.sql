@@ -1,0 +1,1 @@
+insert into razvoji (vlasnik) values ('Djuro');
