@@ -62,6 +62,29 @@ declare Zarka
 end
 //TODO dodati klimatska pravila
 
+
+rule "klima-hladna"
+    when
+        $konfig:Konfiguracija($vreme: vremenskiPodaci, $vreme.prosecnaGodisnjaTemperatura<5)
+    then
+        insert(new Umerena())
+end
+
+rule "klima-umerena"
+    when
+        $konfig:Konfiguracija($vreme: vremenskiPodaci, $vreme.prosecnaGodisnjaTemperatura>5 && $vreme.prosecnaGodisnjaTemperatura < 15)
+    then
+        insert(new Umerena())
+end
+
+rule "klima-zarka"
+    when
+        $konfig:Konfiguracija($vreme: vremenskiPodaci, $vreme.prosecnaGodisnjaTemperatura > 15)
+    then
+        insert(new Umerena())
+end
+
+
 rule "provera-povrsine"
     when
         $konfig:Konfiguracija($zemljiste: zemljiste, $zemljiste.povrsina == null)
@@ -89,7 +112,8 @@ end
 
 rule "luk-uslovi"
     when
-        Povrce();
+        Umerena();
+        Normalno();
         $konfig:Konfiguracija($zemljiste: zemljiste, $zemljiste.phVrednost >= 6.0 && $zemljiste.phVrednost <= 7.5)
     then
         razvoj.getPonudaUseva().addUsev(new Usev("Beli luk", "Beli luk je vrsta luka bele boje izrazitog mirisa."));
