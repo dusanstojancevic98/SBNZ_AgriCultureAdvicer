@@ -47,10 +47,14 @@ public class Razvoj {
 
     @Getter
     @Setter
+    @OneToMany
+    @JoinTable
     private List<Akcija> istorijaAkcija;
 
     @Getter
     @Setter
+    @OneToMany
+    @JoinTable
     private List<Akcija> trenutnaAkcija;
 
     @Setter

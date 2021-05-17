@@ -2,6 +2,12 @@ import uns.ftn.siit.sbnz.proj.sbnz.model.Razvoj;
 import uns.ftn.siit.sbnz.proj.sbnz.model.Zemljiste;
 import uns.ftn.siit.sbnz.proj.sbnz.model.Usev;
 import uns.ftn.siit.sbnz.proj.sbnz.model.Konfiguracija;
+import uns.ftn.siit.sbnz.proj.sbnz.medjuklase.KategorijaUseva;
+import uns.ftn.siit.sbnz.proj.sbnz.medjuklase.PodKategorijaUseva;
+
+import uns.ftn.siit.sbnz.proj.sbnz.model.enums.TipUseva;
+import uns.ftn.siit.sbnz.proj.sbnz.model.enums.PodTipUseva;
+
 
 global Razvoj razvoj;
 dialect  "mvel"
@@ -22,6 +28,8 @@ declare GustoKonturno
 end
 declare Terasiranje
 end
+
+//PRAVILA NAGIBA
 
 rule "nagib-normalno"
     when
@@ -60,14 +68,14 @@ declare Umerena
 end
 declare Zarka
 end
-//TODO dodati klimatska pravila
 
+//PRAVILA KLIME
 
 rule "klima-hladna"
     when
         $konfig:Konfiguracija($vreme: vremenskiPodaci, $vreme.prosecnaGodisnjaTemperatura<5)
     then
-        insert(new Umerena())
+        insert(new Hladna())
 end
 
 rule "klima-umerena"
@@ -81,10 +89,10 @@ rule "klima-zarka"
     when
         $konfig:Konfiguracija($vreme: vremenskiPodaci, $vreme.prosecnaGodisnjaTemperatura > 15)
     then
-        insert(new Umerena())
+        insert(new Zarka())
 end
 
-
+//PRAVILA POVRSINA
 rule "provera-povrsine"
     when
         $konfig:Konfiguracija($zemljiste: zemljiste, $zemljiste.povrsina == null)
@@ -94,26 +102,59 @@ rule "provera-povrsine"
         update($konfig);
 end
 
+declare Small
+end
 
+declare Large
+end
 
-rule "povrce"
+rule "small"
     when
         $konfig:Konfiguracija($zemljiste: zemljiste, $zemljiste.povrsina != null && $zemljiste.povrsina < 100)
     then
-        insert(new Povrce())
+        insert(new Small())
 end
 
-rule "voce"
+rule "large"
     when
         $konfig:Konfiguracija($zemljiste: zemljiste, $zemljiste.povrsina != null && $zemljiste.povrsina > 100)
     then
-        insert(new Voce())
+        insert(new Large())
 end
+
+
+// PRAVILA TIPOVA
+
+rule "zarka-normalanTeren"
+    when
+        Umerena();
+        Terasiranje();
+    then
+        insert(new KategorijaUseva(TipUseva.VOCNI))
+        insert(new KategorijaUseva(TipUseva.POVRTARSKI))
+end
+
+rule "zarka-normalanTeren"
+    when
+        Normalno();
+        Umerena();
+    then
+        insert(new KategorijaUseva(TipUseva.VOCNI))
+        insert(new KategorijaUseva(TipUseva.POVRTARSKI))
+        insert(new KategorijaUseva(TipUseva.RATARSKI))
+end
+
+
+
+
+
+
+
+
 
 rule "luk-uslovi"
     when
-        Umerena();
-        Normalno();
+        KategorijaUseva(tipUseva==TipUseva.POVRTARSKI)
         $konfig:Konfiguracija($zemljiste: zemljiste, $zemljiste.phVrednost >= 6.0 && $zemljiste.phVrednost <= 7.5)
     then
         razvoj.getPonudaUseva().addUsev(new Usev("Beli luk", "Beli luk je vrsta luka bele boje izrazitog mirisa."));

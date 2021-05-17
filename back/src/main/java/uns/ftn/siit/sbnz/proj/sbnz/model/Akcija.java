@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @NoArgsConstructor
@@ -15,6 +16,18 @@ import javax.persistence.Table;
 @Setter
 public class Akcija {
 
+
+    @Id
+    @Getter
+    @Setter
+    private Long id;
+
+
+    @Getter
+    @Setter
     private String naziv;
+
+    @Getter
+    @Setter
     private String opisAkcije;
 }

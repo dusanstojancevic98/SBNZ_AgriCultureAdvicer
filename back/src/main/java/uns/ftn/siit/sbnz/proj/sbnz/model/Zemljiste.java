@@ -60,7 +60,9 @@ public class Zemljiste {
 
     @Getter
     @Setter
-    private List<Usev> predhodniUsevi;
+    @OneToMany
+    @JoinTable(name = "zemljiste_usevi")
+    private List<Usev> prethodniUsevi;
 
     @Getter
     @Setter

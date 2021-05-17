@@ -1,8 +1,11 @@
 package uns.ftn.siit.sbnz.proj.sbnz.model;
 
 import lombok.*;
+import org.springframework.transaction.annotation.Transactional;
+import uns.ftn.siit.sbnz.proj.sbnz.interfejsi.PodKategorijaUseva;
+import uns.ftn.siit.sbnz.proj.sbnz.model.enums.PodTipUseva;
 import uns.ftn.siit.sbnz.proj.sbnz.model.enums.Sezona;
-import uns.ftn.siit.sbnz.proj.sbnz.model.enums.TipPreparata;
+import uns.ftn.siit.sbnz.proj.sbnz.model.enums.TipUseva;
 
 import javax.persistence.*;
 import java.util.List;
@@ -29,31 +32,15 @@ public class Usev {
     @NonNull
     private String opis;
 
+    @Getter
+    @Setter
+    private TipUseva tipUseva;
 
     @Getter
     @Setter
-    private String oblikLista;
+    @Transient
+    private PodTipUseva podTipUseva;
 
-    @Setter
-    @Getter
-    private String bojaLista;
-
-    @Setter
-    @Getter
-    private Sezona sezonaUseva;
-
-    @Setter
-    @Getter
-    private double visinaKorova;
-
-
-    @Getter
-    @Setter
-    private boolean prisustvoInsekta;
-
-    @Getter
-    @Setter
-    private List<TipPreparata> preporucenaZastita;
 
 
 }

@@ -1,0 +1,10 @@
+package uns.ftn.siit.sbnz.proj.sbnz.model.enums;
+
+public enum PodTipUseva {
+    ZACINI,
+    P_KORENASTI, P_LUKOVICE, P_LISNATE, P_MAHUNARKE, P_VOCASTI, P_TIKVE,
+    R_ZITARICE, R_TRAVE, R_DETELINE, R_ULJANI_USEVI,
+    V_CITRUSI, V_JABUCASTI, V_KOSTUNICAVI, V_BOBICASTI, V_ORASASTI
+
+
+}
