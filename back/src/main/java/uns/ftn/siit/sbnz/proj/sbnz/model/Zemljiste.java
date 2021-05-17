@@ -1,8 +1,11 @@
 package uns.ftn.siit.sbnz.proj.sbnz.model;
 
 import lombok.*;
+import uns.ftn.siit.sbnz.proj.sbnz.model.enums.TipLokacije;
+import uns.ftn.siit.sbnz.proj.sbnz.model.enums.TipZemljista;
 
 import javax.persistence.*;
+import java.util.List;
 
 @NoArgsConstructor
 @Entity
@@ -46,6 +49,18 @@ public class Zemljiste {
     @Getter
     @Setter
     private double nagibZemljista;
+
+    @Getter
+    @Setter
+    private TipLokacije lokacija;
+
+    @Getter
+    @Setter
+    private double nadmorskaVisina;
+
+    @Getter
+    @Setter
+    private List<Usev> predhodniUsevi;
 
     @Getter
     @Setter

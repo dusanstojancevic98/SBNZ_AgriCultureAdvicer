@@ -5,6 +5,8 @@ import lombok.*;
 import org.kie.api.definition.type.Key;
 
 import javax.persistence.*;
+import java.util.Date;
+import java.util.List;
 
 @RequiredArgsConstructor
 @NoArgsConstructor
@@ -33,6 +35,23 @@ public class Razvoj {
     @OneToOne
     private Usev odabraniUsev;
 
+
+    @Getter
+    @Setter
+    private Double budzet;
+
+    @Getter
+    @Setter
+    private Date pocetakSadjenja;
+
+
+    @Getter
+    @Setter
+    private List<Akcija> istorijaAkcija;
+
+    @Getter
+    @Setter
+    private List<Akcija> trenutnaAkcija;
 
     @Setter
     @Getter

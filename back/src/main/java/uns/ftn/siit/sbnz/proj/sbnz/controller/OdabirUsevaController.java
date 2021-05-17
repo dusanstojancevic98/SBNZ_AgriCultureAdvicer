@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import uns.ftn.siit.sbnz.proj.sbnz.model.*;
+import uns.ftn.siit.sbnz.proj.sbnz.model.enums.TipZemljista;
 import uns.ftn.siit.sbnz.proj.sbnz.service.OdabirUsevaService;
 
 import java.util.List;
