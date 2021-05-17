@@ -4,6 +4,8 @@ import uns.ftn.siit.sbnz.proj.sbnz.model.Usev;
 import uns.ftn.siit.sbnz.proj.sbnz.model.Konfiguracija;
 import uns.ftn.siit.sbnz.proj.sbnz.medjuklase.KategorijaUseva;
 import uns.ftn.siit.sbnz.proj.sbnz.medjuklase.PodKategorijaUseva;
+import uns.ftn.siit.sbnz.proj.sbnz.medjuklase.Povrsina;
+import uns.ftn.siit.sbnz.proj.sbnz.medjuklase.Povrsina.TipPovrsine;
 
 import uns.ftn.siit.sbnz.proj.sbnz.model.enums.TipUseva;
 import uns.ftn.siit.sbnz.proj.sbnz.model.enums.PodTipUseva;
@@ -102,25 +104,22 @@ rule "provera-povrsine"
         update($konfig);
 end
 
-declare Small
-end
 
-declare Large
-end
 
 rule "small"
     when
         $konfig:Konfiguracija($zemljiste: zemljiste, $zemljiste.povrsina != null && $zemljiste.povrsina < 100)
     then
-        insert(new Small())
+        insert(new Povrsina(TipPovrsine.SMALL))
 end
 
 rule "large"
     when
         $konfig:Konfiguracija($zemljiste: zemljiste, $zemljiste.povrsina != null && $zemljiste.povrsina > 100)
     then
-        insert(new Large())
+        insert(new Povrsina(TipPovrsine.LARGE))
 end
+
 
 
 // PRAVILA TIPOVA
