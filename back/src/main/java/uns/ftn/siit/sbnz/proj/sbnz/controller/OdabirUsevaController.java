@@ -26,7 +26,7 @@ public class OdabirUsevaController {
         // TEST
         Zemljiste zemljiste = new Zemljiste();
         zemljiste.setPovrsina(80);
-        zemljiste.setNagibZemljista(10);
+        zemljiste.setNagibZemljista(3);
         zemljiste.setDuzina(1);
         zemljiste.setSirina(1);
         zemljiste.setPhVrednost(6.5);
@@ -36,6 +36,7 @@ public class OdabirUsevaController {
         zemljiste.setTipZemljista(TipZemljista.CRNICA);
 
         VremenskiPodaci vremenskiPodaci = new VremenskiPodaci();
+        vremenskiPodaci.setProsecnaGodisnjaTemperatura(10);
         vremenskiPodaci.setPadavine(100);
 
 

@@ -52,7 +52,7 @@ public class StanjeUseva {
 
     @Getter
     @Setter
-    private boolean prisustvoInsekta;
+    private boolean prisustvoInsekta=false;
 
 
     @Getter

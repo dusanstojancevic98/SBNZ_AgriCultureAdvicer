@@ -8,6 +8,8 @@ import lombok.Setter;
 import org.kie.api.definition.rule.All;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -30,6 +32,15 @@ public class UsevPodaci {
     @Getter
     @Setter
     @OneToMany(mappedBy = "usevPodaci")
-    List<StanjeUseva> stanjaUseva;
+    List<StanjeUseva> stanjaUseva = new ArrayList<>();
+
+
+    @Getter
+    @Setter
+    private LocalDateTime pocetakUzgoja;
+
+    @Getter
+    @Setter
+    private LocalDateTime krajUzgoja;
 
 }

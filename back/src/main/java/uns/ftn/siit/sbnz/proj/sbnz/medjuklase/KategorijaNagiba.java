@@ -4,14 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import uns.ftn.siit.sbnz.proj.sbnz.model.enums.TipPovrsine;
+import uns.ftn.siit.sbnz.proj.sbnz.model.enums.TipNagiba;
 
-@AllArgsConstructor
+
 @NoArgsConstructor
-public class Povrsina {
-
-
+@AllArgsConstructor
+public class KategorijaNagiba {
     @Getter
     @Setter
-    private TipPovrsine tipPovrsine;
+    private TipNagiba tipNagiba;
 }

@@ -5,6 +5,7 @@ import uns.ftn.siit.sbnz.proj.sbnz.model.enums.TipLokacije;
 import uns.ftn.siit.sbnz.proj.sbnz.model.enums.TipZemljista;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -62,7 +63,7 @@ public class Zemljiste {
     @Setter
     @OneToMany
     @JoinTable(name = "zemljiste_usevi")
-    private List<Usev> prethodniUsevi;
+    private List<UsevPodaci> prethodniUsevi = new ArrayList<>();
 
     @Getter
     @Setter
