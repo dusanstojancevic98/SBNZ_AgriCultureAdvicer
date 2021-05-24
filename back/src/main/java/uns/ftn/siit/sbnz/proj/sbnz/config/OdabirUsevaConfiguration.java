@@ -5,6 +5,7 @@ import org.kie.api.KieServices;
 import org.kie.api.builder.KieBuilder;
 import org.kie.api.builder.KieFileSystem;
 import org.kie.api.builder.KieModule;
+import org.kie.api.builder.KieScanner;
 import org.kie.api.runtime.KieContainer;
 import org.kie.internal.io.ResourceFactory;
 import org.springframework.context.annotation.Bean;
@@ -18,16 +19,12 @@ public class OdabirUsevaConfiguration {
 
     @Bean
     public KieContainer kieContainer() {
-        KieServices kieServices = KieServices.Factory.get();
-
-//        KieFileSystem kieFileSystem = kieServices.newKieFileSystem();
-//        kieFileSystem.write(ResourceFactory.newClassPathResource(drlFile));
-//        KieBuilder kieBuilder = kieServices.newKieBuilder(kieFileSystem);
-//        kieBuilder.buildAll();
-//        KieModule kieModule = kieBuilder.getKieModule();
-
-//        return kieServices.newKieContainer(kieModule.getReleaseId());
-        return kieServices.getKieClasspathContainer();
+        KieServices ks = KieServices.Factory.get();
+        KieContainer kContainer = ks
+                .newKieContainer(ks.newReleaseId("sbnz.integracija", "kjar", "0.0.1-SNAPSHOT"));
+        KieScanner kScanner = ks.newKieScanner(kContainer);
+        kScanner.start(10_000);
+        return kContainer;
     }
 
 }
