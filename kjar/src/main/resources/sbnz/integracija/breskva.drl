@@ -1,0 +1,17 @@
+import uns.ftn.siit.sbnz.proj.sbnz.model.Razvoj;
+import uns.ftn.siit.sbnz.proj.sbnz.model.Zemljiste;
+import uns.ftn.siit.sbnz.proj.sbnz.model.Usev;
+import uns.ftn.siit.sbnz.proj.sbnz.model.UsevPodaci;
+import uns.ftn.siit.sbnz.proj.sbnz.model.Konfiguracija;
+
+import uns.ftn.siit.sbnz.proj.sbnz.medjuklase.PodKategorijaUseva;
+import uns.ftn.siit.sbnz.proj.sbnz.medjuklase.Povrsina;
+import uns.ftn.siit.sbnz.proj.sbnz.medjuklase.KategorijaUseva;
+import uns.ftn.siit.sbnz.proj.sbnz.medjuklase.KategorijaNagiba;
+import uns.ftn.siit.sbnz.proj.sbnz.medjuklase.KategorijaKlime;
+
+import uns.ftn.siit.sbnz.proj.sbnz.model.enums.TipPovrsine;
+import uns.ftn.siit.sbnz.proj.sbnz.model.enums.TipUseva;
+import uns.ftn.siit.sbnz.proj.sbnz.model.enums.PodTipUseva;
+import uns.ftn.siit.sbnz.proj.sbnz.model.enums.TipNagiba;
+import uns.ftn.siit.sbnz.proj.sbnz.model.enums.TipKlime;

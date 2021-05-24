@@ -19,10 +19,7 @@ public class OdabirUsevaService {
     public List<Usev> preporuciUseve(Konfiguracija konfiguracija, Razvoj razvoj){
         KieSession kieSession = kieContainer.newKieSession();
         kieSession.setGlobal("razvoj", razvoj);
-//        kieSession.setGlobal("vremenkiPodaci", vremenskiPodaci);
-//        kieSession.insert(konfiguracija);
         kieSession.insert(konfiguracija);
-//        kieSession.insert(razvoj);
         int fired = kieSession.fireAllRules();
         System.out.println("FIRED" + fired);
         kieSession.dispose();
