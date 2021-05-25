@@ -1,19 +1,17 @@
 package uns.ftn.siit.sbnz.proj.sbnz.model;
 
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.sun.istack.NotNull;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+@RequiredArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "akcija")
-@Getter
-@Setter
 public class Akcija {
 
 
@@ -25,9 +23,11 @@ public class Akcija {
 
     @Getter
     @Setter
+    @NonNull
     private String naziv;
 
     @Getter
     @Setter
+    @NonNull
     private String opisAkcije;
 }

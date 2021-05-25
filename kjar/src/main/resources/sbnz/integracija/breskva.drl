@@ -3,6 +3,11 @@ import uns.ftn.siit.sbnz.proj.sbnz.model.Zemljiste;
 import uns.ftn.siit.sbnz.proj.sbnz.model.Usev;
 import uns.ftn.siit.sbnz.proj.sbnz.model.UsevPodaci;
 import uns.ftn.siit.sbnz.proj.sbnz.model.Konfiguracija;
+import uns.ftn.siit.sbnz.proj.sbnz.model.StanjeUseva;
+
+import uns.ftn.siit.sbnz.proj.sbnz.model.Uslov;
+import uns.ftn.siit.sbnz.proj.sbnz.model.UsloviAkcija;
+
 
 import uns.ftn.siit.sbnz.proj.sbnz.medjuklase.PodKategorijaUseva;
 import uns.ftn.siit.sbnz.proj.sbnz.medjuklase.Povrsina;
@@ -15,3 +20,42 @@ import uns.ftn.siit.sbnz.proj.sbnz.model.enums.TipUseva;
 import uns.ftn.siit.sbnz.proj.sbnz.model.enums.PodTipUseva;
 import uns.ftn.siit.sbnz.proj.sbnz.model.enums.TipNagiba;
 import uns.ftn.siit.sbnz.proj.sbnz.model.enums.TipKlime;
+
+dialect  "mvel"
+
+
+declare Povrce
+end
+
+declare Voce
+end
+
+
+rule "podtipovi-breskve"
+	no-loop
+	when
+		$r : Razvoj( $usevi: ponudaUseva.ponude, ponudaUseva.ponude.size() > 0 )
+        $usev: Usev( naziv == "Breskva") from $usevi
+    then
+    	$usev.setTipUseva(TipUseva.VOCNI);
+    	$usev.setPodTipUseva(PodTipUseva.V_KOSTUNICAVI);
+end
+
+rule "akcije-na-osnovu-uslova"
+	when
+		Razvoj($akcije: trenutnaAkcija)
+		
+		UsloviAkcija( $n: ponavljanje, $akcija: akcija, $uslovi: uslovi)
+		
+        UsevPodaci($unetaStanja: stanjaUseva, usev.naziv == "Breskva")
+        $s : StanjeUseva($usloviTogStanja: stanja) from $unetaStanja
+        
+        Number($value: intValue >= $n) from accumulate(
+    		Uslov(this memberOf $uslovi) from $usloviTogStanja,
+        	count(1)
+        )
+    then
+    	$akcije.add($akcija);
+end
+
+

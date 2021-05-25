@@ -2,6 +2,7 @@ import uns.ftn.siit.sbnz.proj.sbnz.model.Razvoj;
 import uns.ftn.siit.sbnz.proj.sbnz.model.Zemljiste;
 import uns.ftn.siit.sbnz.proj.sbnz.model.Usev;
 import uns.ftn.siit.sbnz.proj.sbnz.model.UsevPodaci;
+import uns.ftn.siit.sbnz.proj.sbnz.model.PonudaUseva;
 import uns.ftn.siit.sbnz.proj.sbnz.model.Konfiguracija;
 
 import uns.ftn.siit.sbnz.proj.sbnz.medjuklase.PodKategorijaUseva;
@@ -36,32 +37,35 @@ declare Prethodni
     usev: UsevPodaci
 end
 
-rule "prethodni-usev"
-    when
-        $konfig:Konfiguracija($pusevi: zemljiste.prethodniUsevi, zemljiste.prethodniUsevi.size() > 0);
-        $usev: UsevPodaci() from $pusevi.get($pusevi.size()-1)
-    then
-        insert(new Prethodni($usev))
-end
+//rule "prethodni-usev"
+//    when
+//        $konfig:Konfiguracija($pusevi: zemljiste.prethodniUsevi, zemljiste.prethodniUsevi.size() > 0);
+//        $usev: UsevPodaci() from $pusevi.get($pusevi.size()-1)
+//    then
+//        insert(new Prethodni($usev))
+//end
 
 
 rule "luk-uslovi"
     when
         KategorijaUseva(tipUseva==TipUseva.POVRTARSKI)
+        Razvoj( $usevi : ponudaUseva)
         KategorijaKiselosti(tipKiselosti==TipKiselosti.Alkalno);
-        Prethodni(usev.usev.podTipUseva == PodTipUseva.P_MAHUNARKE) or not Prethodni()
+        //Prethodni(usev.usev.podTipUseva == PodTipUseva.P_MAHUNARKE) or not Prethodni()
+        
     then
-        razvoj.getPonudaUseva().addUsev(new Usev("Beli luk", "Beli luk je vrsta luka bele boje izrazitog mirisa."));
-        drools.getWorkingMemory().setGlobal("razvoj", razvoj);
+    	$usevi.addUsev(new Usev("Beli luk", "Beli luk je vrsta luka bele boje izrazitog mirisa."));
 end
 
 
 rule "breskva-uslovi"
+	no-loop
 	when
         KategorijaUseva(tipUseva==TipUseva.VOCNI)
+        $r : Razvoj( $usevi : ponudaUseva)
         KategorijaKiselosti(tipKiselosti==TipKiselosti.Bazno);
-        Prethodni(usev.usev.podTipUseva == PodTipUseva.P_MAHUNARKE) or not Prethodni()
     then
-        razvoj.getPonudaUseva().addUsev(new Usev("Breskva", "Breksva spada u slatko voce poreklom iz Kine"));
-        drools.getWorkingMemory().setGlobal("razvoj", razvoj);
+    	$usevi.addUsev(new Usev("Breskva", "Breksva spada u slatko voce poreklom iz Kine"));
+    	update($r);
 end
+

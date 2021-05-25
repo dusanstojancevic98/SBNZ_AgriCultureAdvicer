@@ -33,32 +33,36 @@ public class StanjeUseva {
     @Setter
     private LocalDateTime date;
 
+//    @Getter
+//    @Setter
+//    private String oblikLista;
+//
+//    @Setter
+//    @Getter
+//    private String bojaLista;
+//
+//    @Setter
+//    @Getter
+//    private Sezona sezonaUseva;
+//
+//    @Setter
+//    @Getter
+//    private double visinaKorova;
+//
+//
+//    @Getter
+//    @Setter
+//    private boolean prisustvoInsekta=false;
+
     @Getter
     @Setter
-    private String oblikLista;
-
-    @Setter
-    @Getter
-    private String bojaLista;
-
-    @Setter
-    @Getter
-    private Sezona sezonaUseva;
-
-    @Setter
-    @Getter
-    private double visinaKorova;
+    @ElementCollection(targetClass = Uslov.class)
+    @JoinTable(name = "tblUslovTypes", joinColumns = @JoinColumn(name = "id"))
+    @Column(name = "stanja")
+    @Enumerated(EnumType.STRING)
+    private List<Uslov> stanja;
 
 
-    @Getter
-    @Setter
-    private boolean prisustvoInsekta=false;
-
-
-    @Getter
-    @Setter
-    @OneToMany
-    private List<Preparat> preporucenaZastita;
 
 
 }

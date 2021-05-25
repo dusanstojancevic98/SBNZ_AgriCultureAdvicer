@@ -34,6 +34,11 @@ public class UsevPodaci {
     @OneToMany(mappedBy = "usevPodaci")
     List<StanjeUseva> stanjaUseva = new ArrayList<>();
 
+    @Getter
+    @Setter
+    @OneToMany
+    private List<Preparat> preporucenaZastita;
+
 
     @Getter
     @Setter
