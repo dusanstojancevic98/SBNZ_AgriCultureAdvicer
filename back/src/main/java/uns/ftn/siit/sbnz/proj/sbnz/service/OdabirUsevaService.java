@@ -41,7 +41,7 @@ public class OdabirUsevaService {
         uslovi.add(Uslov.ZutiList);
         uslovi.add(Uslov.PrisustvoPalamide);
 
-        UsloviAkcija uslov = new UsloviAkcija(new Akcija("prskaj", "neko prskanje"), uslovi, 2);
+        UsloviAkcija uslov = new UsloviAkcija(new Akcija("prskaj", "neko prskanje"), uslovi, 2  );
         kieSession.insert(uslov);
         kieSession.insert(razvoj);
         kieSession.insert(podaci);

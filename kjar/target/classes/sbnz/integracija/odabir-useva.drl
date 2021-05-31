@@ -37,13 +37,13 @@ declare Prethodni
     usev: UsevPodaci
 end
 
-//rule "prethodni-usev"
-//    when
-//        $konfig:Konfiguracija($pusevi: zemljiste.prethodniUsevi, zemljiste.prethodniUsevi.size() > 0);
-//        $usev: UsevPodaci() from $pusevi.get($pusevi.size()-1)
-//    then
-//        insert(new Prethodni($usev))
-//end
+rule "prethodni-usev"
+    when
+        $konfig:Konfiguracija($pusevi: zemljiste.prethodniUsevi, zemljiste.prethodniUsevi.size() > 0);
+        $usev: UsevPodaci() from $pusevi.get($pusevi.size()-1)
+   then
+        insert(new Prethodni($usev))
+end
 
 
 rule "luk-uslovi"
@@ -51,10 +51,22 @@ rule "luk-uslovi"
         KategorijaUseva(tipUseva==TipUseva.POVRTARSKI)
         Razvoj( $usevi : ponudaUseva)
         KategorijaKiselosti(tipKiselosti==TipKiselosti.Alkalno);
-        //Prethodni(usev.usev.podTipUseva == PodTipUseva.P_MAHUNARKE) or not Prethodni()
+        Prethodni(usev.usev.podTipUseva == PodTipUseva.P_MAHUNARKE) or not Prethodni()
         
     then
     	$usevi.addUsev(new Usev("Beli luk", "Beli luk je vrsta luka bele boje izrazitog mirisa."));
+end
+
+
+rule "zelena-salata-uslovi"
+    when
+        KategorijaUseva(tipUseva==TipUseva.POVRTARSKI)
+        Razvoj( $usevi : ponudaUseva)
+        KategorijaKiselosti(tipKiselosti==TipKiselosti.Bazno);
+        Prethodni(usev.usev.podTipUseva == PodTipUseva.P_MAHUNARKE) or not Prethodni()
+        
+    then
+    	$usevi.addUsev(new Usev("Zelena salta", "Salat je vrsta zeleno povrce."));
 end
 
 
@@ -66,6 +78,45 @@ rule "breskva-uslovi"
         KategorijaKiselosti(tipKiselosti==TipKiselosti.Bazno);
     then
     	$usevi.addUsev(new Usev("Breskva", "Breksva spada u slatko voce poreklom iz Kine"));
+    	update($r);
+end
+
+
+
+
+rule "malina-uslovi"
+	no-loop
+	when
+        KategorijaUseva(tipUseva==TipUseva.VOCNI)
+        $r : Razvoj( $usevi : ponudaUseva)
+        KategorijaKiselosti(tipKiselosti==TipKiselosti.Kiselo);
+        not Prethodni(usev.usev.podTipUseva == PodTipUseva.V_KOSTUNICAVI)
+    then
+    	$usevi.addUsev(new Usev("Malina", "Malina spada u slatko voce poreklom iz Spanije"));
+    	update($r);
+end
+
+
+rule "borovnica-uslovi"
+	no-loop
+	when
+        KategorijaUseva(tipUseva==TipUseva.VOCNI)
+        $r : Razvoj( $usevi : ponudaUseva)
+        KategorijaKiselosti(tipKiselosti==TipKiselosti.Kiselo);
+    then
+    	$usevi.addUsev(new Usev("Borovnica", "Borovnica spada u bobicasto voce"));
+    	update($r);
+end
+
+
+rule "psenica-uslovi"
+	no-loop
+	when
+        KategorijaUseva(tipUseva==TipUseva.RATARSKI)
+        $r : Razvoj( $usevi : ponudaUseva)
+        KategorijaKiselosti(tipKiselosti==TipKiselosti.Bazno);
+    then
+    	$usevi.addUsev(new Usev("Psenica", "Psenica predstavlja jednostavno ratarsku kulturu"));
     	update($r);
 end
 

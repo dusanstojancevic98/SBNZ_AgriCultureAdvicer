@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.kie.api.definition.type.Role;
+import uns.ftn.siit.sbnz.proj.sbnz.model.enums.TipPadavine;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -30,5 +31,6 @@ public class VremenskaPrognoza {
     private double vlaznostVazduha;
     private double vazdusniPritisak;
     private double jacinaVetra;
+    private TipPadavine tipPadavine;
 
 }
