@@ -10,7 +10,7 @@ export const user = {
                 (resolve, reject) => {
                     axios.post("/auth/login", data)
                         .then((res) => {
-                            localStorage.setItem("jwt", res.data)
+                            localStorage.setItem("jwt", res.data.jwt)
                             resolve();
                         })
                         .catch((err) => {

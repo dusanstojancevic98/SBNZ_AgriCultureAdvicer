@@ -1,6 +1,7 @@
 import Vuex from 'vuex'
 import Vue from "vue";
 import {user} from "@/store/user";
+import {authHeader} from "@/util/auth";
 
 Vue.use(Vuex)
 
@@ -70,7 +71,7 @@ const store = new Vuex.Store({
         async fetchPonudeUseva(context) {
             return new Promise(
                 (resolve, reject) => {
-                    axios.get("/api/odabirUseva")
+                    axios.get("/api/odabirUseva", authHeader())
                         .then((res) => {
                             context.commit("setPonude", res.data)
                             resolve();
@@ -86,7 +87,7 @@ const store = new Vuex.Store({
         async fetchRazvoji(context) {
             return new Promise(
                 (resolve, reject) => {
-                    axios.get("/api/razvoj")
+                    axios.get("/api/razvoj", authHeader())
                         .then((res) => {
                             context.commit("setPonude", res.data)
                             resolve();
@@ -103,7 +104,7 @@ const store = new Vuex.Store({
         async addRazvoj(context, razvoj) {
             return new Promise(
                 (resolve, reject) => {
-                    axios.post("/api/razvoj", razvoj)
+                    axios.post("/api/razvoj", razvoj, authHeader())
                         .then(() => {
                             context.dispatch("fetchRazvoji")
                             resolve();
