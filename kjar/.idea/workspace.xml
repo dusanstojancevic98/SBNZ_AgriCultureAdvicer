@@ -1,16 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="0944cd08-6962-4acb-bc67-a983758dcba1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/drools-spring-kjar.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/sbnz/integracija/odabir-useva.drl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/config/OdabirUsevaConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/config/OdabirUsevaConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../back/src/main/java/META-INF/MANIFEST.MF" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/config/JwtAuthenticationEntryPoint.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/config/JwtRequestFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/config/JwtTokenUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/config/WebSecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/controller/AuthController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/controller/RazvojController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/dto/JwtResponseDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/dto/LoginDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/dto/RazvojRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/dto/RazvojResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/dto/RegisterDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/exceptions/ResourceExistsException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/exceptions/ResourceNotFoundException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/model/Bodovi.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/model/Korisnik.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/model/PredlogGrupe.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/model/PredlogJednogUseva.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/model/PredlogPodGrupe.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/model/PredlogUseva.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/repository/KorisnikRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/repository/RazvojRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/service/AuthService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/service/KorisnikService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/service/RazvojService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/public/bg.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/public/main.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/public/razvoj.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/public/usevi.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/components/Background.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/components/RazvojDialog.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/model.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/plugins/vuetify.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/router/router.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/store/user.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/views/main/Home.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/views/main/Main.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/views/main/PredlogUseva.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/views/main/Razvoji.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/views/user/Login.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/views/user/Register.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/views/user/User.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/vue.config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/sbnz/integracija/beli_luk.drl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../back/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/config/OdabirUsevaConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/config/KieConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/controller/OdabirUsevaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/controller/OdabirUsevaController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/model/Konfiguracija.java" beforeDir="false" afterPath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/model/Konfiguracija.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/model/Razvoj.java" beforeDir="false" afterPath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/model/Razvoj.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/model/Usev.java" beforeDir="false" afterPath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/model/Usev.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/service/OdabirUsevaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/service/OdabirUsevaService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../back/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../back/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back/src/main/resources/data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../back/src/main/resources/data.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back/src/main/resources/razvoj/odabir-useva.drl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back/target/classes/META-INF/kmodule.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../back/target/classes/META-INF/kmodule.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../back/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back/target/classes/data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../back/target/classes/data.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back/target/classes/razvoj/odabir-useva.drl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../front/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../front/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../front/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/src/components/HelloWorld.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/src/components/PonudeUseva.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/components/Header.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/store/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/store/store.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/drools-spring-kjar.iml" beforeDir="false" afterPath="$PROJECT_DIR$/drools-spring-kjar.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/service/JwtUserDetailsService.java" afterDir="false" />
     </list>
-    <ignored path="$PROJECT_DIR$/classes/" />
-    <ignored path="$PROJECT_DIR$/target/classes/" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -39,6 +105,7 @@
     <option name="width" value="1750" />
     <option name="height" value="980" />
   </component>
+  <component name="ProjectId" id="1t1kk8CsukPNxqY8U3E1EEJawUq" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -65,26 +132,45 @@
       <pane id="PackagesPane" />
     </panes>
   </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../back/out/artifacts/back_jar/back.jar" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.3873563" />
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\Faks\SBNZ\Projekat\kjar\src\main\resources\sbnz\integracija" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn install" />
+      <command value="mvn clean install" />
     </option>
   </component>
   <component name="RunManager">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="MavenRunConfiguration" factoryName="Maven">
       <MavenSettings>
         <option name="myGeneralSettings" />
@@ -112,6 +198,7 @@
       <method v="2" />
     </configuration>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration>C:\Users\Dusan\AppData\Roaming\Subversion</configuration>
   </component>
@@ -122,6 +209,9 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1621859369497</updated>
+      <workItem from="1621944124182" duration="2431000" />
+      <workItem from="1622493335749" duration="2589000" />
+      <workItem from="1622535086119" duration="9903000" />
     </task>
     <servers />
   </component>
@@ -155,6 +245,21 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="masterDetails">
     <states>

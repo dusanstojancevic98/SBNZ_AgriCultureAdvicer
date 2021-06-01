@@ -10,6 +10,8 @@ import uns.ftn.siit.sbnz.proj.sbnz.model.enums.TipUseva;
 import javax.persistence.*;
 import java.util.List;
 
+
+@AllArgsConstructor
 @RequiredArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -40,7 +42,5 @@ public class Usev {
     @Setter
     @Transient
     private PodTipUseva podTipUseva;
-
-
 
 }

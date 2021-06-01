@@ -20,6 +20,9 @@ public class Konfiguracija {
     @NonNull
     private String naziv;
 
+
+
+
     @Getter
     @Setter
     @OneToOne

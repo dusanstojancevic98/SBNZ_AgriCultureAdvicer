@@ -18,11 +18,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping(path="/odabirUseva", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path="/api/odabirUseva", produces = MediaType.APPLICATION_JSON_VALUE)
 public class OdabirUsevaController {
 
+    private final OdabirUsevaService odabirUsevaService;
+
     @Autowired
-    private OdabirUsevaService odabirUsevaService;
+    public OdabirUsevaController(OdabirUsevaService odabirUsevaService) {
+        this.odabirUsevaService = odabirUsevaService;
+    }
 
     @GetMapping()
     ResponseEntity<List<Usev>> getUsev(HttpServletRequest request){
@@ -45,7 +49,7 @@ public class OdabirUsevaController {
 
         Konfiguracija konfiguracija = new Konfiguracija("Razvoj", zemljiste, vremenskiPodaci);
 
-        Razvoj razvoj = new Razvoj("Milivoje");
+        Razvoj razvoj = new Razvoj();
 
         razvoj.setKonfiguracija(konfiguracija);
         //KieSession sesija = (KieSession) request.getSession().getAttribute("sesija");
@@ -64,7 +68,7 @@ public class OdabirUsevaController {
         // TEST
 
 
-        Razvoj razvoj = new Razvoj("Milivoje");
+        Razvoj razvoj = new Razvoj();
         razvoj.setTrenutnaAkcija(new ArrayList<>());
 
         UsevPodaci podaci = new UsevPodaci();

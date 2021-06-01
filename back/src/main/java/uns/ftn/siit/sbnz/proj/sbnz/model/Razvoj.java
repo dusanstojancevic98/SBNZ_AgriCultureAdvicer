@@ -12,53 +12,53 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "razvoji")
+@Setter
+@Getter
 public class Razvoj {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
-    @Setter
     private Long id;
 
-    @Getter
-    @Setter
-    @NonNull
-    private String vlasnik;
 
-    @Getter
-    @Setter
+
+    private  StanjeRazvoja stanjeRazvoja;
+
+    @NonNull
+    @ManyToOne
+    private Korisnik vlasnik;
+
     @OneToOne
     private PonudaUseva ponudaUseva = new PonudaUseva();
 
-    @Setter
-    @Getter
     @OneToOne
     private Usev odabraniUsev;
 
 
-    @Getter
-    @Setter
     private Double budzet;
 
-    @Getter
-    @Setter
     private Date pocetakSadjenja;
 
 
-    @Getter
-    @Setter
     @OneToMany
     @JoinTable
     private List<Akcija> istorijaAkcija;
 
-    @Getter
-    @Setter
     @OneToMany
     @JoinTable
     private List<Akcija> trenutnaAkcija;
 
-    @Setter
-    @Getter
     @OneToOne
     private Konfiguracija konfiguracija;
+
+
+    public enum StanjeRazvoja{
+        INICIJALNO, U_TOKU, PAUZIRANO, ZAVRSENO
+    }
+
+
+    public void setOdabraniUsev(Usev odabraniUsev) {
+        this.odabraniUsev = odabraniUsev;
+
+    }
 }

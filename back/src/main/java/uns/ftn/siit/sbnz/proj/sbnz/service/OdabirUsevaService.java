@@ -24,7 +24,7 @@ public class OdabirUsevaService {
 
     public List<Usev> preporuciUseve(Konfiguracija konfiguracija, Razvoj razvoj){
 
-        kieSession = kieContainer.newKieSession();
+        kieSession = kieContainer.newKieSession("cepConfigKsessionPseudoClock");
         kieSession.insert(razvoj);
         kieSession.insert(konfiguracija);
         int fired = kieSession.fireAllRules();

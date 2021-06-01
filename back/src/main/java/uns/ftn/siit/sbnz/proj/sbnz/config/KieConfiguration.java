@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan("uns.ftn.siit.sbnz.proj.sbnz.service")
-public class OdabirUsevaConfiguration {
+public class KieConfiguration {
     private static final String drlFile = "odabir-useva.drl";
 
     @Bean
