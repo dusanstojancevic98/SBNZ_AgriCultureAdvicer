@@ -37,7 +37,7 @@ public class OdabirUsevaController {
         zemljiste.setDuzina(1);
         zemljiste.setSirina(1);
         zemljiste.setPhVrednost(8.5);
-        zemljiste.setNadmVisina(100);
+        zemljiste.setNadmorskaVisina(100);
         zemljiste.setProcenatHumusa(10);
         zemljiste.setProcenatKarbonata(1);
         zemljiste.setTipZemljista(TipZemljista.CRNICA);

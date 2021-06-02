@@ -31,9 +31,6 @@ public class Zemljiste {
     @Setter
     private double duzina;
 
-    @Getter
-    @Setter
-    private double nadmVisina;
 
     @Getter
     @Setter

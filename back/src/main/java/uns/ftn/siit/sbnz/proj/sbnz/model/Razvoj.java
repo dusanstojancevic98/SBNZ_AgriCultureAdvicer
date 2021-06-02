@@ -22,7 +22,7 @@ public class Razvoj {
 
 
 
-    private  StanjeRazvoja stanjeRazvoja;
+    private  StanjeRazvoja stanjeRazvoja = StanjeRazvoja.INICIJALNO;
 
     @NonNull
     @ManyToOne

@@ -2,8 +2,6 @@
   <v-app>
     <Background :src="require('../public/bg.jpg')"/>
     <router-view/>
-
-
   </v-app>
 </template>
 

@@ -29,7 +29,7 @@ public class RazvojService {
     }
 
 
-
-
-
+    public List<Razvoj> getAll(Long userid, Razvoj.StanjeRazvoja status) {
+        return razvojRepository.getAllByVlasnikIdAndStanjeRazvoja(userid, status);
+    }
 }

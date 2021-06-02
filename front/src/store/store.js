@@ -2,6 +2,7 @@ import Vuex from 'vuex'
 import Vue from "vue";
 import {user} from "@/store/user";
 import {authHeader} from "@/util/auth";
+import razvoj from "@/store/razvoj";
 
 Vue.use(Vuex)
 
@@ -12,7 +13,6 @@ const store = new Vuex.Store({
     state: {
         count: 0,
         ponude: [],
-        razvoji:[],
         routes: [
             {
                 id: 1,
@@ -52,9 +52,6 @@ const store = new Vuex.Store({
         getPonudeUseva(state){
             return state.ponude;
         },
-        getRazvoji(state){
-            return state.razvoji;
-        }
     },
     mutations: {
         increment(state) {
@@ -63,9 +60,6 @@ const store = new Vuex.Store({
         setPonude(state, ponude) {
             state.ponude = ponude
         },
-        setRazvoji(state, razvoji) {
-            state.ponude = razvoji
-        }
     },
     actions: {
         async fetchPonudeUseva(context) {
@@ -84,23 +78,6 @@ const store = new Vuex.Store({
                 }
             )
         },
-        async fetchRazvoji(context) {
-            return new Promise(
-                (resolve, reject) => {
-                    axios.get("/api/razvoj", authHeader())
-                        .then((res) => {
-                            context.commit("setPonude", res.data)
-                            resolve();
-                        })
-                        .catch((err) => {
-                            console.log(err)
-                            reject()
-                        })
-
-                }
-            )
-        }
-        ,
         async addRazvoj(context, razvoj) {
             return new Promise(
                 (resolve, reject) => {
@@ -120,6 +97,7 @@ const store = new Vuex.Store({
     },
     modules: {
         user: user,
+        razvoj:razvoj
     }
 })
 
