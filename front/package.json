@@ -36,11 +36,10 @@
     },
     "extends": [
       "plugin:vue/essential",
-      "eslint:recommended",
-      "@vue/typescript"
+      "eslint:recommended"
     ],
     "parserOptions": {
-      "parser": "@typescript-eslint/parser"
+      "parser": "babel-eslint"
     },
     "rules": {}
   },

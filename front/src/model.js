@@ -1,11 +1,11 @@
 export class VremenskiPodaci {
     constructor() {
     }
-    brojSuncanihDana: number;
+    brojSuncanihDana = NaN;
 
-    padavine: number;
+    padavine = NaN;
 
-    prosecnaGodisnjaTemperatura: number;
+    prosecnaGodisnjaTemperatura = NaN;
 
 
 }
@@ -14,15 +14,15 @@ export class Usev {
     constructor() {
     }
 
-    id: number;
+    id = NaN;
 
-    naziv: string;
+    naziv = "";
 
-    opis: string;
+    opis = "";
 
-    tipUseva: string;
+    tipUseva = "";
 
-    podTipUseva: string;
+    podTipUseva = "";
 
 
 }
@@ -32,39 +32,39 @@ export class Zemljiste {
     constructor() {
     }
 
-    povrsina: number;
+    povrsina = NaN;
 
 
-    sirina: number;
+    sirina = NaN;
 
 
-    duzina: number;
+    duzina = NaN;
 
 
-    nadmVisina: number;
+    nadmVisina = NaN;
 
 
-    phVrednost: number;
+    phVrednost = NaN;
 
 
-    procenatHumusa: number;
+    procenatHumusa = NaN;
 
 
-    procenatKarbonata: number;
+    procenatKarbonata = NaN;
 
 
-    nagibZemljista: number;
+    nagibZemljista = NaN;
 
 
-    lokacija: string;
+    lokacija = "";
 
 
-    nadmorskaVisina: number;
+    nadmorskaVisina = NaN;
 
 
-    tipZemljista: string;
+    tipZemljista = "";
 
-    prethodniUsevi: Usev[];
+    prethodniUsevi = [];
 
 }
 
@@ -74,11 +74,11 @@ export class Konfiguracija {
     constructor() {
     }
 
-    naziv: string;
+    naziv = "";
 
-    zemljiste: Zemljiste;
+    zemljiste =  new Zemljiste();
 
-    vremenskiPodaci: VremenskiPodaci;
+    vremenskiPodaci = new VremenskiPodaci();
 
 
 }
@@ -88,12 +88,12 @@ export class Razvoj {
     constructor() {
     }
 
-    budzet: number;
+    budzet = NaN;
 
-    pocetakSadjenja: Date;
+    pocetakSadjenja = null;
 
 
-    konfiguracija: Konfiguracija;
+    konfiguracija = new Konfiguracija();
 
 
 }

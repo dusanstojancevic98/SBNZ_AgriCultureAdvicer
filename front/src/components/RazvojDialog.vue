@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import {Razvoj} from "@/model.ts";
+import {Razvoj} from "@/model.js";
 
 export default {
     name: "RazvojDialog",

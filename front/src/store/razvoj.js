@@ -49,11 +49,11 @@ const store = new Vuex.Store({
             return new Promise(
                 (resolve, reject) => {
                     axios.get("/api/razvoj/INICIJALNO", authHeader())
-                        .then((res:any) => {
+                        .then((res) => {
                             context.commit("setRazvojiInicijalni", res.data)
                             resolve(res);
                         })
-                        .catch((err:any) => {
+                        .catch((err) => {
                             console.log(err)
                             reject(err)
                         })
@@ -64,11 +64,11 @@ const store = new Vuex.Store({
             return new Promise(
                 (resolve, reject) => {
                     axios.get("/api/razvoj/U_TOKU", authHeader())
-                        .then((res:any) => {
+                        .then((res) => {
                             context.commit("setRazvojiUToku", res.data)
                             resolve(res);
                         })
-                        .catch((err:any) => {
+                        .catch((err) => {
                             console.log(err)
                             reject()
                         })
@@ -79,11 +79,11 @@ const store = new Vuex.Store({
             return new Promise(
                 (resolve, reject) => {
                     axios.get("/api/razvoj/PAUZIRANO", authHeader())
-                        .then((res:any) => {
+                        .then((res) => {
                             context.commit("setRazvojiPauzirani", res.data)
                             resolve(res);
                         })
-                        .catch((err:any) => {
+                        .catch((err) => {
                             console.log(err)
                             reject()
                         })
@@ -94,11 +94,11 @@ const store = new Vuex.Store({
             return new Promise(
                 (resolve, reject) => {
                     axios.get("/api/razvoj/ZAVRSENO", authHeader())
-                        .then((res:any) => {
+                        .then((res) => {
                             context.commit("setRazvojiZaustavljeni", res.data)
                             resolve(res);
                         })
-                        .catch((err:any) => {
+                        .catch((err) => {
                             console.log(err)
                             reject()
                         })
@@ -110,11 +110,11 @@ const store = new Vuex.Store({
             return new Promise(
                 (resolve, reject) => {
                     axios.post("/api/razvoj", razvoj, authHeader())
-                        .then((res:any) => {
+                        .then((res) => {
                             context.dispatch("fetchRazvoji")
                             resolve(res);
                         })
-                        .catch((err:any) => {
+                        .catch((err) => {
                             console.log(err)
                             reject()
                         })
