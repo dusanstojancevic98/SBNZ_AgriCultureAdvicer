@@ -1,5 +1,5 @@
 <template>
-    <v-card class="pa-5" width="400">
+    <v-card color="light-green lighten-5" class="pa-5" width="400">
       <v-form @submit="submit">
         <v-text-field name="username" label="Korisničko ime" v-model="register.username"></v-text-field>
         <v-text-field name="name" label="Ime" v-model="register.firstName"></v-text-field>

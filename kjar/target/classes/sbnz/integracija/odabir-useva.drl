@@ -59,14 +59,16 @@ end
 
 
 rule "zelena-salata-uslovi"
+    no-loop
     when
         KategorijaUseva(tipUseva==TipUseva.POVRTARSKI)
-        Razvoj( $usevi : ponudaUseva)
+        $r: Razvoj( $usevi : ponudaUseva)
         KategorijaKiselosti(tipKiselosti==TipKiselosti.Bazno);
         Prethodni(usev.usev.podTipUseva == PodTipUseva.P_MAHUNARKE) or not Prethodni()
         
     then
-    	$usevi.addUsev(new Usev("Zelena salta", "Salat je vrsta zeleno povrce."));
+    	$usevi.addUsev(new Usev("Zelena salata", "Salata je vrsta zelenog povrca."));
+        update($r);
 end
 
 

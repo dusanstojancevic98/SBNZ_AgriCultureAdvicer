@@ -29,15 +29,6 @@ const store = new Vuex.Store({
                 main: true,
                 img: require('../../public/razvoj.jpg')
             },
-            {
-                id: 3,
-                name: "PredlogUseva",
-                path: "/predloguseva",
-                color: "light-green",
-                icon: "mdi-format-list-bulleted",
-                main: true,
-                img: require('../../public/usevi.jpg')
-            },
         ]
     },
     getters: {

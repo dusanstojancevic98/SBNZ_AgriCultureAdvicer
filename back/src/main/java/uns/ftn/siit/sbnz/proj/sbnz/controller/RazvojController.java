@@ -31,9 +31,13 @@ public class RazvojController {
 
         return new ResponseEntity<>(razvojService.getAll(logged.getId(), status), HttpStatus.OK);
     }
-
+    @DeleteMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Razvoj>> getRazvoji(@PathVariable Long id) {
+        razvojService.obrisiRazvoj(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
     @GetMapping(value = "/odaberi/{id}/{usevId}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> odaberiUsevRazvoj(@PathVariable Long id, @PathVariable Long usevId){
+    public ResponseEntity<Void> odaberiUsevRazvoj(@PathVariable Long id, @PathVariable Long usevId) throws Exception {
 
         razvojService.odaberiUsev(id, usevId);
 

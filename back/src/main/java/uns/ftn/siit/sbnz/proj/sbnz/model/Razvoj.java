@@ -64,7 +64,10 @@ public class Razvoj {
 
 
 
-    public void odaberiUsev(Long id){
 
+
+    public void odaberiUsev(Long id) throws Exception {
+        setOdabraniUsev(ponudaUseva.getPonude().stream().filter(u->u.getId().equals(id)).findFirst().orElseThrow(Exception::new));
+        setStanjeRazvoja(StanjeRazvoja.SPREMNO);
     }
 }

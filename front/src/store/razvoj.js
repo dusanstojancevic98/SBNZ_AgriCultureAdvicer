@@ -10,6 +10,7 @@ export const razvoj = {
         razvojiUToku:[],
         razvojiPauzirani:[],
         razvojiZaustavljeni:[],
+        razvojiSpremni:[],
     },
     getters: {
         getRazvojiInicijalni:function(state){
@@ -23,6 +24,9 @@ export const razvoj = {
         },
         getRazvojiZaustavljeni:function(state){
             return state.razvojiZaustavljeni;
+        },
+        getRazvojiSpremni:function(state){
+            return state.razvojiSpremni;
         }
     },
     mutations: {
@@ -37,6 +41,9 @@ export const razvoj = {
         },
         setRazvojiZaustavljeni(state, razvoji) {
             state.razvojiZaustavljeni = razvoji
+        },
+        setRazvojiSpremni(state, razvoji){
+            state.razvojiSpremni = razvoji
         }
     },
     actions: {
@@ -47,6 +54,21 @@ export const razvoj = {
                     axios.get("/api/razvoj/INICIJALNO", authHeader())
                         .then((res) => {
                             context.commit("setRazvojiInicijalni", res.data)
+                            resolve(res);
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                            reject(err)
+                        })
+                }
+            )
+        },
+        async fetchRazvojiSpremni(context) {
+            return new Promise(
+                (resolve, reject) => {
+                    axios.get("/api/razvoj/SPREMNO", authHeader())
+                        .then((res) => {
+                            context.commit("setRazvojiSpremni", res.data)
                             resolve(res);
                         })
                         .catch((err) => {
@@ -102,10 +124,11 @@ export const razvoj = {
             )
         },
         async fetchAll(context){
-            context.dispatch("fetchRazvojiZaustavljeni")
-            context.dispatch("fetchRazvojiUToku")
-            context.dispatch("fetchRazvojiPauzirani")
-            context.dispatch("fetchRazvojiInicijalni")
+            await context.dispatch("fetchRazvojiZaustavljeni")
+            await context.dispatch("fetchRazvojiUToku")
+            await context.dispatch("fetchRazvojiSpremni")
+            await context.dispatch("fetchRazvojiPauzirani")
+            await context.dispatch("fetchRazvojiInicijalni")
         }
         ,
         async addRazvoj(context, razvoj) {
@@ -128,6 +151,37 @@ export const razvoj = {
             return new Promise(
                 (resolve, reject) => {
                     axios.get("/api/razvoj/pokreni/"+id, authHeader())
+                        .then(() => {
+                            context.dispatch("fetchAll")
+                            resolve();
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                            reject()
+                        })
+
+                }
+            )
+        },
+        async obrisiRazvoj(context, id) {
+            return new Promise(
+                (resolve, reject) => {
+                    axios.delete("/api/razvoj/"+id, authHeader())
+                        .then(() => {
+                            context.dispatch("fetchAll")
+                            resolve();
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                            reject()
+                        })
+                }
+            )
+        },
+        async odaberiUsev(context, {id, usevId}) {
+            return new Promise(
+                (resolve, reject) => {
+                    axios.get("/api/razvoj/odaberi/"+id+"/"+usevId, authHeader())
                         .then(() => {
                             context.dispatch("fetchAll")
                             resolve();

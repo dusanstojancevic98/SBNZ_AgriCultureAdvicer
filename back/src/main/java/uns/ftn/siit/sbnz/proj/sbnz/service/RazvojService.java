@@ -53,13 +53,17 @@ public class RazvojService {
         }
     }
 
-    public void odaberiUsev(Long id, Long usevId) {
+    public void odaberiUsev(Long id, Long usevId) throws Exception {
 
         Razvoj razvoj = razvojRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
-        if(razvoj.getStanjeRazvoja()!= Razvoj.StanjeRazvoja.INICIJALNO){
+        if(razvoj.getStanjeRazvoja()!= Razvoj.StanjeRazvoja.INICIJALNO && razvoj.getStanjeRazvoja()!= Razvoj.StanjeRazvoja.SPREMNO  ){
             throw new BadRequestException("Razvoj nije u dobrom stanju vec u stanju "+razvoj.getStanjeRazvoja().toString());
         }
         razvoj.odaberiUsev(usevId);
         razvojRepository.save(razvoj);
+    }
+
+    public void obrisiRazvoj(Long id){
+        razvojRepository.deleteById(id);
     }
 }

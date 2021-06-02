@@ -2,7 +2,7 @@
     <v-card color="light-green lighten-5" class="pa-5">
         <v-row>
             <v-col cols="4" v-for="usev in ponuda.ponude" :key="usev.id">
-                <Usev :odabran="usev.id===usev_id" @select="odaberi(usev.id)" :usev="usev"></Usev>
+                <Usev :odabran="usev.id===usevId" @select="odaberi(usev.id)" :usev="usev"></Usev>
             </v-col>
         </v-row>
         <v-row class="ma-0 mt-5 pa-0">
@@ -22,13 +22,13 @@ import Usev from "@/components/Usev";
 
 export default {
     name: "PredlogUseva",
-    props:[
-      "id"
+    props: [
+        "id"
     ],
-    data(){
-      return{
-          usev_id:""
-      }
+    data() {
+        return {
+            usevId: ""
+        }
     },
     created() {
         this.$store.dispatch("fetchPonudeUseva", this.id)
@@ -39,19 +39,27 @@ export default {
             }
         )
     },
-    methods:{
-      potvrdi(){
+    methods: {
+        potvrdi() {
+            let dis = this;
+            console.log(this.usevId)
+            this.$store.dispatch("odaberiUsev", {id: this.id, usevId: this.usevId})
+                .then(
+                    () => {
+                        dis.router.push("/razvoj")
 
-      },
+                    }
+                );
+        },
         odaberi(id) {
-          if(this.usev_id===id){
-              this.usev_id = ""
-          }else{
-              this.usev_id = id;
-          }
+            if (this.usevId === id) {
+                this.usevId = ""
+            } else {
+                this.usevId = id;
+            }
         }
     },
-    components:{
+    components: {
         Usev
     }
 }
