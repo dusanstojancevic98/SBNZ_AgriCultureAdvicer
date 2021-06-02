@@ -1,4 +1,3 @@
-import {user} from "@/store/user";
 import {authHeader} from "@/util/auth";
 
 
@@ -101,15 +100,37 @@ export const razvoj = {
                         })
                 }
             )
+        },
+        async fetchAll(context){
+            context.dispatch("fetchRazvojiZaustavljeni")
+            context.dispatch("fetchRazvojiUToku")
+            context.dispatch("fetchRazvojiPauzirani")
+            context.dispatch("fetchRazvojiInicijalni")
         }
         ,
         async addRazvoj(context, razvoj) {
             return new Promise(
                 (resolve, reject) => {
                     axios.post("/api/razvoj", razvoj, authHeader())
-                        .then((res) => {
-                            context.dispatch("fetchRazvoji")
-                            resolve(res);
+                        .then(() => {
+                            context.dispatch("fetchAll")
+                            resolve();
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                            reject()
+                        })
+
+                }
+            )
+        },
+        async pokreniRazvoj(context, id) {
+            return new Promise(
+                (resolve, reject) => {
+                    axios.get("/api/razvoj/pokreni/"+id, authHeader())
+                        .then(() => {
+                            context.dispatch("fetchAll")
+                            resolve();
                         })
                         .catch((err) => {
                             console.log(err)
@@ -120,8 +141,5 @@ export const razvoj = {
             )
         }
     },
-    modules: {
-        user: user,
-    }
 }
 

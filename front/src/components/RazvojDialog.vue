@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="value" width="800" @input="onclose">
+    <v-dialog v-model="dValue" width="800" @input="onclose">
         <v-card class="pa-5" color="light-green lighten-4">
 
             <div class="text-h3 pb-5">
@@ -10,6 +10,7 @@
                     <v-col cols="6">
                         <v-card class="pa-5 mb-5" color="light-green lighten-3">
                             <div class="text-h5 text-left">Osnovne informacije</div>
+                            <v-text-field label="Naziv" v-model="razvoj.naziv"></v-text-field>
                             <v-text-field label="Budžet" type="number" v-model="razvoj.budzet"></v-text-field>
                             <v-menu
                                 ref="menu"
@@ -71,7 +72,7 @@
 
                     </v-col>
                 </v-row>
-                <v-btn type="submit" color="primary">Kreiraj</v-btn>
+                <v-btn type="submit" color="lime" :disabled="sending">Kreiraj</v-btn>
             </v-form>
         </v-card>
     </v-dialog>
@@ -85,25 +86,39 @@ export default {
     props: [
         "value"
     ],
+    watch:{
+      value(val){
+          this.dValue = val;
+      }
+    },
     data() {
         return {
+            dValue:false,
             razvoj: new Razvoj(),
             tipoviZemljista:[
                 "CRNICA", "GAJNJACA", "SMONICA", "ALUVIJALNO", "PEPELJUSA", "CRVENICA"
-            ]
+            ],
+            sending:false,
         }
     },
     methods: {
         submit(e) {
             e.preventDefault();
+            this.sending = true;
             const dis = this;
+            const onClose = this.onclose;
             this.$store.dispatch("addRazvoj", this.razvoj).then(() => {
-                dis.$router.push("/razvoji")
+                dis.sending = false;
+                onClose()
+            }).catch(()=>{
+                dis.sending = false;
+
             });
 
         },
         onclose() {
             console.log("CLOSED")
+            this.dValue = false;
             this.$emit("input", false);
         }
     }

@@ -38,8 +38,9 @@ const routes = [
                 component: () => import( '../views/main/Razvoji.vue')
             },
             {
-                path: '/predloguseva',
+                path: '/predloguseva/:id',
                 name: 'PredlogUseva',
+                props: true,
                 component: () => import( '../views/main/PredlogUseva.vue')
             }
         ],

@@ -1,31 +1,35 @@
 package uns.ftn.siit.sbnz.proj.sbnz.controller;
 
 
-import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import uns.ftn.siit.sbnz.proj.sbnz.model.*;
 import uns.ftn.siit.sbnz.proj.sbnz.model.enums.TipZemljista;
 import uns.ftn.siit.sbnz.proj.sbnz.service.OdabirUsevaService;
+import uns.ftn.siit.sbnz.proj.sbnz.service.PonudeUsevaService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping(path="/api/odabirUseva", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path="/api/ponudeUseva", produces = MediaType.APPLICATION_JSON_VALUE)
 public class OdabirUsevaController {
 
     private final OdabirUsevaService odabirUsevaService;
 
+    private PonudeUsevaService ponudeUsevaService;
+
     @Autowired
-    public OdabirUsevaController(OdabirUsevaService odabirUsevaService) {
+    public OdabirUsevaController(OdabirUsevaService odabirUsevaService, PonudeUsevaService ponudeUsevaService) {
         this.odabirUsevaService = odabirUsevaService;
+        this.ponudeUsevaService = ponudeUsevaService;
     }
 
     @GetMapping()
@@ -55,13 +59,20 @@ public class OdabirUsevaController {
         //KieSession sesija = (KieSession) request.getSession().getAttribute("sesija");
 
         //odabirUsevaService.setKieSession(sesija);
-        List<Usev> ponuda = odabirUsevaService.preporuciUseve(konfiguracija, razvoj);
+        Razvoj razvoj1 = odabirUsevaService.preporuciUseve(razvoj);
 
         //request.getSession().setAttribute("sesija", odabirUsevaService.getKieSession());
 
-        return new ResponseEntity<>(ponuda, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
+
+
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<PonudaUseva> getPonudaUseva(@PathVariable Long id){
+        return new ResponseEntity<>(ponudeUsevaService.getOne(id), HttpStatus.OK);
+    }
+
 
     @GetMapping(path = "/akcije")
     ResponseEntity<List<Akcija>> getAkcija(HttpServletRequest request){

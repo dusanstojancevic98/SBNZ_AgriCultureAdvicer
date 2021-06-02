@@ -10,17 +10,15 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "ponude_useva")
+@Getter
+@Setter
 public class PonudaUseva {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
-    @Setter
     private Long id;
 
-    @Getter
-    @Setter
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "ponuda_usev")
     private List<Usev> ponude = new ArrayList<>();
 

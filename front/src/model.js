@@ -20,9 +20,9 @@ export class Usev {
 
     opis = "";
 
-    tipUseva = "";
+    tipUseva = null;
 
-    podTipUseva = "";
+    podTipUseva = null;
 
 
 }
@@ -56,13 +56,13 @@ export class Zemljiste {
     nagibZemljista = NaN;
 
 
-    lokacija = "";
+    lokacija = null;
 
 
     nadmorskaVisina = NaN;
 
 
-    tipZemljista = "";
+    tipZemljista = null;
 
     prethodniUsevi = [];
 
@@ -87,6 +87,8 @@ export class Razvoj {
 
     constructor() {
     }
+
+    naziv = "";
 
     budzet = NaN;
 

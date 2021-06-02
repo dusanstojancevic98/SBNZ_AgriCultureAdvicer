@@ -56,11 +56,8 @@ import RazvojDialog from "@/components/RazvojDialog";
 export default {
     name: "Razvoji",
     components: {RazvojDialog, RazvojiColumns},
-    created() {
-        this.$store.dispatch("fetchRazvojiInicijalni");
-        this.$store.dispatch("fetchRazvojiPauzirani");
-        this.$store.dispatch("fetchRazvojiUToku");
-        this.$store.dispatch("fetchRazvojiZaustavljeni");
+    mounted() {
+        this.$store.dispatch("fetchAll");
     },
     data() {
         return {

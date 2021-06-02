@@ -1,40 +1,58 @@
 <template>
-    <div>
+    <v-card color="light-green lighten-5" class="pa-5">
         <v-row>
-            <v-col cols="4" v-for="u in usevi" :key="u.id">
-                <v-card dark color="green" class="pa-2">
-                    <v-card-title>
-                        <v-row>
-                            {{ u.naziv }}
-                            <v-spacer>
-
-                            </v-spacer>
-                            <v-chip class="mr-2" color="green darken-2">{{ u.tipUseva }}</v-chip>
-                            <v-chip color="green darken-2">{{ u.podTipUseva }}</v-chip>
-                        </v-row>
-                    </v-card-title>
-                    <v-card class="pa-2" color="green darken-2">
-                        {{ u.opis }}
-                    </v-card>
-                </v-card>
+            <v-col cols="4" v-for="usev in ponuda.ponude" :key="usev.id">
+                <Usev :odabran="usev.id===usev_id" @select="odaberi(usev.id)" :usev="usev"></Usev>
             </v-col>
         </v-row>
-    </div>
+        <v-row class="ma-0 mt-5 pa-0">
+            <v-spacer>
+
+            </v-spacer>
+            <v-btn color="lime" @click="potvrdi">
+                Potvrdi odabir useva
+            </v-btn>
+        </v-row>
+    </v-card>
 </template>
 
 <script>
 import {mapGetters} from "vuex";
+import Usev from "@/components/Usev";
 
 export default {
     name: "PredlogUseva",
+    props:[
+      "id"
+    ],
+    data(){
+      return{
+          usev_id:""
+      }
+    },
     created() {
-        this.$store.dispatch("fetchPonudeUseva")
+        this.$store.dispatch("fetchPonudeUseva", this.id)
     },
     computed: {
         ...mapGetters({
-                usevi: "getPonudeUseva"
+                ponuda: "getPonudeUseva"
             }
         )
+    },
+    methods:{
+      potvrdi(){
+
+      },
+        odaberi(id) {
+          if(this.usev_id===id){
+              this.usev_id = ""
+          }else{
+              this.usev_id = id;
+          }
+        }
+    },
+    components:{
+        Usev
     }
 }
 </script>

@@ -22,14 +22,14 @@ public class OdabirUsevaService {
 
     private KieSession kieSession;
 
-    public List<Usev> preporuciUseve(Konfiguracija konfiguracija, Razvoj razvoj){
+    public Razvoj preporuciUseve(Razvoj razvoj){
 
         kieSession = kieContainer.newKieSession("cepConfigKsessionPseudoClock");
         kieSession.insert(razvoj);
-        kieSession.insert(konfiguracija);
+        kieSession.insert(razvoj.getKonfiguracija());
         int fired = kieSession.fireAllRules();
         System.out.println("FIRED" + fired);
-        return razvoj.getPonudaUseva().getPonude();
+        return razvoj;
 
     }
 

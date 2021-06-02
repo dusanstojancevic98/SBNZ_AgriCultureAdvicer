@@ -42,10 +42,6 @@ public class Korisnik implements UserDetails {
     private String password;
 
 
-    @OneToMany(mappedBy = "vlasnik")
-    private List<Razvoj> razvoji;
-
-
     public Korisnik(String firstName, String lastName, String username, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;

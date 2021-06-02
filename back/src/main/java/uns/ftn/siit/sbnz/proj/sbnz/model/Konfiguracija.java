@@ -7,31 +7,23 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "konfiguracije")
+@Getter
+@Setter
 public class Konfiguracija {
 
-    @Getter
-    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Setter
-    @Getter
     @NonNull
     private String naziv;
 
 
-
-
-    @Getter
-    @Setter
-    @OneToOne
     @NonNull
+    @OneToOne(cascade = CascadeType.ALL)
     private Zemljiste zemljiste;
 
-    @Getter
-    @Setter
     @NonNull
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private VremenskiPodaci vremenskiPodaci;
 }

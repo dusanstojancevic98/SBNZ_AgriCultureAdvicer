@@ -17,26 +17,26 @@ const store = new Vuex.Store({
                 id: 1,
                 name: "Home",
                 path: "/",
-                icon:"mdi-home",
-                main:false
+                icon: "mdi-home",
+                main: false
             },
             {
                 id: 2,
                 name: "Razvoj",
                 path: "/razvoj",
                 color: "green",
-                icon:"mdi-reload",
+                icon: "mdi-reload",
                 main: true,
-                img:require('../../public/razvoj.jpg')
+                img: require('../../public/razvoj.jpg')
             },
             {
                 id: 3,
                 name: "PredlogUseva",
                 path: "/predloguseva",
                 color: "light-green",
-                icon:"mdi-format-list-bulleted",
+                icon: "mdi-format-list-bulleted",
                 main: true,
-                img:require('../../public/usevi.jpg')
+                img: require('../../public/usevi.jpg')
             },
         ]
     },
@@ -46,9 +46,9 @@ const store = new Vuex.Store({
         },
 
         getMainRoutes(state) {
-            return state.routes.filter(r=>r.main);
+            return state.routes.filter(r => r.main);
         },
-        getPonudeUseva(state){
+        getPonudeUseva(state) {
             return state.ponude;
         },
     },
@@ -58,10 +58,10 @@ const store = new Vuex.Store({
         },
     },
     actions: {
-        async fetchPonudeUseva(context) {
+        async fetchPonudeUseva(context, id) {
             return new Promise(
                 (resolve, reject) => {
-                    axios.get("/api/odabirUseva", authHeader())
+                    axios.get("/api/ponudeUseva/" + id, authHeader())
                         .then((res) => {
                             context.commit("setPonude", res.data)
                             resolve();
@@ -74,26 +74,10 @@ const store = new Vuex.Store({
                 }
             )
         },
-        async addRazvoj(context, razvoj) {
-            return new Promise(
-                (resolve, reject) => {
-                    axios.post("/api/razvoj", razvoj, authHeader())
-                        .then(() => {
-                            context.dispatch("fetchRazvoji")
-                            resolve();
-                        })
-                        .catch((err) => {
-                            console.log(err)
-                            reject()
-                        })
-
-                }
-            )
-        }
     },
     modules: {
         user: user,
-        razvoj:razvoj
+        razvoj: razvoj
     }
 })
 

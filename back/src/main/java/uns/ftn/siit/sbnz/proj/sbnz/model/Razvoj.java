@@ -20,15 +20,15 @@ public class Razvoj {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
+    private String naziv;
 
     private  StanjeRazvoja stanjeRazvoja = StanjeRazvoja.INICIJALNO;
 
     @NonNull
-    @ManyToOne
+    @ManyToOne(targetEntity = Korisnik.class)
     private Korisnik vlasnik;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private PonudaUseva ponudaUseva = new PonudaUseva();
 
     @OneToOne
@@ -48,17 +48,23 @@ public class Razvoj {
     @JoinTable
     private List<Akcija> trenutnaAkcija;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Konfiguracija konfiguracija;
 
 
     public enum StanjeRazvoja{
-        INICIJALNO, U_TOKU, PAUZIRANO, ZAVRSENO
+        INICIJALNO, SPREMNO,  U_TOKU, PAUZIRANO, ZAVRSENO
     }
 
 
     public void setOdabraniUsev(Usev odabraniUsev) {
         this.odabraniUsev = odabraniUsev;
+
+    }
+
+
+
+    public void odaberiUsev(Long id){
 
     }
 }

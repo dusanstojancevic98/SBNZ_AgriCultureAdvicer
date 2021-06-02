@@ -16,30 +16,23 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "usevi")
+@Getter
+@Setter
 public class Usev {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
-    @Setter
+
     private Long id;
 
-    @Getter
-    @Setter
     @NonNull
     private String naziv;
 
-    @Getter
-    @Setter
     @NonNull
     private String opis;
 
-    @Getter
-    @Setter
     private TipUseva tipUseva;
 
-    @Getter
-    @Setter
     @Transient
     private PodTipUseva podTipUseva;
 
