@@ -2,7 +2,7 @@ import Vuex from 'vuex'
 import Vue from "vue";
 import {user} from "@/store/user";
 import {authHeader} from "@/util/auth";
-import razvoj from "@/store/razvoj";
+import {razvoj} from "@/store/razvoj";
 
 Vue.use(Vuex)
 
@@ -11,7 +11,6 @@ const axios = require('axios')
 
 const store = new Vuex.Store({
     state: {
-        count: 0,
         ponude: [],
         routes: [
             {
@@ -54,9 +53,6 @@ const store = new Vuex.Store({
         },
     },
     mutations: {
-        increment(state) {
-            state.count++
-        },
         setPonude(state, ponude) {
             state.ponude = ponude
         },

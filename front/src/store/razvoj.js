@@ -1,14 +1,11 @@
-import Vuex from 'vuex'
-import Vue from "vue";
 import {user} from "@/store/user";
 import {authHeader} from "@/util/auth";
 
-Vue.use(Vuex)
 
 
 const axios = require('axios')
 
-const store = new Vuex.Store({
+export const razvoj = {
     state: {
         razvojiInicijalni:[],
         razvojiUToku:[],
@@ -16,16 +13,16 @@ const store = new Vuex.Store({
         razvojiZaustavljeni:[],
     },
     getters: {
-        getRazvojiInicijalni(state){
+        getRazvojiInicijalni:function(state){
             return state.razvojiInicijalni;
         },
-        getRazvojiUToku(state){
+        getRazvojiUToku:function(state){
             return state.razvojiUToku;
         },
-        getRazvojiPauzirani(state){
+        getRazvojiPauzirani:function(state){
             return state.razvojiPauzirani;
         },
-        getRazvojiZaustavljeni(state){
+        getRazvojiZaustavljeni:function(state){
             return state.razvojiZaustavljeni;
         }
     },
@@ -126,6 +123,5 @@ const store = new Vuex.Store({
     modules: {
         user: user,
     }
-})
+}
 
-export default store;

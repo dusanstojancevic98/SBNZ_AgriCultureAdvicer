@@ -6,7 +6,7 @@
         color="green darken-4"
         dark
     >
-      <v-row>
+      <v-row class="mx-2">
 
         <v-btn class="mr-2" v-for="r in routes" :to="r.path" color="green darken-2" :key="r.id">
           <v-icon>

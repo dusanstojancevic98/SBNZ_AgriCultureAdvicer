@@ -1,50 +1,79 @@
 <template>
-    <v-dialog v-model="value">
-        <div class="text-h1">
-            Novi plan razvoja
-        </div>
-        <v-form @submit="submit">
-            <v-row>
-                <v-col cols="12">
-                    <v-card>
-                        <div class="text-h3">Osnovne informacije</div>
-                        <v-text-field label="Budžet" type="number" v-model="razvoj.budzet"></v-text-field>
-                        <v-date-picker type="number" v-model="razvoj.pocetakSadjenja"></v-date-picker>
-                    </v-card>
-                </v-col>
+    <v-dialog v-model="value" width="800" @input="onclose">
+        <v-card class="pa-5" color="light-green lighten-4">
 
-                <v-col cols="6">
-                    <v-card>
-                        <div class="text-h3">Podazi o zemljištu</div>
+            <div class="text-h3 pb-5">
+                Novi plan razvoja
+            </div>
+            <v-form @submit="submit">
+                <v-row>
+                    <v-col cols="6">
+                        <v-card class="pa-5 mb-5" color="light-green lighten-3">
+                            <div class="text-h5 text-left">Osnovne informacije</div>
+                            <v-text-field label="Budžet" type="number" v-model="razvoj.budzet"></v-text-field>
+                            <v-menu
+                                ref="menu"
+                                :close-on-content-click="false"
+                                transition="scale-transition"
+                                offset-y
+                                min-width="auto"
+                            >
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-text-field
+                                        v-model="razvoj.pocetakSadjenja"
+                                        label="Početak sađenja"
+                                        prepend-icon="mdi-calendar"
+                                        readonly
+                                        v-bind="attrs"
+                                        v-on="on"
+                                    ></v-text-field>
+                                </template>
+                                <v-date-picker v-model="razvoj.pocetakSadjenja"></v-date-picker>
+                            </v-menu>
+                        </v-card>
+                        <v-card class="pa-5" color="light-green lighten-3">
+                            <div class="text-h5 text-left">Podazi o vremenu</div>
+                            <v-text-field type="number" label="Broj sunčanih dana"
+                                          v-model="razvoj.konfiguracija.vremenskiPodaci.brojSuncanihDana"></v-text-field>
+                            <v-text-field type="number" label="Padavine"
+                                          v-model="razvoj.konfiguracija.vremenskiPodaci.padavine"></v-text-field>
+                            <v-text-field type="number" label="Prosečna godišnja temperatura"
+                                          v-model="razvoj.konfiguracija.vremenskiPodaci.prosecnaGodisnjaTemperatura"></v-text-field>
 
-                        <v-text-field type="number" v-model="razvoj.konfiguracija.zemljiste.povrsina"></v-text-field>
-                        <v-text-field type="number" v-model="razvoj.konfiguracija.zemljiste.duzina"></v-text-field>
-                        <v-text-field type="number" v-model="razvoj.konfiguracija.zemljiste.sirina"></v-text-field>
-                        <v-text-field type="number"
-                                      v-model="razvoj.konfiguracija.zemljiste.nadmorskaVisina"></v-text-field>
-                        <v-text-field type="number"
-                                      v-model="razvoj.konfiguracija.zemljiste.procenatHumusa"></v-text-field>
-                        <v-text-field type="number"
-                                      v-model="razvoj.konfiguracija.zemljiste.procenatKarbonata"></v-text-field>
-                        <v-text-field type="number" v-model="razvoj.konfiguracija.zemljiste.phVrednost"></v-text-field>
-                        <v-text-field type="number"
-                                      v-model="razvoj.konfiguracija.zemljiste.nagibZemljista"></v-text-field>
-                        <v-select v-model="razvoj.konfiguracija.zemljiste.tipZemljista"></v-select>
-                    </v-card>
-                </v-col>
+                        </v-card>
+                    </v-col>
 
-                <v-col cols="6">
-                    <v-card>
-                        <div class="text-h3">Podazi o zemljištu</div>
-                        <v-text-field type="number" v-model="razvoj.konfiguracija.vremenskiPodaci.brojSuncanihDana"></v-text-field>
-                        <v-text-field type="number" v-model="razvoj.konfiguracija.vremenskiPodaci.padavine"></v-text-field>
-                        <v-text-field type="number" v-model="razvoj.konfiguracija.vremenskiPodaci.prosecnaGodisnjaTemperatura"></v-text-field>
+                    <v-col cols="6">
+                        <v-card class="pa-5" color="light-green lighten-3">
+                            <div class="text-h5 text-left">Podazi o zemljištu</div>
 
-                    </v-card>
-                </v-col>
-            </v-row>
-            <v-btn type="submit" color="primary">Kreiraj</v-btn>
-        </v-form>
+                            <v-text-field type="number" label="Površina"
+                                          v-model="razvoj.konfiguracija.zemljiste.povrsina"></v-text-field>
+                            <v-text-field type="number" label="Dužina"
+                                          v-model="razvoj.konfiguracija.zemljiste.duzina"></v-text-field>
+                            <v-text-field type="number" label="Širina"
+                                          v-model="razvoj.konfiguracija.zemljiste.sirina"></v-text-field>
+                            <v-text-field type="number" label="Nadmorska visina"
+                                          v-model="razvoj.konfiguracija.zemljiste.nadmorskaVisina"></v-text-field>
+                            <v-text-field type="number" label="Procenat humusa"
+                                          v-model="razvoj.konfiguracija.zemljiste.procenatHumusa"></v-text-field>
+                            <v-text-field type="number" label="Procenat karbonata"
+                                          v-model="razvoj.konfiguracija.zemljiste.procenatKarbonata"></v-text-field>
+                            <v-text-field type="number" label="pH vrednost"
+                                          v-model="razvoj.konfiguracija.zemljiste.phVrednost"></v-text-field>
+                            <v-text-field type="number" label="Nagib zemljišta"
+                                          v-model="razvoj.konfiguracija.zemljiste.nagibZemljista"></v-text-field>
+                            <v-select label="Tip zemljišta" :items="tipoviZemljista" v-model="razvoj.konfiguracija.zemljiste.tipZemljista"></v-select>
+                        </v-card>
+                    </v-col>
+
+                    <v-col cols="6">
+
+                    </v-col>
+                </v-row>
+                <v-btn type="submit" color="primary">Kreiraj</v-btn>
+            </v-form>
+        </v-card>
     </v-dialog>
 </template>
 
@@ -59,17 +88,23 @@ export default {
     data() {
         return {
             razvoj: new Razvoj(),
-
+            tipoviZemljista:[
+                "CRNICA", "GAJNJACA", "SMONICA", "ALUVIJALNO", "PEPELJUSA", "CRVENICA"
+            ]
         }
     },
-    methods:{
-        submit(e){
+    methods: {
+        submit(e) {
             e.preventDefault();
             const dis = this;
-            this.$store.dispatch("addRazvoj", this.razvoj).then(()=>{
+            this.$store.dispatch("addRazvoj", this.razvoj).then(() => {
                 dis.$router.push("/razvoji")
             });
 
+        },
+        onclose() {
+            console.log("CLOSED")
+            this.$emit("input", false);
         }
     }
 }
