@@ -3,6 +3,7 @@ package uns.ftn.siit.sbnz.proj.sbnz.model;
 import com.sun.xml.bind.v2.model.core.ID;
 import lombok.*;
 import org.kie.api.definition.type.Key;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -57,13 +58,25 @@ public class Razvoj {
     }
 
 
-    public void setOdabraniUsev(Usev odabraniUsev) {
+    private void setOdabraniUsev(Usev odabraniUsev) {
         this.odabraniUsev = odabraniUsev;
 
     }
 
 
+    public void dodajAkciju(Akcija akcija){
+        this.trenutnaAkcija.add(akcija);
+    }
 
+    public void zavrsiAkciju(Long id){
+        Akcija akcija = trenutnaAkcija.stream().filter(a->a.getId().equals(id)).findFirst().orElseThrow(ResourceNotFoundException::new);
+        akcija.setStanjeAkcije(Akcija.StanjeAkcije.OBAVLJENA);
+    }
+
+    public void otkaziAkciju(Long id){
+        Akcija akcija = trenutnaAkcija.stream().filter(a->a.getId().equals(id)).findFirst().orElseThrow(ResourceNotFoundException::new);
+        akcija.setStanjeAkcije(Akcija.StanjeAkcije.NEOBAVLJENA);
+    }
 
 
     public void odaberiUsev(Long id) throws Exception {

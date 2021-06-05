@@ -37,8 +37,14 @@ public class RazvojService {
     }
 
 
+
     public List<Razvoj> getAll(Long userid, Razvoj.StanjeRazvoja status) {
         return razvojRepository.getAllByVlasnikIdAndStanjeRazvoja(userid, status);
+    }
+
+
+    public Razvoj getOneByUserId(Long userid, Long id){
+          return razvojRepository.getByVlasnikIdAndId(userid, id);
     }
 
     public void pokreni(Long id) {

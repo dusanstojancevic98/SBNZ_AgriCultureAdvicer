@@ -4,30 +4,35 @@ package uns.ftn.siit.sbnz.proj.sbnz.model;
 import com.sun.istack.NotNull;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @RequiredArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "akcija")
+@Getter
+@Setter
 public class Akcija {
 
 
     @Id
-    @Getter
-    @Setter
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
 
-    @Getter
-    @Setter
     @NonNull
     private String naziv;
 
-    @Getter
-    @Setter
     @NonNull
     private String opisAkcije;
+
+    private StanjeAkcije stanjeAkcije = StanjeAkcije.NOVA;
+
+    @OneToOne
+    private Akcija prethodnaAkcija;
+
+
+    public enum StanjeAkcije {
+        NOVA, OBAVLJENA, NEOBAVLJENA
+    }
 }

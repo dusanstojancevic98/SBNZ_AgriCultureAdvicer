@@ -5,21 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0944cd08-6962-4acb-bc67-a983758dcba1" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../front/src/components/Akcija.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/components/AkcijaCard.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/components/Akcije.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/components/RazvojCard.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/components/RazvojInfo.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/components/RazvojIstorija.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/components/RazvojTrenutneAkcije.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/views/main/PregledAkcije.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../front/src/views/main/PregledRazvoja.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/controller/RazvojController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/controller/RazvojController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/model/Akcija.java" beforeDir="false" afterPath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/model/Akcija.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/model/Razvoj.java" beforeDir="false" afterPath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/model/Razvoj.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/repository/RazvojRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/repository/RazvojRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/service/RazvojService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../back/src/main/java/uns/ftn/siit/sbnz/proj/sbnz/service/RazvojService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/public/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/../front/public/main.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../front/src/components/RazvojiColumns.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/components/RazvojiColumns.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../front/src/router/router.js" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/router/router.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../front/src/store/razvoj.js" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/store/razvoj.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../front/src/store/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/store/store.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../front/src/views/main/PredlogUseva.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/views/main/PredlogUseva.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../front/src/views/main/Razvoji.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/views/main/Razvoji.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../front/src/views/user/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/views/user/Login.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../front/src/views/user/Register.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../front/src/views/user/Register.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/drools-spring-kjar.iml" beforeDir="false" afterPath="$PROJECT_DIR$/drools-spring-kjar.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/sbnz/integracija/odabir-useva.drl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/sbnz/integracija/odabir-useva.drl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sbnz/integracija/odabir-useva.drl" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sbnz/integracija/odabir-useva.drl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -145,7 +149,10 @@
       <workItem from="1621944124182" duration="2431000" />
       <workItem from="1622493335749" duration="2589000" />
       <workItem from="1622535086119" duration="9904000" />
-      <workItem from="1622627773558" duration="3274000" />
+      <workItem from="1622627773558" duration="3277000" />
+      <workItem from="1622668402641" duration="599000" />
+      <workItem from="1622900284756" duration="616000" />
+      <workItem from="1622924224770" duration="1945000" />
     </task>
     <servers />
   </component>

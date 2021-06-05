@@ -3,7 +3,13 @@ html, body {
     font-family: 'Roboto Condensed', sans-serif;
     z-index: -1;
 }
-
+.row-scroll{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+}
 .row-stretch {
     display: flex;
     flex-direction: row;
@@ -16,6 +22,12 @@ html, body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+.list-stretch {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
 }
 
 .between-column {

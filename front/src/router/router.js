@@ -42,7 +42,13 @@ const routes = [
                 name: 'PredlogUseva',
                 props: true,
                 component: () => import( '../views/main/PredlogUseva.vue')
-            }
+            },
+            {
+                path: '/razvoj/pregled/:id',
+                name: 'RazvojPregled',
+                props:true ,
+                component: () => import( '../views/main/PregledRazvoja.vue')
+            },
         ],
         component: () => import( '../views/main/Main.vue')
 

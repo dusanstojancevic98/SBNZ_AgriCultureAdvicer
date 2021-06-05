@@ -25,18 +25,26 @@ public class RazvojController {
     }
 
 
-    @GetMapping(value = "/{status}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Razvoj>> getRazvoji(@PathVariable Razvoj.StanjeRazvoja status, Authentication authentication){
+    @GetMapping(value = "/{status}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Razvoj>> getRazvoji(@PathVariable Razvoj.StanjeRazvoja status, Authentication authentication) {
         Korisnik logged = (Korisnik) authentication.getPrincipal();
 
         return new ResponseEntity<>(razvojService.getAll(logged.getId(), status), HttpStatus.OK);
     }
-    @DeleteMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+
+    @GetMapping(value = "/trenutni/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Razvoj> getRazvoj(@PathVariable Long id, Authentication authentication) {
+        Korisnik logged = (Korisnik) authentication.getPrincipal();
+        return new ResponseEntity<>(razvojService.getOneByUserId(logged.getId(), id), HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Razvoj>> getRazvoji(@PathVariable Long id) {
         razvojService.obrisiRazvoj(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    @GetMapping(value = "/odaberi/{id}/{usevId}",produces = MediaType.APPLICATION_JSON_VALUE)
+
+    @GetMapping(value = "/odaberi/{id}/{usevId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> odaberiUsevRazvoj(@PathVariable Long id, @PathVariable Long usevId) throws Exception {
 
         razvojService.odaberiUsev(id, usevId);
@@ -44,8 +52,8 @@ public class RazvojController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping(value = "/pokreni/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> pokreniRazvoj(@PathVariable Long id){
+    @GetMapping(value = "/pokreni/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> pokreniRazvoj(@PathVariable Long id) {
 
         razvojService.pokreni(id);
 
@@ -53,7 +61,7 @@ public class RazvojController {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Long> addRazvoj(@RequestBody Razvoj razvoj, Authentication authentication)  {
+    public ResponseEntity<Long> addRazvoj(@RequestBody Razvoj razvoj, Authentication authentication) {
 
         Korisnik logged = (Korisnik) authentication.getPrincipal();
 

@@ -11,6 +11,7 @@ export const razvoj = {
         razvojiPauzirani:[],
         razvojiZaustavljeni:[],
         razvojiSpremni:[],
+        trenutniRazvoj:null
     },
     getters: {
         getRazvojiInicijalni:function(state){
@@ -27,6 +28,9 @@ export const razvoj = {
         },
         getRazvojiSpremni:function(state){
             return state.razvojiSpremni;
+        },
+        getTrenutniRazvoj(state){
+            return state.trenutniRazvoj;
         }
     },
     mutations: {
@@ -44,10 +48,28 @@ export const razvoj = {
         },
         setRazvojiSpremni(state, razvoji){
             state.razvojiSpremni = razvoji
+        },
+        setTrenutniRazvoj(state, razvoj){
+            state.trenutniRazvoj = razvoj;
         }
     },
     actions: {
-
+        async fetchTrenutniRazvoj(context, id) {
+            return new Promise(
+                (resolve, reject) => {
+                    axios.get("/api/razvoj/trenutni/"+id, authHeader())
+                        .then((res) => {
+                            context.commit("setTrenutniRazvoj", res.data)
+                            console.log("razvoj bateu", res.data);
+                            resolve(res);
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                            reject(err)
+                        })
+                }
+            )
+        },
         async fetchRazvojiInicijalni(context) {
             return new Promise(
                 (resolve, reject) => {
