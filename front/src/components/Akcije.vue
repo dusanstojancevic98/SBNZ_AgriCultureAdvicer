@@ -1,6 +1,6 @@
 <template>
   <v-card color="light-green lighten-5" class="pa-5">
-    <div class="list-stretch" v-if="akcije&&akcije.length>0">
+    <div class="list-center" v-if="akcije&&akcije.length>0">
       <Akcija v-for="akcija in akcije" :key="akcija.id" :akcija="akcija"/>
     </div>
     <div v-else class="centered">

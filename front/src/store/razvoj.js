@@ -54,6 +54,36 @@ export const razvoj = {
         }
     },
     actions: {
+        async odradiAkciju(context, {id, rid}) {
+            return new Promise(
+                (resolve, reject) => {
+                    axios.get(`/api/akcija/odradi/${id}/${rid}`, authHeader())
+                        .then((res) => {
+                            context.dispatch("fetchTrenutniRazvoj", rid);
+                            resolve(res);
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                            reject(err)
+                        })
+                }
+            )
+        },
+        async odbaciAkciju(context, {id, rid}) {
+            return new Promise(
+                (resolve, reject) => {
+                    axios.get(`/api/akcija/odbaci/${id}/${rid}`, authHeader())
+                        .then((res) => {
+                            context.dispatch("fetchTrenutniRazvoj", rid);
+                            resolve(res);
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                            reject(err)
+                        })
+                }
+            )
+        },
         async fetchTrenutniRazvoj(context, id) {
             return new Promise(
                 (resolve, reject) => {

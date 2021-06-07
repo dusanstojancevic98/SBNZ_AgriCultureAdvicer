@@ -27,6 +27,7 @@ html, body {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-content: center;
     align-items: stretch;
 }
 
@@ -48,6 +49,12 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.centered-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
 }
 
 .bordered {

@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import uns.ftn.siit.sbnz.proj.sbnz.dto.RazvojResponse;
 import uns.ftn.siit.sbnz.proj.sbnz.model.Korisnik;
 import uns.ftn.siit.sbnz.proj.sbnz.model.Razvoj;
 import uns.ftn.siit.sbnz.proj.sbnz.service.RazvojService;
@@ -26,14 +27,14 @@ public class RazvojController {
 
 
     @GetMapping(value = "/{status}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Razvoj>> getRazvoji(@PathVariable Razvoj.StanjeRazvoja status, Authentication authentication) {
+    public ResponseEntity<List<RazvojResponse>> getRazvoji(@PathVariable Razvoj.StanjeRazvoja status, Authentication authentication) {
         Korisnik logged = (Korisnik) authentication.getPrincipal();
 
         return new ResponseEntity<>(razvojService.getAll(logged.getId(), status), HttpStatus.OK);
     }
 
     @GetMapping(value = "/trenutni/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Razvoj> getRazvoj(@PathVariable Long id, Authentication authentication) {
+    public ResponseEntity<RazvojResponse> getRazvoj(@PathVariable Long id, Authentication authentication) {
         Korisnik logged = (Korisnik) authentication.getPrincipal();
         return new ResponseEntity<>(razvojService.getOneByUserId(logged.getId(), id), HttpStatus.OK);
     }

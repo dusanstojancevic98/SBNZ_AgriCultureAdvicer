@@ -5,6 +5,7 @@ import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @NoArgsConstructor
@@ -31,8 +32,21 @@ public class Akcija {
     @OneToOne
     private Akcija prethodnaAkcija;
 
+    @ManyToOne
+    private Razvoj razvoj;
+
+    private LocalDateTime datumKreiranja = LocalDateTime.now();
+
+    private LocalDateTime datumOdluke;
 
     public enum StanjeAkcije {
         NOVA, OBAVLJENA, NEOBAVLJENA
+    }
+
+    public void setStanjeAkcije(StanjeAkcije stanjeAkcije) {
+        this.stanjeAkcije = stanjeAkcije;
+        if (stanjeAkcije!=StanjeAkcije.NOVA){
+            this.datumOdluke = LocalDateTime.now();
+        }
     }
 }

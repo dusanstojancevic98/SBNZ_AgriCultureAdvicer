@@ -41,11 +41,11 @@ public class Razvoj {
     private Date pocetakSadjenja;
 
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinTable
     private List<Akcija> istorijaAkcija;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinTable
     private List<Akcija> trenutnaAkcija;
 

@@ -11,9 +11,9 @@
           prepend-icon="mdi-calendar"
       ></v-text-field>
     </v-card>
-    <v-card color="light-green lighten-5" >
-      <div class="row-scroll pa-5">
-
+    <v-card color="light-green lighten-4 pa-5" >
+      <div class="text-h5 text-left pa-2">Trenutne akcije</div>
+      <div class="row-scroll pb-2">
         <AkcijaCard  v-for="a in razvoj.trenutnaAkcija" :a="a" :key="a.id"></AkcijaCard>
       </div>
     </v-card>
