@@ -76,7 +76,7 @@ end
 
 rule "prskanje-protiv-trulezi-i-jakog-vetra"
 	salience 99
-	agenda-group "odbrana-useva"
+	activation-group "odbrana-useva"
 	when
 		Razvoj($akcije: trenutnaAkcija)
 		UsevPodaci(usev.naziv == "Breskva")
@@ -90,7 +90,6 @@ rule "prskanje-protiv-trulezi-i-jakog-vetra"
 		) and
 		Number(intValue >= 3) from accumulate(
 			$vp: VremenskaPrognoza(
-				tipPadavine == TipPadavine.KISA,
 				jacinaVetra > 5
 			) over window:length(7),
 			count($vp)
@@ -108,7 +107,7 @@ end
 
 rule "zastita-od-trulezi-i-vetra"
 	salience 98
-	agenda-group "odbrana-useva"
+	activation-group "odbrana-useva"
 	when
 		Razvoj($akcije: trenutnaAkcija)
 		UsevPodaci(usev.naziv == "Breskva")
@@ -122,11 +121,14 @@ rule "zastita-od-trulezi-i-vetra"
 		) and
 		Number(intValue >= 3) from accumulate(
 			$vp: VremenskaPrognoza(
-				tipPadavine == TipPadavine.KISA,
 				jacinaVetra > 5
 			) over window:length(7),
 			count($vp)
-		)
+		) and exists (
+				Akcija(
+					naziv == "Prskanje"
+				)
+			)
 	then
 		$akcije.add(new Akcija("Rucna zastita",
 		 "Potrebno je postaviti mehanicku ogradu kojom se ublazava jacina vetra i prokopati kanale za izlivanje kise"))
@@ -134,7 +136,7 @@ end
 
 rule "zastita-od-jakog-snega"
 	salience 97
-	agenda-group "odbrana-useva"
+	activation-group "odbrana-useva"
 	when
 		Razvoj($akcije: trenutnaAkcija)
 		UsevPodaci(usev.naziv == "Breskva")
@@ -148,22 +150,25 @@ rule "zastita-od-jakog-snega"
 		) and
 		Number(intValue >= 1) from accumulate(
 			$vp: VremenskaPrognoza(
-				tipPadavine == TipPadavine.KISA,
 				jacinaVetra > 5
 			) over window:length(3),
 			count($vp)
-		) and not(
-			VremenskaPrognoza(
+		) and
+		Number(intValue >=1) from accumulate(
+			$vp: VremenskaPrognoza(
 				kolicinaPadavina < 4
-			) over window:length(1)
+			) over window:length(1),
+			count($vp)
 		)
 	then
-		$akcije.add(new Akcija("Zastita od mraza", "Potrebno je breskvu zastiti prepartaom "))
+		$akcije.add(new Akcija("Zastita od mraza", "Potrebno je breskvu zastiti prepartom"))
 end
+
+
 
 rule "zastita-od-blagog-snega"
 	salience 96
-	agenda-group "odbrana-useva"
+	activation-group "odbrana-useva"
 	when
 		Razvoj($akcije: trenutnaAkcija)
 		UsevPodaci(usev.naziv == "Breskva")
@@ -174,10 +179,12 @@ rule "zastita-od-blagog-snega"
 				kolicinaPadavina > 5
 			) over window:length(3),
 			count($vp)
-		) and not(
-			VremenskaPrognoza(
+		) and 
+		Number(intValue >=1) from accumulate(
+			$vp: VremenskaPrognoza(
 				kolicinaPadavina < 4
-			) over window:length(1)
+			) over window:length(1),
+			count($vp)
 		)
 	then
 		$akcije.add(new Akcija("Zastita od mraza", "Potrebno je breskvu zastiti zagrevanjem zemlje"))
@@ -185,7 +192,7 @@ end
 
 rule "obnova-nakon-vlaznog-mraza"
 	salience 95
-	agenda-group "odbrana-useva"
+	activation-group "odbrana-useva"
 	when
 		Razvoj($akcije: trenutnaAkcija)
 		UsevPodaci(usev.naziv == "Breskva")
@@ -197,10 +204,11 @@ rule "obnova-nakon-vlaznog-mraza"
 			) over window:length(5),
 			count($vp)
 		)
-		and not(
-			VremenskaPrognoza(
+		and Number(intValue >=1) from accumulate(
+			$vp: VremenskaPrognoza(
 				kolicinaPadavina < 4
-			) over window:length(1)
+			) over window:length(1),
+			count($vp)
 		)
 	then
 		$akcije.add(new Akcija("Oporavak biljke", "Potrebno je breskvu zaliti da ne bi nastavila zamrzavanje"))
@@ -208,7 +216,7 @@ end
 
 rule "obnova-nakon-susnog-mraza"
 	salience 94
-	agenda-group "odbrana-useva"
+	activation-group "odbrana-useva"
 	when
 		Razvoj($akcije: trenutnaAkcija)
 		UsevPodaci(usev.naziv == "Breskva")
@@ -219,10 +227,11 @@ rule "obnova-nakon-susnog-mraza"
 			) over window:length(5),
 			count($vp)
 		)
-		and not(
-			VremenskaPrognoza(
+		and Number(intValue >= 1) from accumulate(
+			$vp: VremenskaPrognoza(
 				kolicinaPadavina < 4
-			) over window:length(1)
+			) over window:length(1),
+			count($vp)
 		)
 	then
 		$akcije.add(new Akcija("Oporavak biljke", "Potrebno je oko biljaka zaloziti vatru"))
@@ -230,7 +239,7 @@ end
 
 rule "prevencija-mraza"
 	salience 93
-	agenda-group "odbrana-useva"
+	activation-group "odbrana-useva"
 	when
 		Razvoj($akcije: trenutnaAkcija)
 		UsevPodaci(usev.naziv == "Breskva")
@@ -241,10 +250,11 @@ rule "prevencija-mraza"
 				kolicinaPadavina > 5
 			) over window:length(5) from entry-point "predvidjena-prognoza",
 			count($vp)
-		) and not(
-			VremenskaPrognoza(
+		) and Number(intValue >= 1) from accumulate(
+			$vp: VremenskaPrognoza(
 				kolicinaPadavina < 4
-			) over window:length(1)
+			) over window:length(1),
+			count($vp)
 		) and not(
 			exists(
 				Akcija(naziv == "Prevencija snega")
@@ -256,7 +266,7 @@ end
 
 rule "susni-period-prehrana-preparatom"
 	salience 92
-	agenda-group "odbrana-useva"
+	activation-group "odbrana-useva"
 	when
 		Razvoj($akcije: trenutnaAkcija)
 		UsevPodaci(usev.naziv == "Breskva")
@@ -276,7 +286,7 @@ end
 
 rule "susni-period i pojava insekata"
 	salience 91
-	agenda-group "odbrana-useva"
+	activation-group "odbrana-useva"
 	when
 		Razvoj($akcije: trenutnaAkcija)
         UsevPodaci($unetaStanja: stanjaUseva, usev.naziv == "Breskva")
@@ -302,7 +312,7 @@ end
 
 rule "susni-period"
 	salience 90
-	agenda-group "odbrana-useva"
+	activation-group "odbrana-useva"
 	when
 		Razvoj($akcije: trenutnaAkcija)
 		UsevPodaci(usev.naziv == "Breskva")
