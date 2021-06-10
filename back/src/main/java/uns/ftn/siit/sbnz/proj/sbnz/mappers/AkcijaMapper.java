@@ -6,7 +6,7 @@ import uns.ftn.siit.sbnz.proj.sbnz.dto.AkcijaResponse;
 import uns.ftn.siit.sbnz.proj.sbnz.model.Akcija;
 
 @Component
-public class AkcijaMapper implements Mapper<Akcija, AkcijaResponse, Object>{
+public class AkcijaMapper extends Mapper<Akcija, AkcijaResponse, Object>{
     @Override
     public AkcijaResponse toResponse(Akcija akcija) {
         Long prethodni = null;

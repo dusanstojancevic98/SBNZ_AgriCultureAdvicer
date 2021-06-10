@@ -15,6 +15,11 @@
           {{r.name}}
         </v-btn>
         <v-spacer></v-spacer>
+        <AlertBlock class="mr-2" >
+          <v-btn color="light-green">
+            Obaveštenja
+          </v-btn>
+        </AlertBlock>
         <v-btn class="mr-2" color="light-green" @click="logout">
           <v-icon>
             mdi-account
@@ -30,8 +35,10 @@
 <script>
 
 import {mapGetters} from "vuex";
+import AlertBlock from "@/components/mini/AlertBlock";
 export default {
 name: "Header",
+  components: {AlertBlock},
   computed:{
     ...mapGetters({
       routes:"getRoutes"

@@ -3,6 +3,7 @@ import Vue from "vue";
 import {user} from "@/store/user";
 import {authHeader} from "@/util/auth";
 import {razvoj} from "@/store/razvoj";
+import {alerts} from "@/store/alerts";
 
 Vue.use(Vuex)
 
@@ -68,7 +69,8 @@ const store = new Vuex.Store({
     },
     modules: {
         user: user,
-        razvoj: razvoj
+        razvoj: razvoj,
+        alerts:alerts,
     }
 })
 

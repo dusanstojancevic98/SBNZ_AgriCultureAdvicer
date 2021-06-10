@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class RazvojMapper implements Mapper<Razvoj, RazvojResponse, RazvojRequest> {
+public class RazvojMapper extends Mapper<Razvoj, RazvojResponse, RazvojRequest> {
 
     private AkcijaMapper akcijaMapper;
 
