@@ -17,8 +17,12 @@ import uns.ftn.siit.sbnz.proj.sbnz.repository.KorisnikRepository;
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
 
+	final KorisnikRepository repository;
+
 	@Autowired
-	KorisnikRepository repository;
+	public JwtUserDetailsService(KorisnikRepository repository) {
+		this.repository = repository;
+	}
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

@@ -20,6 +20,14 @@ public class KieConfiguration {
     private static final String drlFile = "odabir-useva.drl";
 
     @Bean
+    public KieContainer kieContainer(){
+        KieServices ks = KieServices.Factory.get();
+        KieContainer kc = ks.getKieClasspathContainer();
+        return kc;
+    }
+
+
+    @Bean
     @SessionScope
     public KieSession kieSession() {
         KieServices ks = KieServices.Factory.get();

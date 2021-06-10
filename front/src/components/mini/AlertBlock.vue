@@ -17,7 +17,10 @@ export default {
         ...mapGetters({
             alertNum:"getAlertNum"
         })
-    }
+    },
+    created() {
+      this.$store.dispatch("fetchAlertNum")
+    },
 }
 </script>
 
@@ -31,6 +34,8 @@ export default {
   position: absolute;
   top: 0;
   right: 0;
+  width: 30px;
+  height: 30px;
   transform: translate(50%, -50%);
 }
 </style>

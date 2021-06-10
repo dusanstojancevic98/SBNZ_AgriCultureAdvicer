@@ -16,7 +16,7 @@
         </v-btn>
         <v-spacer></v-spacer>
         <AlertBlock class="mr-2" >
-          <v-btn color="light-green">
+          <v-btn to="/obavestenja" color="light-green">
             Obaveštenja
           </v-btn>
         </AlertBlock>

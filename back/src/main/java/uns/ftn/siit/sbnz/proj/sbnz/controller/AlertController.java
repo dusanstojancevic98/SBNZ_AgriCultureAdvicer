@@ -13,7 +13,7 @@ import uns.ftn.siit.sbnz.proj.sbnz.service.AlertService;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/alerts")
+@RequestMapping("/api/alerts")
 public class AlertController {
     private final AlertService alertService;
 

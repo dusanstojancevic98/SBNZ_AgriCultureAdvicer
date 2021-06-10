@@ -1,4 +1,5 @@
 import axios from "axios";
+import {authHeader} from "@/util/auth";
 
 export const alerts = {
     state: {
@@ -19,7 +20,7 @@ export const alerts = {
         async fetchAlertNum(context) {
             return new Promise(
                 (resolve, reject) => {
-                    axios.get("/api/alerts/count")
+                    axios.get("/api/alerts/count", authHeader())
                         .then((res) => {
                              context.state.alertNum = res.data.count;
                             resolve();
@@ -34,7 +35,7 @@ export const alerts = {
         }, async fetchAlerts(context) {
             return new Promise(
                 (resolve, reject) => {
-                    axios.post("api/alerts")
+                    axios.get("api/alerts", authHeader())
                         .then((res) => {
                             context.state.alerts = res.data;
                             resolve(res.data);

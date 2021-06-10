@@ -49,6 +49,11 @@ const routes = [
                 props:true ,
                 component: () => import( '../views/main/PregledRazvoja.vue')
             },
+            {
+                path: '/obavestenja',
+                name: 'Alerts',
+                component: () => import( '../views/main/Alerts.vue')
+            },
         ],
         component: () => import( '../views/main/Main.vue')
 

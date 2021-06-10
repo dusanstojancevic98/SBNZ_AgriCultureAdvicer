@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -18,9 +19,12 @@ public class Alert {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private String naziv;
 
     private String opis;
+
+    @OneToMany
+    private List<Akcija> akcije;
 
     @ManyToOne
     private Razvoj razvoj;
