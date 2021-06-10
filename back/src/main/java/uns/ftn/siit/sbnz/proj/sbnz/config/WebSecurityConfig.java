@@ -63,6 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
 			.authorizeRequests()
                     .antMatchers("/api/auth/**").permitAll()
+                    .antMatchers("/api/ponudeUseva/fastFoward/**").permitAll()
                     .antMatchers(HttpMethod.OPTIONS, "/api/**").permitAll()
                     .antMatchers(HttpMethod.POST, "/auth/login",
 															  "/auth/register"
