@@ -1,5 +1,5 @@
 <template>
-  <v-card color="light-green lighten-5" class="mb-5" max-width="1000" min-width="300" width="800">
+  <v-card color="light-green lighten-5" class="mb-5" max-width="1000" min-width="300" width="800" @click="oznaciProcitan">
     <v-card :tile="true" color="light-green lighten-3" class="pa-2">
       <v-row class="ma-0 pa-0">
         <div class="centered">
@@ -33,6 +33,11 @@ export default {
   computed: {
     tagColor() {
       return this.alert.uticaj === "NORMALAN" ? "green lighten-3" : this.alert.uticaj === "JAK" ? "red lighten-3" : "yellow lighten-3";
+    }
+  },
+  methods: {
+    oznaciProcitan() {
+      this.$store.dispatch("setSeen", this.alert.id);
     }
   }
 }
