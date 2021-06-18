@@ -47,19 +47,21 @@ end
 
 
 rule "luk-uslovi"
+	lock-on-active
     when
         KategorijaUseva(tipUseva==TipUseva.POVRTARSKI)
-        Razvoj( $usevi : ponudaUseva)
+        $r: Razvoj( $usevi : ponudaUseva)
         KategorijaKiselosti(tipKiselosti==TipKiselosti.Alkalno);
         Prethodni(usev.usev.podTipUseva == PodTipUseva.P_MAHUNARKE) or not Prethodni()
         
     then
     	$usevi.addUsev(new Usev("Beli luk", "Beli luk je vrsta luka bele boje izrazitog mirisa."));
+    	update($r);
 end
 
 
 rule "zelena-salata-uslovi"
-    no-loop
+    lock-on-active
     when
         KategorijaUseva(tipUseva==TipUseva.POVRTARSKI)
         $r: Razvoj( $usevi : ponudaUseva)
@@ -73,7 +75,7 @@ end
 
 
 rule "breskva-uslovi"
-	no-loop
+	lock-on-active
 	when
         KategorijaUseva(tipUseva==TipUseva.VOCNI)
         $r : Razvoj( $usevi : ponudaUseva)
@@ -87,7 +89,7 @@ end
 
 
 rule "malina-uslovi"
-	no-loop
+	lock-on-active
 	when
         KategorijaUseva(tipUseva==TipUseva.VOCNI)
         $r : Razvoj( $usevi : ponudaUseva)
@@ -100,7 +102,7 @@ end
 
 
 rule "borovnica-uslovi"
-	no-loop
+	lock-on-active 
 	when
         KategorijaUseva(tipUseva==TipUseva.VOCNI)
         $r : Razvoj( $usevi : ponudaUseva)
@@ -112,7 +114,7 @@ end
 
 
 rule "psenica-uslovi"
-	no-loop
+	lock-on-active
 	when
         KategorijaUseva(tipUseva==TipUseva.RATARSKI)
         $r : Razvoj( $usevi : ponudaUseva)

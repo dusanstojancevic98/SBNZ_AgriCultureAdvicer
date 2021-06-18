@@ -34,6 +34,9 @@ end
 declare Voce
 end
 
+query "getRazvoj" 
+	$razvoj: Razvoj()
+end
 
 rule "podtipovi-breskve"
 	no-loop
@@ -47,11 +50,10 @@ end
 
 rule "akcije-na-osnovu-uslova"
 	when
-		Razvoj($akcije: trenutnaAkcija)
+		Razvoj($akcije: trenutnaAkcija, $unetaStanja: stanjaUseva)
 		
 		UsloviAkcija( $n: ponavljanje, $akcija: akcija, $uslovi: uslovi)
-		
-        UsevPodaci($unetaStanja: stanjaUseva, usev.naziv == "Breskva")
+
         $s : StanjeUseva($usloviTogStanja: stanja) from $unetaStanja
         
         Number($value: intValue >= $n) from accumulate(
@@ -60,17 +62,19 @@ rule "akcije-na-osnovu-uslova"
         )
     then
     	$akcije.add($akcija);
+    	update($akcije);
 end
 
 rule "aktiviraj-protivgradnu-mrezu"
 	salience 100
 	when
 		Razvoj($akcije: trenutnaAkcija)
-		UsevPodaci(usev.naziv == "Breskva")
+		
 		
 		VremenskaPrognoza(tipPadavine == TipPadavine.GRAD) over window:time(5s)
 	then
-		$akcije.add(new Akcija("Aktiviraj mrezu", "Potrebno je aktivirati protiv gradnu mrezu da bi se zastitli usevi"))
+		$akcije.add(new Akcija("Aktiviraj mrezu", "Potrebno je aktivirati protiv gradnu mrezu da bi se zastitli usevi"));
+		update($akcije);
 end
 
 
@@ -79,7 +83,7 @@ rule "prskanje-protiv-trulezi-i-jakog-vetra"
 	activation-group "odbrana-useva"
 	when
 		Razvoj($akcije: trenutnaAkcija)
-		UsevPodaci(usev.naziv == "Breskva")
+		
 		
 		Number(intValue >= 5) from accumulate(
 			$vp: VremenskaPrognoza(
@@ -101,7 +105,8 @@ rule "prskanje-protiv-trulezi-i-jakog-vetra"
 			)
 		)
 	then
-		$akcije.add(new Akcija("Prskanje", "Potrebno je isprskati breskvu zbog jacanje same stabljike breskve"))
+		$akcije.add(new Akcija("Prskanje", "Potrebno je isprskati breskvu zbog jacanje same stabljike breskve"));
+		update($akcije);
 end
 
 
@@ -110,7 +115,7 @@ rule "zastita-od-trulezi-i-vetra"
 	activation-group "odbrana-useva"
 	when
 		Razvoj($akcije: trenutnaAkcija)
-		UsevPodaci(usev.naziv == "Breskva")
+		
 		
 		Number(intValue >= 5) from accumulate(
 			$vp: VremenskaPrognoza(
@@ -131,7 +136,8 @@ rule "zastita-od-trulezi-i-vetra"
 			)
 	then
 		$akcije.add(new Akcija("Rucna zastita",
-		 "Potrebno je postaviti mehanicku ogradu kojom se ublazava jacina vetra i prokopati kanale za izlivanje kise"))
+		 "Potrebno je postaviti mehanicku ogradu kojom se ublazava jacina vetra i prokopati kanale za izlivanje kise"));
+		 update($akcije);
 end
 
 rule "zastita-od-jakog-snega"
@@ -139,7 +145,7 @@ rule "zastita-od-jakog-snega"
 	activation-group "odbrana-useva"
 	when
 		Razvoj($akcije: trenutnaAkcija)
-		UsevPodaci(usev.naziv == "Breskva")
+		
 		
 		Number(intValue >= 2) from accumulate(
 			$vp: VremenskaPrognoza(
@@ -161,7 +167,8 @@ rule "zastita-od-jakog-snega"
 			count($vp)
 		)
 	then
-		$akcije.add(new Akcija("Zastita od mraza", "Potrebno je breskvu zastiti prepartom"))
+		$akcije.add(new Akcija("Zastita od mraza", "Potrebno je breskvu zastiti prepartom"));
+		update($akcije);
 end
 
 
@@ -171,7 +178,7 @@ rule "zastita-od-blagog-snega"
 	activation-group "odbrana-useva"
 	when
 		Razvoj($akcije: trenutnaAkcija)
-		UsevPodaci(usev.naziv == "Breskva")
+		
 		
 		Number(intValue >= 2) from accumulate(
 			$vp: VremenskaPrognoza(
@@ -187,7 +194,8 @@ rule "zastita-od-blagog-snega"
 			count($vp)
 		)
 	then
-		$akcije.add(new Akcija("Zastita od mraza", "Potrebno je breskvu zastiti zagrevanjem zemlje"))
+		$akcije.add(new Akcija("Zastita od mraza", "Potrebno je breskvu zastiti zagrevanjem zemlje"));
+		update($akcije);
 end
 
 rule "obnova-nakon-vlaznog-mraza"
@@ -195,7 +203,7 @@ rule "obnova-nakon-vlaznog-mraza"
 	activation-group "odbrana-useva"
 	when
 		Razvoj($akcije: trenutnaAkcija)
-		UsevPodaci(usev.naziv == "Breskva")
+		
 		
 		Number(intValue >= 5) from accumulate(
 			$vp: VremenskaPrognoza(
@@ -211,7 +219,8 @@ rule "obnova-nakon-vlaznog-mraza"
 			count($vp)
 		)
 	then
-		$akcije.add(new Akcija("Oporavak biljke", "Potrebno je breskvu zaliti da ne bi nastavila zamrzavanje"))
+		$akcije.add(new Akcija("Oporavak biljke", "Potrebno je breskvu zaliti da ne bi nastavila zamrzavanje"));
+		update($akcije);
 end
 
 rule "obnova-nakon-susnog-mraza"
@@ -219,7 +228,7 @@ rule "obnova-nakon-susnog-mraza"
 	activation-group "odbrana-useva"
 	when
 		Razvoj($akcije: trenutnaAkcija)
-		UsevPodaci(usev.naziv == "Breskva")
+		
 		
 		Number(intValue >= 2) from accumulate(
 			$vp: VremenskaPrognoza(
@@ -234,7 +243,8 @@ rule "obnova-nakon-susnog-mraza"
 			count($vp)
 		)
 	then
-		$akcije.add(new Akcija("Oporavak biljke", "Potrebno je oko biljaka zaloziti vatru"))
+		$akcije.add(new Akcija("Oporavak biljke", "Potrebno je oko biljaka zaloziti vatru"));
+		update($akcije);
 end
 
 rule "prevencija-mraza"
@@ -242,7 +252,7 @@ rule "prevencija-mraza"
 	activation-group "odbrana-useva"
 	when
 		Razvoj($akcije: trenutnaAkcija)
-		UsevPodaci(usev.naziv == "Breskva")
+		
 		
 		Number(intValue >= 2) from accumulate(
 			$vp: VremenskaPrognoza(
@@ -261,7 +271,8 @@ rule "prevencija-mraza"
 			)
 		)
 	then
-		$akcije.add(new Akcija("Prevencija snega", "Potrebno je isprskati biljku hemijskim preparatom protiv mraza"))
+		$akcije.add(new Akcija("Prevencija snega", "Potrebno je isprskati biljku hemijskim preparatom protiv mraza"));
+		update($akcije);
 end
 
 rule "susni-period-prehrana-preparatom"
@@ -269,7 +280,7 @@ rule "susni-period-prehrana-preparatom"
 	activation-group "odbrana-useva"
 	when
 		Razvoj($akcije: trenutnaAkcija)
-		UsevPodaci(usev.naziv == "Breskva")
+		
 		
 		Number(intValue >= 7) from accumulate(
 			$vp: VremenskaPrognoza(
@@ -280,7 +291,8 @@ rule "susni-period-prehrana-preparatom"
 		) and
 		not( exists( Akcija(naziv=="Prskanje")))
 	then
-		$akcije.add(new Akcija("Prskanje", "Potrebno je isprskati biljku prehrabenim prepartom"))
+		$akcije.add(new Akcija("Prskanje", "Potrebno je isprskati biljku prehrabenim prepartom"));
+		update($akcije);
 end
 
 
@@ -307,7 +319,8 @@ rule "susni-period i pojava insekata"
 		)
 		
 	then
-		$akcije.add(new Akcija("Zalivanje dodatno sulfatom", "Potrebno je odbraniti biljku uz pomoc sulfata u susnom periodu"))
+		$akcije.add(new Akcija("Zalivanje dodatno sulfatom", "Potrebno je odbraniti biljku uz pomoc sulfata u susnom periodu"));
+		update($akcije);
 end
 
 rule "susni-period"
@@ -315,7 +328,7 @@ rule "susni-period"
 	activation-group "odbrana-useva"
 	when
 		Razvoj($akcije: trenutnaAkcija)
-		UsevPodaci(usev.naziv == "Breskva")
+		
 		
 		Number(intValue >= 7) from accumulate(
 			$vp: VremenskaPrognoza(
@@ -326,7 +339,8 @@ rule "susni-period"
 		) and
 		exists( Akcija(naziv=="Prskanje"))
 	then
-		$akcije.add(new Akcija("Zalivanje", "Potrebno je zaliti biljku"))
+		$akcije.add(new Akcija("Zalivanje", "Potrebno je zaliti biljku"));
+		update($akcije);
 end
 
 	
