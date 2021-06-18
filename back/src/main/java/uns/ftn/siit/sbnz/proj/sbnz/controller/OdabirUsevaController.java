@@ -112,7 +112,7 @@ public class OdabirUsevaController {
         podaci.setUsev(new Usev("Breskva", "SuperBreskva"));
 
         //odabirUsevaService.setKieSession(sesija);
-        List<Akcija> akcije = odabirUsevaService.dodajStanje(razvoj, podaci);
+        List<Akcija> akcije = odabirUsevaService.dodajStanje(stanje3);
 
         //request.getSession().setAttribute("sesija", odabirUsevaService.getKieSession());
 

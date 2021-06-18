@@ -94,6 +94,9 @@ export class Razvoj {
 
     pocetakSadjenja = null;
 
+    ponudaUseva = {
+        ponude: []
+    }
 
     konfiguracija = new Konfiguracija();
 

@@ -25,6 +25,9 @@
       <v-tab-item key="Istorija akcija">
         <RazvojIstorija/>
       </v-tab-item>
+      <v-tab-item key="Stanja">
+        <Stanja/>
+      </v-tab-item>
     </v-tabs-items>
   </div>
 </template>
@@ -34,10 +37,10 @@ import {mapGetters} from "vuex";
 import RazvojInfo from "@/components/RazvojInfo";
 import RazvojIstorija from "@/components/RazvojIstorija";
 import RazvojTrenutneAkcije from "@/components/RazvojTrenutneAkcije";
-
+import Stanja from "@/components/Stanja"
 export default {
   name: "PregledRazvoja",
-  components: {RazvojIstorija, RazvojInfo, RazvojTrenutneAkcije},
+  components: {RazvojIstorija, RazvojInfo, RazvojTrenutneAkcije, Stanja},
   props: [
     "id"
   ],
@@ -57,6 +60,7 @@ export default {
         "Informacije",
         "Trenutne akcije",
         "Istorija akcija",
+        "Stanja"
       ]
     }
   }

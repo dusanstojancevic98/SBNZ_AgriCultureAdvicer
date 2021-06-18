@@ -23,36 +23,9 @@ public class StanjeUseva {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
-    @Getter
-    @Setter
-    @ManyToOne
-    UsevPodaci usevPodaci;
-
     @Getter
     @Setter
     private LocalDateTime date;
-
-//    @Getter
-//    @Setter
-//    private String oblikLista;
-//
-//    @Setter
-//    @Getter
-//    private String bojaLista;
-//
-//    @Setter
-//    @Getter
-//    private Sezona sezonaUseva;
-//
-//    @Setter
-//    @Getter
-//    private double visinaKorova;
-//
-//
-//    @Getter
-//    @Setter
-//    private boolean prisustvoInsekta=false;
 
     @Getter
     @Setter

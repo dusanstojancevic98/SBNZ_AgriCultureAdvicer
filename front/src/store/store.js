@@ -4,6 +4,7 @@ import {user} from "@/store/user";
 import {authHeader} from "@/util/auth";
 import {razvoj} from "@/store/razvoj";
 import {alerts} from "@/store/alerts";
+import {stanja} from "@/store/stanja"
 
 Vue.use(Vuex)
 
@@ -71,6 +72,7 @@ const store = new Vuex.Store({
         user: user,
         razvoj: razvoj,
         alerts:alerts,
+        stanja: stanja
     }
 })
 

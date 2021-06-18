@@ -46,7 +46,7 @@ export default {
             this.$store.dispatch("odaberiUsev", {id: this.id, usevId: this.usevId})
                 .then(
                     () => {
-                        dis.router.push("/razvoj")
+                        dis.$router.push("/razvoj")
 
                     }
                 );

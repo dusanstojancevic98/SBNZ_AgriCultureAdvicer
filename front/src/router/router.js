@@ -54,6 +54,7 @@ const routes = [
                 name: 'Alerts',
                 component: () => import( '../views/main/Alerts.vue')
             },
+
         ],
         component: () => import( '../views/main/Main.vue')
 

@@ -31,7 +31,7 @@ public class UsevPodaci {
 
     @Getter
     @Setter
-    @OneToMany(mappedBy = "usevPodaci")
+    @OneToMany
     List<StanjeUseva> stanjaUseva = new ArrayList<>();
 
     @Getter

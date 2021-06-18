@@ -1,32 +1,31 @@
 import axios from "axios";
 import {authHeader} from "@/util/auth";
 
-export const alerts = {
+export const stanja = {
     state: {
-        alertNum:0,
-        alerts:null
+        stanja: []
     },
     getters: {
-        getAlertNum(state){
-            return state.alertNum;
+        getStanja(state){
+            return state.stanja;
         },
-        getAlerts(state){
-            return state.alerts;
-        }
     },
     mutations: {
-        setAlerts(state, alerts){
-            state.alerts = alerts;
+        setStanja(state, stanja){
+            state.stanja = stanja;
+        },
+        addStanje(state, stanje){
+            state.stanja.push(stanje);
         }
     },
     actions: {
-        async fetchAlertNum(context) {
+        async fetchStanja({ commit }, idRazvoj) {
             return new Promise(
                 (resolve, reject) => {
-                    axios.get("/api/alerts/count", authHeader())
+                    axios.get("api/stanja/" + idRazvoj, authHeader())
                         .then((res) => {
-                             context.state.alertNum = res.data.count;
-                            resolve();
+                            commit("setStanja", res.data)
+                            resolve(res.data);
                         })
                         .catch((err) => {
                             console.log(err)
@@ -35,12 +34,14 @@ export const alerts = {
 
                 }
             )
-        }, async fetchAlerts({ commit }) {
+        },
+
+        async addStanje({ commit }, stanje) {
             return new Promise(
                 (resolve, reject) => {
-                    axios.get("api/alerts", authHeader())
+                    axios.post("api/stanja", stanje, authHeader())
                         .then((res) => {
-                            commit("setAlerts", res.data)
+                            commit("addStanje", res.data)
                             resolve(res.data);
                         })
                         .catch((err) => {

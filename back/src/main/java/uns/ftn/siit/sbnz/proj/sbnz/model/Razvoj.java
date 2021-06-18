@@ -6,6 +6,7 @@ import org.kie.api.definition.type.Key;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -35,6 +36,11 @@ public class Razvoj {
     @OneToOne
     private Usev odabraniUsev;
 
+
+    @Getter
+    @Setter
+    @OneToMany(cascade = CascadeType.ALL)
+    List<StanjeUseva> stanjaUseva = new ArrayList<>();
 
     private Double budzet;
 
