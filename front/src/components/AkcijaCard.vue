@@ -9,20 +9,26 @@
       <v-btn @click="confirm=true" color="lime" icon><v-icon>mdi-check</v-icon></v-btn>
       <v-btn @click="cancel=true" color="red lighten-3" icon><v-icon>mdi-close</v-icon></v-btn>
     </v-row>
-    <ConfirmAkcija :id="a.id" :razvojId="a.razvojId" @close="confirm=false" :show="confirm"></ConfirmAkcija>
-    <CancelAkcija :id="a.id" :razvojId="a.razvojId" d="" @close="cancel=false" :show="cancel"></CancelAkcija>
+    <ConfirmAkcija :id="a.id" :razvojId="razvoj.id" @close="confirm=false" :show="confirm"></ConfirmAkcija>
+    <CancelAkcija :id="a.id" :razvojId="razvoj.id" d="" @close="cancel=false" :show="cancel"></CancelAkcija>
   </v-card>
 </template>
 
 <script>
 import CancelAkcija from "@/components/dialogs/CancelAkcija";
 import ConfirmAkcija from "@/components/dialogs/ConfirmAkcija";
+import {mapGetters} from "vuex";
 export default {
 name: "AkcijaCard",
   components: {ConfirmAkcija, CancelAkcija},
   props:[
       "a"
   ],
+  computed:{
+    ...mapGetters({
+      razvoj:"getTrenutniRazvoj"
+    }),
+  },
   mounted() {
     console.log("AKCIJA", this.a)
   },

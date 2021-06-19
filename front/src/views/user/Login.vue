@@ -1,8 +1,8 @@
 <template>
     <v-card color="light-green lighten-5" class="pa-5" width="400">
         <v-form @submit.prevent="submit">
-            <v-text-field name="username" label="Korisničko ime" v-model="user.username"></v-text-field>
-            <v-text-field name="password" label="Lozinka" type="password" v-model="user.password"></v-text-field>
+            <v-text-field id="username" name="username" label="Korisničko ime" v-model="user.username"></v-text-field>
+            <v-text-field id="password" name="password" label="Lozinka" type="password" v-model="user.password"></v-text-field>
             <v-btn type="submit" color="primary" :disabled="sending">Prijavite se</v-btn>
         </v-form>
         Nemate nalog?

@@ -1,12 +1,11 @@
 <template>
     <v-dialog v-model="dValue" width="800" @input="onclose">
         <v-card class="pa-5" color="light-green lighten-4">
-
-            <div class="text-h3 pb-5">
-                Novo stanje
+            <div class="text-h5 pb-5">
+                Novo stanje useva
             </div>
             <v-form @submit="submit">
-                <v-row>
+                <v-row class="pa-0 ma-0 mb-5">
                     <v-select
                         v-model="stanje.stanja"
                         :items="uslovi"

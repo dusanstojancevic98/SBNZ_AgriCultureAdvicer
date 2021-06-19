@@ -47,11 +47,30 @@ public class Zemljiste {
 
     private double nadmorskaVisina;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private UsevPodaci trenutanUsev;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "zemljiste_usevi")
     private List<UsevPodaci> prethodniUsevi = new ArrayList<>();
 
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private StanjeZemljista trenutnoStanjeZemljista;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "zemljiste_stanja")
+    private List<StanjeZemljista> stanjaZemljista = new ArrayList<>();
+
     private TipZemljista tipZemljista;
+
+    public void azurirajStanjeZemljista(StanjeZemljista stanjeZemljista){
+        if(trenutnoStanjeZemljista!=null){
+            stanjeZemljista.setPrethodnoStanje(trenutnoStanjeZemljista);
+            stanjaZemljista.add(trenutnoStanjeZemljista);
+        }
+        trenutnoStanjeZemljista = stanjeZemljista;
+    }
+
 }
+

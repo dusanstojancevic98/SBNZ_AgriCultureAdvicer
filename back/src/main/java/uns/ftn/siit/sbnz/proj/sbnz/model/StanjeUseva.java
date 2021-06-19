@@ -34,8 +34,4 @@ public class StanjeUseva {
     @Column(name = "stanja")
     @Enumerated(EnumType.STRING)
     private List<Uslov> stanja;
-
-
-
-
 }

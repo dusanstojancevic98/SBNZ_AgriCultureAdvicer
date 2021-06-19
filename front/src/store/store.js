@@ -13,6 +13,7 @@ const axios = require('axios')
 
 const store = new Vuex.Store({
     state: {
+        loading:false,
         ponude: [],
         routes: [
             {
@@ -44,11 +45,17 @@ const store = new Vuex.Store({
         getPonudeUseva(state) {
             return state.ponude;
         },
+        getLoading(state){
+            return state.loading;
+        }
     },
     mutations: {
         setPonude(state, ponude) {
             state.ponude = ponude
         },
+        setLoading(state, loading){
+            state.loading = loading
+        }
     },
     actions: {
         async fetchPonudeUseva(context, id) {

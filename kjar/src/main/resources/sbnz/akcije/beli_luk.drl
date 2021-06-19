@@ -1,0 +1,111 @@
+package sbnz.integracija
+
+import uns.ftn.siit.sbnz.proj.sbnz.model.Razvoj;
+import uns.ftn.siit.sbnz.proj.sbnz.model.Zemljiste;
+import uns.ftn.siit.sbnz.proj.sbnz.model.Usev;
+import uns.ftn.siit.sbnz.proj.sbnz.model.UsevPodaci;
+import uns.ftn.siit.sbnz.proj.sbnz.model.Konfiguracija;
+import uns.ftn.siit.sbnz.proj.sbnz.model.StanjeUseva;
+import uns.ftn.siit.sbnz.proj.sbnz.model.VremenskaPrognoza;
+import uns.ftn.siit.sbnz.proj.sbnz.model.Akcija;
+
+
+import uns.ftn.siit.sbnz.proj.sbnz.model.Uslov;
+import uns.ftn.siit.sbnz.proj.sbnz.model.UsloviAkcija;
+
+
+import uns.ftn.siit.sbnz.proj.sbnz.medjuklase.PodKategorijaUseva;
+import uns.ftn.siit.sbnz.proj.sbnz.medjuklase.Povrsina;
+import uns.ftn.siit.sbnz.proj.sbnz.medjuklase.KategorijaUseva;
+import uns.ftn.siit.sbnz.proj.sbnz.medjuklase.KategorijaNagiba;
+import uns.ftn.siit.sbnz.proj.sbnz.medjuklase.KategorijaKlime;
+
+import uns.ftn.siit.sbnz.proj.sbnz.model.enums.TipPovrsine;
+import uns.ftn.siit.sbnz.proj.sbnz.model.enums.TipUseva;
+import uns.ftn.siit.sbnz.proj.sbnz.model.enums.PodTipUseva;
+import uns.ftn.siit.sbnz.proj.sbnz.model.enums.TipNagiba;
+import uns.ftn.siit.sbnz.proj.sbnz.model.enums.TipKlime;
+import uns.ftn.siit.sbnz.proj.sbnz.model.enums.TipPadavine;
+import uns.ftn.siit.sbnz.proj.sbnz.service.RazvojService;
+import java.util.Date;
+
+import function com.sample.Utility.help;
+
+
+dialect  "mvel";
+
+
+declare TrenutnoVreme
+	trenutnoVreme:Date
+
+end
+global RazvojService razvojService;
+
+
+function void saveRazvoj(RazvojService razvojService, Razvoj r) {
+    razvojService.saveRazvoj(r);
+}
+
+
+rule "trenutno-vreme-exists"
+    when
+       not TrenutnoVreme()
+    then
+        TrenutnoVreme trenutnoVreme = new TrenutnoVreme();
+        trenutnoVreme.setTrenutnoVreme(new java.util.Date(
+                drools
+                    .getWorkingMemory()
+                    .getSessionClock()
+                    .getCurrentTime()
+            )
+
+        );
+		insert(trenutnoVreme)
+        help(drools, trenutnoVreme.getTrenutnoVreme().toString())
+end
+
+rule "trenutno-vreme"
+    timer(int: 30s 20s)
+    when
+        $vreme : TrenutnoVreme()
+    then
+        $vreme.setTrenutnoVreme(new java.util.Date(
+                drools
+                    .getWorkingMemory()
+                    .getSessionClock()
+                    .getCurrentTime()
+            )
+        );
+        help(drools, $vreme.getTrenutnoVreme().toString());
+		update($vreme);
+
+end
+
+rule "zemljiste-info"
+    lock-on-active
+    when
+        $razvoj:Razvoj($akcije: trenutnaAkcija)
+        $zemljiste:Zemljiste(trenutnoStanjeZemljista==null)
+    then
+        Akcija a = new Akcija("Unos informacija o zemljistu", "Potrebno je uneti informacije o zemljistu(vlaznost, stanje...)", $razvoj);
+        $akcije.add(a);
+        update($razvoj)
+        saveRazvoj(razvojService, $razvoj);
+        help(drools, "----------------------------> Uspeh");
+end
+
+//
+//rule "zemljiste-info"
+//    lock-on-active
+//    when
+//        $razvoj:Razvoj($akcije: trenutnaAkcija)
+//        $zemljiste:Zemljiste(trenutnoStanjeZemljista==null)
+//    then
+//        Akcija a = new Akcija("Unos informacija o zemljistu", "Potrebno je uneti informacije o zemljistu(vlaznost, stanje...)", $razvoj);
+//        $akcije.add(a);
+//        update($razvoj)
+//        saveRazvoj(razvojService, $razvoj);
+//        help(drools, "----------------------------> Uspeh");
+//end
+
+

@@ -3,6 +3,14 @@
   <groupId>sbnz.integracija</groupId>
   <artifactId>kjar</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <dependencies>
+    <dependency>
+      <groupId>org.drools</groupId>
+      <artifactId>drools-core</artifactId>
+      <version>7.0.0.Final</version>
+    </dependency>
+
+  </dependencies>
   <name>kjar</name>
   <packaging>jar</packaging>
 </project>

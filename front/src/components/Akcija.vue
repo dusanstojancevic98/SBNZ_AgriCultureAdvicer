@@ -29,8 +29,8 @@
         </v-btn>
       </v-row>
     </v-card>
-    <ConfirmAkcija :id="akcija.id" :razvojId="akcija.razvojId" @close="confirm=false" :show="confirm"></ConfirmAkcija>
-    <CancelAkcija :id="akcija.id" :razvojId="akcija.razvojId"  @close="cancel=false" :show="cancel"></CancelAkcija>
+    <ConfirmAkcija :id="akcija.id" :razvojId="razvoj.id" @close="confirm=false" :show="confirm"></ConfirmAkcija>
+    <CancelAkcija :id="akcija.id" :razvojId="razvoj.id"  @close="cancel=false" :show="cancel"></CancelAkcija>
   </v-card>
 
 </template>
@@ -39,6 +39,7 @@
 import CancelAkcija from "@/components/dialogs/CancelAkcija";
 import ConfirmAkcija from "@/components/dialogs/ConfirmAkcija";
 import moment from "moment";
+import {mapGetters} from "vuex";
 
 export default {
   name: "Akcija",
@@ -55,6 +56,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      razvoj:"getTrenutniRazvoj"
+    }),
     historic() {
       let stanje = this.akcija.stanjeAkcije;
       return stanje === "OBAVLJENA" || stanje === "NEOBAVLJENA";

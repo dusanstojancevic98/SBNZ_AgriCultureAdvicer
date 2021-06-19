@@ -167,7 +167,7 @@ html, body {
 }
 
 .grower {
-    transition: all 0.3s;
+    transition: all 1s;
 }
 
 .grower:hover {

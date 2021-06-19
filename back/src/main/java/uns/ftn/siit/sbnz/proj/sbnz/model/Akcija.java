@@ -7,6 +7,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@AllArgsConstructor
 @RequiredArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -33,6 +34,7 @@ public class Akcija {
     private Akcija prethodnaAkcija;
 
     @ManyToOne
+    @NonNull
     private Razvoj razvoj;
 
     private LocalDateTime datumKreiranja = LocalDateTime.now();

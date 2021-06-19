@@ -1,35 +1,34 @@
 import {authHeader} from "@/util/auth";
 
 
-
 const axios = require('axios')
 
 export const razvoj = {
     state: {
-        razvojiInicijalni:[],
-        razvojiUToku:[],
-        razvojiPauzirani:[],
-        razvojiZaustavljeni:[],
-        razvojiSpremni:[],
-        trenutniRazvoj:null
+        razvojiInicijalni: [],
+        razvojiUToku: [],
+        razvojiPauzirani: [],
+        razvojiZaustavljeni: [],
+        razvojiSpremni: [],
+        trenutniRazvoj: null
     },
     getters: {
-        getRazvojiInicijalni:function(state){
+        getRazvojiInicijalni: function (state) {
             return state.razvojiInicijalni;
         },
-        getRazvojiUToku:function(state){
+        getRazvojiUToku: function (state) {
             return state.razvojiUToku;
         },
-        getRazvojiPauzirani:function(state){
+        getRazvojiPauzirani: function (state) {
             return state.razvojiPauzirani;
         },
-        getRazvojiZaustavljeni:function(state){
+        getRazvojiZaustavljeni: function (state) {
             return state.razvojiZaustavljeni;
         },
-        getRazvojiSpremni:function(state){
+        getRazvojiSpremni: function (state) {
             return state.razvojiSpremni;
         },
-        getTrenutniRazvoj(state){
+        getTrenutniRazvoj(state) {
             return state.trenutniRazvoj;
         }
     },
@@ -46,10 +45,10 @@ export const razvoj = {
         setRazvojiZaustavljeni(state, razvoji) {
             state.razvojiZaustavljeni = razvoji
         },
-        setRazvojiSpremni(state, razvoji){
+        setRazvojiSpremni(state, razvoji) {
             state.razvojiSpremni = razvoji
         },
-        setTrenutniRazvoj(state, razvoj){
+        setTrenutniRazvoj(state, razvoj) {
             state.trenutniRazvoj = razvoj;
         }
     },
@@ -57,7 +56,7 @@ export const razvoj = {
         async odradiAkciju(context, {id, rid}) {
             return new Promise(
                 (resolve, reject) => {
-                    axios.get(`/api/akcija/odradi/${id}/${rid}`, authHeader())
+                    axios.get('/api/akcija/odradi/'+id+'/'+rid, authHeader())
                         .then((res) => {
                             context.dispatch("fetchTrenutniRazvoj", rid);
                             resolve(res);
@@ -85,20 +84,22 @@ export const razvoj = {
             )
         },
         async fetchTrenutniRazvoj(context, id) {
-            return new Promise(
-                (resolve, reject) => {
-                    axios.get("/api/razvoj/trenutni/"+id, authHeader())
-                        .then((res) => {
-                            context.commit("setTrenutniRazvoj", res.data)
-                            console.log("razvoj bateu", res.data);
-                            resolve(res);
-                        })
-                        .catch((err) => {
-                            console.log(err)
-                            reject(err)
-                        })
-                }
-            )
+            if (id) {
+                return new Promise(
+                    (resolve, reject) => {
+                        axios.get("/api/razvoj/trenutni/" + id, authHeader())
+                            .then((res) => {
+                                context.commit("setTrenutniRazvoj", res.data)
+                                console.log("razvoj bateu", res.data);
+                                resolve(res);
+                            })
+                            .catch((err) => {
+                                console.log(err)
+                                reject(err)
+                            })
+                    }
+                )
+            }
         },
         async fetchRazvojiInicijalni(context) {
             return new Promise(
@@ -130,7 +131,7 @@ export const razvoj = {
                 }
             )
         }
-        ,async fetchRazvojiUToku(context) {
+        , async fetchRazvojiUToku(context) {
             return new Promise(
                 (resolve, reject) => {
                     axios.get("/api/razvoj/U_TOKU", authHeader())
@@ -145,7 +146,7 @@ export const razvoj = {
                 }
             )
         }
-        ,async fetchRazvojiPauzirani(context) {
+        , async fetchRazvojiPauzirani(context) {
             return new Promise(
                 (resolve, reject) => {
                     axios.get("/api/razvoj/PAUZIRANO", authHeader())
@@ -160,7 +161,7 @@ export const razvoj = {
                 }
             )
         }
-        ,async fetchRazvojiZaustavljeni(context) {
+        , async fetchRazvojiZaustavljeni(context) {
             return new Promise(
                 (resolve, reject) => {
                     axios.get("/api/razvoj/ZAVRSENO", authHeader())
@@ -175,12 +176,15 @@ export const razvoj = {
                 }
             )
         },
-        async fetchAll(context){
+        async fetchAll(context) {
+            context.commit("setLoading", true)
             await context.dispatch("fetchRazvojiZaustavljeni")
             await context.dispatch("fetchRazvojiUToku")
             await context.dispatch("fetchRazvojiSpremni")
             await context.dispatch("fetchRazvojiPauzirani")
             await context.dispatch("fetchRazvojiInicijalni")
+            await context.dispatch("fetchTrenutniRazvoj")
+            context.commit("setLoading", false)
         }
         ,
         async addRazvoj(context, razvoj) {
@@ -198,11 +202,28 @@ export const razvoj = {
 
                 }
             )
+        }
+        ,
+        async addStanjeZemljista(context, {rid, stanje}) {
+            return new Promise(
+                (resolve, reject) => {
+                    axios.post("/api/razvoj/stanje-zemljista/" + rid, stanje, authHeader())
+                        .then(() => {
+                            context.dispatch("fetchAll")
+                            resolve();
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                            reject()
+                        })
+
+                }
+            )
         },
         async pokreniRazvoj(context, id) {
             return new Promise(
                 (resolve, reject) => {
-                    axios.get("/api/razvoj/pokreni/"+id, authHeader())
+                    axios.get("/api/razvoj/pokreni/" + id, authHeader())
                         .then(() => {
                             context.dispatch("fetchAll")
                             resolve();
@@ -218,7 +239,7 @@ export const razvoj = {
         async obrisiRazvoj(context, id) {
             return new Promise(
                 (resolve, reject) => {
-                    axios.delete("/api/razvoj/"+id, authHeader())
+                    axios.delete("/api/razvoj/" + id, authHeader())
                         .then(() => {
                             context.dispatch("fetchAll")
                             resolve();
@@ -233,7 +254,7 @@ export const razvoj = {
         async odaberiUsev(context, {id, usevId}) {
             return new Promise(
                 (resolve, reject) => {
-                    axios.get("/api/razvoj/odaberi/"+id+"/"+usevId, authHeader())
+                    axios.get("/api/razvoj/odaberi/" + id + "/" + usevId, authHeader())
                         .then(() => {
                             context.dispatch("fetchAll")
                             resolve();

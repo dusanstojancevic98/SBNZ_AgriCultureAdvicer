@@ -27,10 +27,28 @@
 
 <script>
 export default {
-name: "RazvojCard",
-  props:[
-      "razvoj"
-  ]
+  name: "RazvojCard",
+  props: [
+    "razvoj"
+  ],
+  methods: {
+    obrisi(id) {
+      this.$store.dispatch("obrisiRazvoj", id)
+          .then(() => {
+                this.$store.dispatch("fetchAll");
+              }
+          );
+    },
+    pokreni(id) {
+      this.$store.dispatch("pokreniRazvoj", id)
+          .then(() => {
+                this.$store.dispatch("fetchAll");
+              }
+          );
+    }
+  }
+
+
 }
 </script>
 

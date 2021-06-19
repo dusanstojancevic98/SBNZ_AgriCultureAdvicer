@@ -48,4 +48,7 @@ public class UsevPodaci {
     @Setter
     private LocalDateTime krajUzgoja;
 
+    public UsevPodaci(Usev usev) {
+        this.usev = usev;
+    }
 }

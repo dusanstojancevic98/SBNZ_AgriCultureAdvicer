@@ -6,7 +6,7 @@
             </v-icon>
         </v-card>
         <RazvojDialog v-model="dialog"></RazvojDialog>
-        <v-expansion-panels accordion   multiple v-model="exp">
+        <v-expansion-panels accordion   multiple :value="exp">
             <v-expansion-panel>
                 <v-expansion-panel-header color="light-green lighten-3">
                     Novi

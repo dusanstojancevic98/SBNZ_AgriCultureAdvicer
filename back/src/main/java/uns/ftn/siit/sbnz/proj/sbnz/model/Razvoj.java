@@ -2,6 +2,8 @@ package uns.ftn.siit.sbnz.proj.sbnz.model;
 
 import com.sun.xml.bind.v2.model.core.ID;
 import lombok.*;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.kie.api.definition.type.Key;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 
@@ -44,19 +46,25 @@ public class Razvoj {
 
     private Double budzet;
 
-    private Date pocetakSadjenja;
-
 
     @OneToMany(cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable
     private List<Akcija> istorijaAkcija;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Akcija> trenutnaAkcija;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Konfiguracija konfiguracija;
+
+    public void addStanjeZemljista(StanjeZemljista stanjeZemljista) {
+        Zemljiste zemljiste = konfiguracija.getZemljiste();
+        zemljiste.azurirajStanjeZemljista(stanjeZemljista);
+        konfiguracija.setZemljiste(zemljiste);
+    }
 
 
     public enum StanjeRazvoja{
@@ -66,9 +74,7 @@ public class Razvoj {
 
     private void setOdabraniUsev(Usev odabraniUsev) {
         this.odabraniUsev = odabraniUsev;
-
     }
-
 
     public void dodajAkciju(Akcija akcija){
         this.trenutnaAkcija.add(akcija);

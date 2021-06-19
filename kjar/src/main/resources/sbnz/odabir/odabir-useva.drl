@@ -1,3 +1,5 @@
+package sbnz.integracija
+
 import uns.ftn.siit.sbnz.proj.sbnz.model.Razvoj;
 import uns.ftn.siit.sbnz.proj.sbnz.model.Zemljiste;
 import uns.ftn.siit.sbnz.proj.sbnz.model.Usev;
@@ -17,21 +19,9 @@ import uns.ftn.siit.sbnz.proj.sbnz.model.enums.TipUseva;
 import uns.ftn.siit.sbnz.proj.sbnz.model.enums.PodTipUseva;
 import uns.ftn.siit.sbnz.proj.sbnz.model.enums.TipNagiba;
 import uns.ftn.siit.sbnz.proj.sbnz.model.enums.TipKlime;
-import uns.ftn.siit.sbnz.proj.sbnz.model.enums.TipKiselosti;
+import uns.ftn.siit.sbnz.proj.sbnz.model.enums.TipKiselosti
 
-
-global Razvoj razvoj;
 dialect  "mvel"
-
-
-declare Povrce
-end
-
-declare Voce
-end
-
-//PRETHODNI USEV
-
 
 declare Prethodni
     usev: UsevPodaci
@@ -39,22 +29,24 @@ end
 
 rule "prethodni-usev"
     when
-        $konfig:Konfiguracija($pusevi: zemljiste.prethodniUsevi, zemljiste.prethodniUsevi.size() > 0);
+        $konfig:Konfiguracija($pusevi: zemljiste.prethodniUsevi, zemljiste.prethodniUsevi.size() > 0)
         $usev: UsevPodaci() from $pusevi.get($pusevi.size()-1)
    then
-        insert(new Prethodni($usev))
+        Prethodni prethodni = new Prethodni();
+        prethodni.setUsev($usev);
+        insert(prethodni);
 end
-
 
 rule "luk-uslovi"
     when
-        KategorijaUseva(tipUseva==TipUseva.POVRTARSKI)
-        Razvoj( $usevi : ponudaUseva)
+        KategorijaUseva(tipUseva==TipUseva.POVRTARSKI);
+        $r : Razvoj( $usevi : ponudaUseva);
+        not Usev(naziv=="Beli luk") from $usevi.ponude
         KategorijaKiselosti(tipKiselosti==TipKiselosti.Alkalno);
         Prethodni(usev.usev.podTipUseva == PodTipUseva.P_MAHUNARKE) or not Prethodni()
-        
     then
     	$usevi.addUsev(new Usev("Beli luk", "Beli luk je vrsta luka bele boje izrazitog mirisa."));
+        update($r);
 end
 
 
@@ -63,6 +55,7 @@ rule "zelena-salata-uslovi"
     when
         KategorijaUseva(tipUseva==TipUseva.POVRTARSKI)
         $r: Razvoj( $usevi : ponudaUseva)
+        not Usev(naziv=="Zelena salata") from $usevi.ponude
         KategorijaKiselosti(tipKiselosti==TipKiselosti.Bazno);
         Prethodni(usev.usev.podTipUseva == PodTipUseva.P_MAHUNARKE) or not Prethodni()
         
@@ -77,6 +70,7 @@ rule "breskva-uslovi"
 	when
         KategorijaUseva(tipUseva==TipUseva.VOCNI)
         $r : Razvoj( $usevi : ponudaUseva)
+        not Usev(naziv=="Breskva") from $usevi.ponude
         KategorijaKiselosti(tipKiselosti==TipKiselosti.Bazno);
     then
     	$usevi.addUsev(new Usev("Breskva", "Breksva spada u slatko voce poreklom iz Kine"));
@@ -91,6 +85,7 @@ rule "malina-uslovi"
 	when
         KategorijaUseva(tipUseva==TipUseva.VOCNI)
         $r : Razvoj( $usevi : ponudaUseva)
+        not Usev(naziv=="Malina") from $usevi.ponude
         KategorijaKiselosti(tipKiselosti==TipKiselosti.Kiselo);
         not Prethodni(usev.usev.podTipUseva == PodTipUseva.V_KOSTUNICAVI)
     then
@@ -104,6 +99,7 @@ rule "borovnica-uslovi"
 	when
         KategorijaUseva(tipUseva==TipUseva.VOCNI)
         $r : Razvoj( $usevi : ponudaUseva)
+        not Usev(naziv=="Borovnica") from $usevi.ponude
         KategorijaKiselosti(tipKiselosti==TipKiselosti.Kiselo);
     then
     	$usevi.addUsev(new Usev("Borovnica", "Borovnica spada u bobicasto voce"));
@@ -116,6 +112,7 @@ rule "psenica-uslovi"
 	when
         KategorijaUseva(tipUseva==TipUseva.RATARSKI)
         $r : Razvoj( $usevi : ponudaUseva)
+        not Usev(naziv=="Psenica") from $usevi.ponude
         KategorijaKiselosti(tipKiselosti==TipKiselosti.Bazno);
     then
     	$usevi.addUsev(new Usev("Psenica", "Psenica predstavlja jednostavno ratarsku kulturu"));

@@ -17,7 +17,7 @@ import uns.ftn.siit.sbnz.proj.sbnz.repository.KorisnikRepository;
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
 
-	final KorisnikRepository repository;
+	private KorisnikRepository repository;
 
 	@Autowired
 	public JwtUserDetailsService(KorisnikRepository repository) {

@@ -6,9 +6,11 @@ import lombok.Getter;
 import lombok.Setter;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
+import org.kie.api.time.SessionClock;
 import org.kie.api.runtime.rule.QueryResults;
 import org.kie.api.time.SessionPseudoClock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import uns.ftn.siit.sbnz.proj.sbnz.model.*;
 import uns.ftn.siit.sbnz.proj.sbnz.repository.RazvojRepository;
@@ -21,8 +23,17 @@ import java.util.concurrent.TimeUnit;
 @Getter
 @Setter
 public class OdabirUsevaService {
+
+    private final KieSession kieSession;
+    private final KieSession kieSessionAkcije;
+
     @Autowired
-    private KieSession kieSession;
+    public OdabirUsevaService(@Qualifier("basic") KieSession kieSession, @Qualifier("akcije") KieSession kieSessionAkcije) {
+        this.kieSession = kieSession;
+        this.kieSessionAkcije = kieSessionAkcije;
+        System.out.println(kieSessionAkcije);
+
+    }
 
     @Autowired
     private RazvojRepository razvojRepo;
@@ -43,7 +54,7 @@ public class OdabirUsevaService {
     }
 
     public void ubrzajVreme(Integer time){
-        SessionPseudoClock clock = kieSession.getSessionClock();
+        SessionPseudoClock clock = kieSessionAkcije.getSessionClock();
         System.out.println(clock.advanceTime(time, TimeUnit.DAYS));
     }
 

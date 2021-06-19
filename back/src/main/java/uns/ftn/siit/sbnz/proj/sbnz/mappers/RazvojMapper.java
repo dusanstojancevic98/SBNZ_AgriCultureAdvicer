@@ -31,7 +31,6 @@ public class RazvojMapper extends Mapper<Razvoj, RazvojResponse, RazvojRequest> 
                 razvoj.getPonudaUseva(),
                 razvoj.getOdabraniUsev(),
                 razvoj.getBudzet(),
-                razvoj.getPocetakSadjenja(),
                 istorija,
                 trenutne,
                 razvoj.getKonfiguracija()

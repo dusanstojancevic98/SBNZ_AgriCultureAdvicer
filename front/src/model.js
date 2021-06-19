@@ -1,6 +1,7 @@
 export class VremenskiPodaci {
     constructor() {
     }
+
     brojSuncanihDana = NaN;
 
     padavine = NaN;
@@ -8,6 +9,20 @@ export class VremenskiPodaci {
     prosecnaGodisnjaTemperatura = NaN;
 
 
+}
+
+export class StanjeZemljista {
+    id;
+
+    datum = null;
+
+    procenatVlage = 0;
+
+
+    stanje = "";
+
+
+    prethodnoStanje = null;
 }
 
 export class Usev {
@@ -24,6 +39,21 @@ export class Usev {
 
     podTipUseva = null;
 
+
+}
+
+export class UsevPodaci {
+    id;
+
+    usev;
+
+    stanjaUseva = [];
+
+    preporucenaZastita;
+
+    pocetakUzgoja;
+
+    krajUzgoja;
 
 }
 
@@ -64,6 +94,12 @@ export class Zemljiste {
 
     tipZemljista = null;
 
+    trenutnoStanjeZemljista = null;
+
+    stanjaZemljista = [];
+
+    trenutanUsev = null;
+
     prethodniUsevi = [];
 
 }
@@ -76,7 +112,7 @@ export class Konfiguracija {
 
     naziv = "";
 
-    zemljiste =  new Zemljiste();
+    zemljiste = new Zemljiste();
 
     vremenskiPodaci = new VremenskiPodaci();
 
@@ -91,8 +127,6 @@ export class Razvoj {
     naziv = "";
 
     budzet = NaN;
-
-    pocetakSadjenja = null;
 
     ponudaUseva = {
         ponude: []

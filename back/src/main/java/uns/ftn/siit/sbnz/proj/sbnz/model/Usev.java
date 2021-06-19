@@ -31,6 +31,8 @@ public class Usev {
     @NonNull
     private String opis;
 
+    private String stanje;
+
     private TipUseva tipUseva;
 
     @Transient

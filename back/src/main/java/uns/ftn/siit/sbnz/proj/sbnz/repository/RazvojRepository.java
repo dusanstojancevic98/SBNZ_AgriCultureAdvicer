@@ -10,5 +10,6 @@ import java.util.List;
 public interface RazvojRepository extends JpaRepository<Razvoj, Long> {
     public List<Razvoj> getAllByVlasnikIdAndStanjeRazvoja(Long aLong, Razvoj.StanjeRazvoja stanjeRazvoja);
     public Razvoj getByVlasnikIdAndId(Long aLong, Long id);
+    public List<Razvoj> getAllByStanjeRazvoja(Razvoj.StanjeRazvoja stanjeRazvoja);
 
 }

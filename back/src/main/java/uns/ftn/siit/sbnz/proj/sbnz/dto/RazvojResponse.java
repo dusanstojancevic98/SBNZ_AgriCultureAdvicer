@@ -25,8 +25,6 @@ public class RazvojResponse {
 
     private Double budzet;
 
-    private Date pocetakSadjenja;
-
     private List<AkcijaResponse> istorijaAkcija;
 
     private List<AkcijaResponse> trenutnaAkcija;

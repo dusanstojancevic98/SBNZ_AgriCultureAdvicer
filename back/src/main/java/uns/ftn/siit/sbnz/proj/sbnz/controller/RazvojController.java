@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import uns.ftn.siit.sbnz.proj.sbnz.dto.RazvojResponse;
 import uns.ftn.siit.sbnz.proj.sbnz.model.Korisnik;
 import uns.ftn.siit.sbnz.proj.sbnz.model.Razvoj;
+import uns.ftn.siit.sbnz.proj.sbnz.model.StanjeZemljista;
 import uns.ftn.siit.sbnz.proj.sbnz.service.RazvojService;
 
 import java.util.List;
@@ -67,5 +68,18 @@ public class RazvojController {
         Korisnik logged = (Korisnik) authentication.getPrincipal();
 
         return new ResponseEntity<>(razvojService.addOne(razvoj, logged), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/stanje-zemljista/{rid}")
+    public void addStanjeZemljista(@PathVariable Long rid, @RequestBody StanjeZemljista stanjeZemljista){
+        razvojService.addStanjeZemljista(rid, stanjeZemljista);
+    }
+
+
+
+    @GetMapping(value = "/fastForward/{id}/{time}")
+    public ResponseEntity<Boolean> unapredVreme(@PathVariable Long id, @PathVariable Integer time){
+        razvojService.ubrzajVreme(id, time);
+        return new ResponseEntity<>(Boolean.TRUE,HttpStatus.OK);
     }
 }
