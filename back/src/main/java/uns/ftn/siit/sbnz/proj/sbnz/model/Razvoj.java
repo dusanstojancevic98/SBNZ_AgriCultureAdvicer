@@ -50,12 +50,12 @@ public class Razvoj {
     @OneToMany(cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable
-    private List<Akcija> istorijaAkcija;
+    private List<Akcija> istorijaAkcija = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable
     @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Akcija> trenutnaAkcija;
+    private List<Akcija> trenutnaAkcija = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
     private Konfiguracija konfiguracija;

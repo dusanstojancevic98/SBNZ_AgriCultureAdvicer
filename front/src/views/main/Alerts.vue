@@ -28,7 +28,7 @@ export default {
 
   },
   created() {
-    this.$store.dispatch("fetchAlerts")
+    this.$store.dispatch("fetchAlerts");
   },
 
 

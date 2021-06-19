@@ -24,6 +24,7 @@ import uns.ftn.siit.sbnz.proj.sbnz.model.enums.PodTipUseva;
 import uns.ftn.siit.sbnz.proj.sbnz.model.enums.TipNagiba;
 import uns.ftn.siit.sbnz.proj.sbnz.model.enums.TipKlime;
 import uns.ftn.siit.sbnz.proj.sbnz.model.enums.TipPadavine;
+import uns.ftn.siit.sbnz.proj.sbnz.service.AlertService;
 
 dialect  "mvel"
 
@@ -32,6 +33,13 @@ declare Povrce
 end
 
 declare Voce
+end
+
+global AlertService alertService;
+
+
+query "getRazvoj"
+	$razvoj: Razvoj()
 end
 
 
@@ -43,43 +51,47 @@ rule "podtipovi-breskve"
     then
     	$usev.setTipUseva(TipUseva.VOCNI);
     	$usev.setPodTipUseva(PodTipUseva.V_KOSTUNICAVI);
+    	$r.dodajAkciju( new Akcija("Sadjenje", "Potrebno je posaditi breskvu"));
+    	update($r);
 end
 
 rule "akcije-na-osnovu-uslova"
+	no-loop
 	when
-		Razvoj($akcije: trenutnaAkcija)
-		
-		UsloviAkcija( $n: ponavljanje, $akcija: akcija, $uslovi: uslovi)
-		
-        UsevPodaci($unetaStanja: stanjaUseva, usev.naziv == "Breskva")
+		$r: Razvoj($unetaStanja: stanjaUseva)
         $s : StanjeUseva($usloviTogStanja: stanja) from $unetaStanja
-        
+
+		UsloviAkcija( $n: ponavljanje, $akcija: akcija, $uslovi: uslovi)
+
+
         Number($value: intValue >= $n) from accumulate(
     		Uslov(this memberOf $uslovi) from $usloviTogStanja,
         	count(1)
         )
     then
-    	$akcije.add($akcija);
+    	alertService.dodajAlert($r, $akcija);
+    	update($r);
 end
 
 rule "aktiviraj-protivgradnu-mrezu"
 	salience 100
+	no-loop
 	when
-		$razvoj : Razvoj($akcije: trenutnaAkcija)
-		UsevPodaci(usev.naziv == "Breskva")
-		
+		$r: Razvoj()
 		VremenskaPrognoza(tipPadavine == TipPadavine.GRAD) over window:time(5s)
 	then
-		$akcije.add(new Akcija("Aktiviraj mrezu", "Potrebno je aktivirati protiv gradnu mrezu da bi se zastitli usevi", $razvoj))
+    	alertService.dodajAlert($r, new Akcija("Aktiviraj mrezu", "Potrebno je aktivirati protiv gradnu mrezu da bi se zastitli usevi", $r));
+		update($r);
 end
 
 
 rule "prskanje-protiv-trulezi-i-jakog-vetra"
 	salience 99
+	no-loop
 	activation-group "odbrana-useva"
 	when
-		$razvoj : Razvoj($akcije: trenutnaAkcija)
-		UsevPodaci(usev.naziv == "Breskva")
+		$r: Razvoj()
+		
 		
 		Number(intValue >= 5) from accumulate(
 			$vp: VremenskaPrognoza(
@@ -101,16 +113,18 @@ rule "prskanje-protiv-trulezi-i-jakog-vetra"
 			)
 		)
 	then
-		$akcije.add(new Akcija("Prskanje", "Potrebno je isprskati breskvu zbog jacanje same stabljike breskve", $razvoj))
+		alertService.dodajAlert($r, new Akcija("Prskanje", "Potrebno je isprskati breskvu zbog jacanje same stabljike breskve", $r));
+		update($r)
 end
 
 
 rule "zastita-od-trulezi-i-vetra"
 	salience 98
+	no-loop
 	activation-group "odbrana-useva"
 	when
-		$razvoj : Razvoj($akcije: trenutnaAkcija)
-		UsevPodaci(usev.naziv == "Breskva")
+		$r: Razvoj()
+		
 		
 		Number(intValue >= 5) from accumulate(
 			$vp: VremenskaPrognoza(
@@ -130,16 +144,18 @@ rule "zastita-od-trulezi-i-vetra"
 				)
 			)
 	then
-		$akcije.add(new Akcija("Rucna zastita",
-		 "Potrebno je postaviti mehanicku ogradu kojom se ublazava jacina vetra i prokopati kanale za izlivanje kise", $razvoj))
+		 alertService.dodajAlert($r,new Akcija("Rucna zastita",
+		 "Potrebno je postaviti mehanicku ogradu kojom se ublazava jacina vetra i prokopati kanale za izlivanje kise", $r));
+		 update($r)
 end
 
 rule "zastita-od-jakog-snega"
 	salience 97
+	no-loop
 	activation-group "odbrana-useva"
 	when
-		$razvoj : Razvoj($akcije: trenutnaAkcija)
-		UsevPodaci(usev.naziv == "Breskva")
+		$r: Razvoj()
+		
 		
 		Number(intValue >= 2) from accumulate(
 			$vp: VremenskaPrognoza(
@@ -161,17 +177,19 @@ rule "zastita-od-jakog-snega"
 			count($vp)
 		)
 	then
-		$akcije.add(new Akcija("Zastita od mraza", "Potrebno je breskvu zastiti prepartom", $razvoj))
+		alertService.dodajAlert($r, new Akcija("Zastita od mraza", "Potrebno je breskvu zastiti prepartom", $r));
+		update($r)
 end
 
 
 
 rule "zastita-od-blagog-snega"
 	salience 96
+	no-loop
 	activation-group "odbrana-useva"
 	when
-		$razvoj : Razvoj($akcije: trenutnaAkcija)
-		UsevPodaci(usev.naziv == "Breskva")
+		$r: Razvoj()
+		
 		
 		Number(intValue >= 2) from accumulate(
 			$vp: VremenskaPrognoza(
@@ -187,15 +205,17 @@ rule "zastita-od-blagog-snega"
 			count($vp)
 		)
 	then
-		$akcije.add(new Akcija("Zastita od mraza", "Potrebno je breskvu zastiti zagrevanjem zemlje", $razvoj))
+		alertService.dodajAlert($r, new Akcija("Zastita od mraza", "Potrebno je breskvu zastiti zagrevanjem zemlje", $r));
+		update($r)
 end
 
 rule "obnova-nakon-vlaznog-mraza"
 	salience 95
+	no-loop
 	activation-group "odbrana-useva"
 	when
-		$razvoj : Razvoj($akcije: trenutnaAkcija)
-		UsevPodaci(usev.naziv == "Breskva")
+		$r: Razvoj()
+		
 		
 		Number(intValue >= 5) from accumulate(
 			$vp: VremenskaPrognoza(
@@ -211,15 +231,17 @@ rule "obnova-nakon-vlaznog-mraza"
 			count($vp)
 		)
 	then
-		$akcije.add(new Akcija("Oporavak biljke", "Potrebno je breskvu zaliti da ne bi nastavila zamrzavanje", $razvoj))
+		alertService.dodajAlert($r, new Akcija("Oporavak biljke", "Potrebno je breskvu zaliti da ne bi nastavila zamrzavanje", $r));
+		update($r)
 end
 
 rule "obnova-nakon-susnog-mraza"
 	salience 94
+	no-loop
 	activation-group "odbrana-useva"
 	when
-		$razvoj : Razvoj($akcije: trenutnaAkcija)
-		UsevPodaci(usev.naziv == "Breskva")
+		$r: Razvoj()
+		
 		
 		Number(intValue >= 2) from accumulate(
 			$vp: VremenskaPrognoza(
@@ -234,15 +256,17 @@ rule "obnova-nakon-susnog-mraza"
 			count($vp)
 		)
 	then
-		$akcije.add(new Akcija("Oporavak biljke", "Potrebno je oko biljaka zaloziti vatru", $razvoj))
+		alertService.dodajAlert($r, new Akcija("Oporavak biljke", "Potrebno je oko biljaka zaloziti vatru", $r));
+		update($r)
 end
 
 rule "prevencija-mraza"
 	salience 93
+	no-loop
 	activation-group "odbrana-useva"
 	when
-		$razvoj : Razvoj($akcije: trenutnaAkcija)
-		UsevPodaci(usev.naziv == "Breskva")
+		$r: Razvoj()
+		
 		
 		Number(intValue >= 2) from accumulate(
 			$vp: VremenskaPrognoza(
@@ -261,15 +285,17 @@ rule "prevencija-mraza"
 			)
 		)
 	then
-		$akcije.add(new Akcija("Prevencija snega", "Potrebno je isprskati biljku hemijskim preparatom protiv mraza", $razvoj))
+		alertService.dodajAlert($r, new Akcija("Prevencija snega", "Potrebno je isprskati biljku hemijskim preparatom protiv mraza", $r));
+		update($r)
 end
 
 rule "susni-period-prehrana-preparatom"
 	salience 92
+	no-loop
 	activation-group "odbrana-useva"
 	when
-		$razvoj : Razvoj($akcije: trenutnaAkcija)
-		UsevPodaci(usev.naziv == "Breskva")
+		$r: Razvoj()
+		
 		
 		Number(intValue >= 7) from accumulate(
 			$vp: VremenskaPrognoza(
@@ -280,16 +306,17 @@ rule "susni-period-prehrana-preparatom"
 		) and
 		not( exists( Akcija(naziv=="Prskanje")))
 	then
-		$akcije.add(new Akcija("Prskanje", "Potrebno je isprskati biljku prehrabenim prepartom", $razvoj))
+		alertService.dodajAlert($r, new Akcija("Prskanje", "Potrebno je isprskati biljku prehrabenim prepartom", $r));
+		update($r)
 end
 
 
 rule "susni-period i pojava insekata"
 	salience 91
+	no-loop
 	activation-group "odbrana-useva"
 	when
-		$razvoj : Razvoj($akcije: trenutnaAkcija)
-        UsevPodaci($unetaStanja: stanjaUseva, usev.naziv == "Breskva")
+		$r: Razvoj($unetaStanja: stanjaUseva)
         $s : StanjeUseva($usloviTogStanja: stanja) from $unetaStanja
 		
 		Number($value: intValue >= 3) from accumulate(
@@ -307,15 +334,17 @@ rule "susni-period i pojava insekata"
 		)
 		
 	then
-		$akcije.add(new Akcija("Zalivanje dodatno sulfatom", "Potrebno je odbraniti biljku uz pomoc sulfata u susnom periodu", $razvoj))
+		alertService.dodajAlert($r, new Akcija("Zalivanje dodatno sulfatom", "Potrebno je odbraniti biljku uz pomoc sulfata u susnom periodu", $r));
+		update($r)
 end
 
 rule "susni-period"
 	salience 90
+	no-loop
 	activation-group "odbrana-useva"
 	when
-		$razvoj : Razvoj($akcije: trenutnaAkcija)
-		UsevPodaci(usev.naziv == "Breskva")
+		$r: Razvoj()
+		
 		
 		Number(intValue >= 7) from accumulate(
 			$vp: VremenskaPrognoza(
@@ -326,7 +355,8 @@ rule "susni-period"
 		) and
 		exists( Akcija(naziv=="Prskanje"))
 	then
-		$akcije.add(new Akcija("Zalivanje", "Potrebno je zaliti biljku", $razvoj))
+		alertService.dodajAlert($r, new Akcija("Zalivanje", "Potrebno je zaliti biljku", $r));
+		update($r)
 end
 
 	

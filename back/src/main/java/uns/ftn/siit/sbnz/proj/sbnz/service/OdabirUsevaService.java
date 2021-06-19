@@ -8,6 +8,7 @@ import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.time.SessionClock;
 import org.kie.api.runtime.rule.QueryResults;
+import org.kie.api.runtime.rule.QueryResultsRow;
 import org.kie.api.time.SessionPseudoClock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -63,9 +64,12 @@ public class OdabirUsevaService {
         Razvoj razvoj = (Razvoj) result.iterator().next().get("$razvoj");
         razvojRepo.save(razvoj);
         razvoj.getStanjaUseva().add(podaci);
+        kieSession.insert(razvoj);
         int fired = kieSession.fireAllRules();
         System.out.println("FIRED: " + fired);
         razvojRepo.save(razvoj);
+
+
         return razvoj.getTrenutnaAkcija();
 
     }
