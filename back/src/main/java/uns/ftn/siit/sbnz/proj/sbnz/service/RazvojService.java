@@ -198,4 +198,5 @@ public class RazvojService {
         this.akcijeThreads.get(id).speedUp(days);
     }
 
+
 }
