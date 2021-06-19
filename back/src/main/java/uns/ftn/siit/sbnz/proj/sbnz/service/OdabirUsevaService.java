@@ -12,6 +12,7 @@ import org.kie.api.runtime.rule.QueryResultsRow;
 import org.kie.api.time.SessionPseudoClock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import uns.ftn.siit.sbnz.proj.sbnz.model.*;
 import uns.ftn.siit.sbnz.proj.sbnz.repository.RazvojRepository;
@@ -24,20 +25,13 @@ import java.util.concurrent.TimeUnit;
 @Getter
 @Setter
 public class OdabirUsevaService {
-
-    private final KieSession kieSession;
-    private final KieSession kieSessionAkcije;
-
     @Autowired
-    public OdabirUsevaService(@Qualifier("basic") KieSession kieSession, @Qualifier("akcije") KieSession kieSessionAkcije) {
-        this.kieSession = kieSession;
-        this.kieSessionAkcije = kieSessionAkcije;
-        System.out.println(kieSessionAkcije);
-
-    }
+    private ApplicationContext applicationContext;
 
     @Autowired
     private RazvojRepository razvojRepo;
+
+    private KieSession kieSession;
 
     public List<StanjeUseva> getStanja(Long idRazvoja){
 
@@ -46,17 +40,13 @@ public class OdabirUsevaService {
     }
 
     public Razvoj preporuciUseve(Razvoj razvoj){
+        kieSession = applicationContext.getBean("basic",KieSession.class);
         kieSession.insert(razvoj);
         kieSession.insert(razvoj.getKonfiguracija());
         int fired = kieSession.fireAllRules();
         System.out.println("FIRED" + fired);
         return razvoj;
 
-    }
-
-    public void ubrzajVreme(Integer time){
-        SessionPseudoClock clock = kieSessionAkcije.getSessionClock();
-        System.out.println(clock.advanceTime(time, TimeUnit.DAYS));
     }
 
     public List<Akcija> dodajStanje(StanjeUseva podaci){

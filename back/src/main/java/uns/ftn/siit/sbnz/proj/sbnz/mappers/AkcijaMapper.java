@@ -13,17 +13,12 @@ public class AkcijaMapper extends Mapper<Akcija, AkcijaResponse, Object>{
         if(akcija.getPrethodnaAkcija()!=null){
             prethodni = akcija.getPrethodnaAkcija().getId();
         }
-        Long razvoj = null;
-        if(akcija.getRazvoj()!=null){
-            razvoj = akcija.getRazvoj().getId();
-        }
         return new AkcijaResponse(
                 akcija.getId(),
                 akcija.getNaziv(),
                 akcija.getOpisAkcije(),
                 akcija.getStanjeAkcije(),
                 prethodni,
-                razvoj,
                 akcija.getDatumKreiranja(),
                 akcija.getDatumOdluke()
         );

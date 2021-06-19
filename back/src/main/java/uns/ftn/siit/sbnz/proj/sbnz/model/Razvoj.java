@@ -42,6 +42,7 @@ public class Razvoj {
     @Getter
     @Setter
     @OneToMany(cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
     List<StanjeUseva> stanjaUseva = new ArrayList<>();
 
     private Double budzet;

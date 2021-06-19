@@ -26,7 +26,12 @@ import uns.ftn.siit.sbnz.proj.sbnz.model.enums.PodTipUseva;
 import uns.ftn.siit.sbnz.proj.sbnz.model.enums.TipNagiba;
 import uns.ftn.siit.sbnz.proj.sbnz.model.enums.TipKlime;
 import uns.ftn.siit.sbnz.proj.sbnz.model.enums.TipPadavine;
+import uns.ftn.siit.sbnz.proj.sbnz.model.enums.TipStanjaZemljista;
+
 import uns.ftn.siit.sbnz.proj.sbnz.service.RazvojService;
+import uns.ftn.siit.sbnz.proj.sbnz.service.AlertService;
+
+
 import java.util.Date;
 
 import function com.sample.Utility.help;
@@ -40,6 +45,7 @@ declare TrenutnoVreme
 
 end
 global RazvojService razvojService;
+global AlertService alertService;
 
 
 function void saveRazvoj(RazvojService razvojService, Razvoj r) {
@@ -65,29 +71,47 @@ rule "trenutno-vreme-exists"
 end
 
 rule "trenutno-vreme"
-    timer(int: 30s 20s)
+    timer(int: 0s 1d)
     when
         $vreme : TrenutnoVreme()
     then
-        $vreme.setTrenutnoVreme(new java.util.Date(
-                drools
-                    .getWorkingMemory()
-                    .getSessionClock()
-                    .getCurrentTime()
-            )
+        $vreme.setTrenutnoVreme(
+            new java.util.Date(
+                 drools
+                     .getWorkingMemory()
+                     .getSessionClock()
+                     .getCurrentTime()
+             )
         );
         help(drools, $vreme.getTrenutnoVreme().toString());
+        help(drools, $vreme.getTrenutnoVreme().getDay());
+        help(drools, $vreme.getTrenutnoVreme().getDate());
+        help(drools, $vreme.getTrenutnoVreme().getMonth());
 		update($vreme);
-
 end
 
 rule "zemljiste-info"
     lock-on-active
     when
-        $razvoj:Razvoj($akcije: trenutnaAkcija)
+        $razvoj:Razvoj($akcije: trenutnaAkcija, odabraniUsev.naziv=="Beli Luk")
+        not Akcija(naziv=="Unos informacija o zemljistu") from $akcije
         $zemljiste:Zemljiste(trenutnoStanjeZemljista==null)
     then
-        Akcija a = new Akcija("Unos informacija o zemljistu", "Potrebno je uneti informacije o zemljistu(vlaznost, stanje...)", $razvoj);
+        Akcija a = new Akcija("Unos informacija o zemljistu", "Potrebno je uneti informacije o zemljistu(vlaznost, stanje...)");
+        $akcije.add(a);
+        update($razvoj)
+        saveRazvoj(razvojService, $razvoj);
+        help(drools, "----------------------------> Uspeh");
+end
+
+rule "luk-sadjenje"
+    when
+        TrenutnoVreme(trenutnoVreme.month == 10 && trenutnoVreme.day<16)
+        $razvoj:Razvoj($akcije: trenutnaAkcija, odabraniUsev.naziv=="Beli Luk")
+        not Akcija(naziv=="Unos informacija o zemljistu") from $akcije
+        $zemljiste:Zemljiste(trenutnoStanjeZemljista.procenatVlage<12, trenutnoStanjeZemljista.stanje==TipStanjaZemljista.FINO)
+    then
+        Akcija a = new Akcija("Unos informacija o zemljistu", "Potrebno je uneti informacije o zemljistu(vlaznost, stanje...)");
         $akcije.add(a);
         update($razvoj)
         saveRazvoj(razvojService, $razvoj);

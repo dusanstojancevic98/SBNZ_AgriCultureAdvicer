@@ -23,8 +23,6 @@ public class AkcijaResponse {
 
     private Long prethodnaAkcijaId;
 
-    private Long razvojId;
-
     private LocalDateTime datumKreiranja;
 
     private LocalDateTime datumOdluke;

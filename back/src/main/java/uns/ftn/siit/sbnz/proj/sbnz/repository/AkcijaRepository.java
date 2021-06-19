@@ -8,6 +8,4 @@ import java.util.Optional;
 
 @Repository
 public interface AkcijaRepository extends JpaRepository<Akcija, Long> {
-    public Optional<Akcija> getAkcijaByIdAndRazvoj_VlasnikId(Long id, Long vlasnikId);
-    public Optional<Akcija> getAkcijaByIdAndRazvojId(Long id, Long razvojId);
 }

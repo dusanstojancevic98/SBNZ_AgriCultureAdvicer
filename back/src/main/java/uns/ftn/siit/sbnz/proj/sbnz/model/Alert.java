@@ -23,7 +23,7 @@ public class Alert {
 
     private String opis;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.MERGE)
     private List<Akcija> akcije;
 
     @ManyToOne

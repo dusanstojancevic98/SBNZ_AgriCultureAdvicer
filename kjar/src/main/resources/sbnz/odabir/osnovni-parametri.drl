@@ -67,14 +67,14 @@ end
 
 rule "klima-hladna"
     when
-        $konfig:Konfiguracija($vreme: vremenskiPodaci, $vreme.prosecnaGodisnjaTemperatura<5)
+        $konfig:Konfiguracija($vreme: vremenskiPodaci, $vreme.prosecnaGodisnjaTemperatura<=5)
     then
         insert(new KategorijaKlime(TipKlime.HLADNI))
 end
 
 rule "klima-umerena"
     when
-        $konfig:Konfiguracija($vreme: vremenskiPodaci, $vreme.prosecnaGodisnjaTemperatura>5 && $vreme.prosecnaGodisnjaTemperatura < 15)
+        $konfig:Konfiguracija($vreme: vremenskiPodaci, $vreme.prosecnaGodisnjaTemperatura>5 && $vreme.prosecnaGodisnjaTemperatura <= 15)
     then
         insert(new KategorijaKlime(TipKlime.UMERENI))
 end
@@ -100,7 +100,7 @@ end
 
 rule "small"
     when
-        $konfig:Konfiguracija($zemljiste: zemljiste, $zemljiste.povrsina != null && $zemljiste.povrsina < 100)
+        $konfig:Konfiguracija($zemljiste: zemljiste, $zemljiste.povrsina != null && $zemljiste.povrsina <= 100)
     then
         insert(new Povrsina(TipPovrsine.SMALL))
 end

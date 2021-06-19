@@ -4,6 +4,7 @@ import org.kie.api.runtime.KieSession;
 import org.kie.api.time.SessionPseudoClock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import uns.ftn.siit.sbnz.proj.sbnz.dto.RazvojResponse;
@@ -11,14 +12,13 @@ import uns.ftn.siit.sbnz.proj.sbnz.exceptions.BadRequestException;
 import uns.ftn.siit.sbnz.proj.sbnz.exceptions.FatalErrorException;
 import uns.ftn.siit.sbnz.proj.sbnz.mappers.RazvojMapper;
 import uns.ftn.siit.sbnz.proj.sbnz.model.*;
+import uns.ftn.siit.sbnz.proj.sbnz.model.enums.TipPadavine;
 import uns.ftn.siit.sbnz.proj.sbnz.repository.AkcijaRepository;
 import uns.ftn.siit.sbnz.proj.sbnz.repository.RazvojRepository;
 import uns.ftn.siit.sbnz.proj.sbnz.repository.UsevPodaciRepository;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -38,6 +38,58 @@ public class RazvojService {
         Razvoj r = razvojRepository.findById(rid).orElseThrow(()->new ResourceNotFoundException("Ne postoji razvoj sa tim id-jem: "+rid));
         r.addStanjeZemljista(stanjeZemljista);
         razvojRepository.save(r);
+    }
+
+    class VPThread extends Thread{
+        KieSession session;
+        public VPThread(KieSession kieSession) {
+            this.session = kieSession;
+        }
+
+        @Override
+        public void run() {
+            super.run();
+            generisiVremenskuPrognozu();
+        }
+
+        private void generisiVremenskuPrognozu() {
+            Random rng = new Random();
+            SessionPseudoClock clock = session.getSessionClock();
+            session.getSessionClock();
+            LocalDateTime pocetak = LocalDateTime.now();
+            while(true){
+                VremenskaPrognoza vp = new VremenskaPrognoza();
+                vp.setTipPadavine(getTipPadavine(rng));
+                System.out.println(vp.getTipPadavine());
+                vp.setMaximalnaTemperatura(20 + rng.nextInt(15));
+                vp.setMaximalnaTemperatura(-10 + rng.nextInt(20));
+                vp.setJacinaVetra(4 + rng.nextInt(5));
+                vp.setKolicinaPadavina(2 + rng.nextInt(4));
+                session.insert(vp);
+                vp.setDatum(pocetak);
+
+                pocetak = pocetak.plusDays(1);
+                clock.advanceTime(1, TimeUnit.DAYS);
+                try {
+                    Thread.sleep(2000);
+//                    sleep(5000);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        private TipPadavine getTipPadavine(Random rng){
+//            return TipPadavine.SNEG;
+            double r = rng.nextDouble();
+            if(r<0.7){
+                return TipPadavine.KISA;
+            }
+            if(r<0.8){
+                return TipPadavine.GRAD;
+            }
+            return TipPadavine.SNEG;
+        }
     }
 
     class AkcijeThread extends Thread{
@@ -60,6 +112,7 @@ public class RazvojService {
             kieSession.insert(razvoj);
             kieSession.insert(razvoj.getKonfiguracija().getZemljiste());
             kieSession.insert(razvoj.getKonfiguracija().getVremenskiPodaci());
+            System.out.println("STARTED");
 //            kieSession.fireAllRules();
             kieSession.fireUntilHalt();
             System.out.println("----------HALTED----------");
@@ -121,6 +174,8 @@ public class RazvojService {
 
             pokreniRazvoj(r);
 
+        }else{
+            throw new ResourceNotFoundException();
         }
     }
 
@@ -140,6 +195,9 @@ public class RazvojService {
         }else{
             KieSession kieSession = applicationContext.getBean(KieSession.class);
             AkcijeThread akcijaThread = new AkcijeThread(kieSession, r, this);
+            VPThread thread = new VPThread(kieSession);
+            thread.start();
+
             akcijaThread.start();
             akcijeThreads.put(r.getId(), akcijaThread);
         }
@@ -174,8 +232,8 @@ public class RazvojService {
 
     private void obradiAkciju(Long id, Long razvojId, Akcija.StanjeAkcije stanjeAkcije){
         Razvoj razvoj = razvojRepository.findById(razvojId).orElseThrow(ResourceNotFoundException::new);
-        Akcija akcija = akcijaRepository.getAkcijaByIdAndRazvojId(id, razvojId).orElseThrow(()->new BadRequestException("Ne postoji akcija za taj razvoj"));
-
+        razvoj.getTrenutnaAkcija().stream().filter(a->a.getId().equals(id)).findFirst().orElseThrow(()->new BadRequestException("Ne postoji akcija za taj razvoj"));
+        Akcija akcija = akcijaRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
         akcija.setStanjeAkcije(stanjeAkcije);
         razvoj.setTrenutnaAkcija(razvoj.getTrenutnaAkcija().stream().filter(a->!a.getId().equals(id)).collect(Collectors.toList()));
         razvoj.getIstorijaAkcija().add(akcija);

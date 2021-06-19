@@ -18,7 +18,5 @@ public class AkcijaService {
         this.akcijaRepository = akcijaRepository;
     }
 
-    public Optional<Akcija> getAkcijabyUser(Long id, Long userId){
-        return akcijaRepository.getAkcijaByIdAndRazvoj_VlasnikId(id, userId);
-    }
+
 }

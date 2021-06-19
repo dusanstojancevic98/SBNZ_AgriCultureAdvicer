@@ -1,5 +1,6 @@
 package uns.ftn.siit.sbnz.proj.sbnz.service;
 
+import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -57,10 +58,13 @@ public class AlertService {
     }
 
     public void dodajAlert(Razvoj razvoj, Akcija akcija){
-        razvojRepository.save(razvoj);
+        akcija = akcijaRepo.save(akcija);
+        Razvoj razvojRepo = razvojRepository.findById(razvoj.getId()).orElseThrow(()->new ResourceNotFoundException("wow"));
+        System.out.println(akcija.getNaziv());
+        razvojRepo.getTrenutnaAkcija().add(akcija);
         razvoj.getTrenutnaAkcija().add(akcija);
-        razvojRepository.save(razvoj);
-
+        razvojRepository.save(razvojRepo);
+//        akcija = akcijaRepo.findById(akcija.getId()).orElseThrow(()->new ResourceNotFoundException("Nema akcije"));
         try{
             posaljiEmail(razvoj.getVlasnik().getEmail(), akcija);
         }catch (Exception e){
@@ -68,7 +72,7 @@ public class AlertService {
         }
         List<Akcija> akcije = new ArrayList<>();
         akcije.add(akcija);
-        Alert alert = new Alert(null, akcija.getNaziv(), akcija.getOpisAkcije(), akcije,razvoj, razvoj.getVlasnik(), Alert.Uticaj.NORMALAN, false);
+        Alert alert = new Alert(null, akcija.getNaziv(), akcija.getOpisAkcije(), akcije,razvojRepo, razvojRepo.getVlasnik(), Alert.Uticaj.NORMALAN, false);
         alertRepository.save(alert);
     }
 

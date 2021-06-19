@@ -42,7 +42,7 @@ public class KieConfiguration {
 
 
     @Bean("basic")
-    @SessionScope
+    @Scope("prototype")
     public KieSession kieSession() {
         KieServices ks = KieServices.Factory.get();
         KieContainer kContainer = ks
@@ -61,46 +61,18 @@ public class KieConfiguration {
         KieScanner kScanner = ks.newKieScanner(kContainer);
         kScanner.start(5_000);
         KieSession session = kContainer.newKieSession("cepConfigKsessionPseudoClock");
+        session.setGlobal("alertService", alertService);
         insertUsloviAkcije(session);
         return session;
     }
 
-    private Razvoj generateRazvoj(){
-        Razvoj razvoj = new Razvoj();
-        razvoj.setTrenutnaAkcija(new ArrayList<>());
-
-        UsevPodaci podaci = new UsevPodaci();
-        StanjeUseva stanje1 = new StanjeUseva();
-        stanje1.setStanja(new ArrayList<>());
-        stanje1.getStanja().add(Uslov.PrisustvoPalamide);
-        stanje1.getStanja().add(Uslov.ZutiList);
-
-
-        StanjeUseva stanje2 = new StanjeUseva();
-        stanje2.setStanja(new ArrayList<>());
-        stanje2.getStanja().add(Uslov.IskrivljenList);
-        stanje2.getStanja().add(Uslov.ZutiList);
-
-        StanjeUseva stanje3 = new StanjeUseva();
-        stanje3.setStanja(new ArrayList<>());
-        stanje3.getStanja().add(Uslov.PisustvoBrsljena);
-        stanje3.getStanja().add(Uslov.ZutiList);
-
-        podaci.getStanjaUseva().add(stanje1);
-        podaci.getStanjaUseva().add(stanje2);
-        podaci.getStanjaUseva().add(stanje3);
-
-        podaci.setUsev(new Usev("Breskva", "SuperBreskva"));
-        return razvoj;
-    }
 
     private void insertUsloviAkcije(KieSession session){
-        Razvoj razvoj = generateRazvoj();
         List<Uslov> uslovi = new ArrayList<>();
         uslovi.add(Uslov.ZutiList);
         uslovi.add(Uslov.PrisustvoPalamide);
         UsloviAkcija uslov = new UsloviAkcija(new Akcija("prskaj", "Prskanje protiv palamide i zutog lista je obavezno" +
-                "da bi usev uspeo da se oporavi od bolesti", razvoj), uslovi, 2  );
+                "da bi usev uspeo da se oporavi od bolesti"), uslovi, 2  );
         session.insert(uslov);
 
 
@@ -108,7 +80,7 @@ public class KieConfiguration {
         uslovi.add(Uslov.IskrivljenList);
         uslovi.add(Uslov.BraonList);
         uslov = new UsloviAkcija(new Akcija("zalivanje", "Potrebno je zaliti biljku jer zbog nedostatka vode" +
-                " list pocinje da kovrdza", razvoj), uslovi, 2  );
+                " list pocinje da kovrdza"), uslovi, 2  );
         session.insert(uslov);
 
 
@@ -118,7 +90,7 @@ public class KieConfiguration {
         uslovi.add(Uslov.PrisustvoVisokogKorova);
         uslovi.add(Uslov.PrisustvoPalamide);
         uslov = new UsloviAkcija(new Akcija("prskanje", "Potrebno je isprskati biljku herbicidom" +
-                " zbog pojave korova koji steti biljci", razvoj), uslovi, 3  );
+                " zbog pojave korova koji steti biljci"), uslovi, 3  );
         session.insert(uslov);
 
 
@@ -129,7 +101,7 @@ public class KieConfiguration {
         uslovi.add(Uslov.PrisustvoMuva);
         uslovi.add(Uslov.PojedenList);
         uslov = new UsloviAkcija(new Akcija("prskanje", "Potrebno je isprskati biljku insekticidom" +
-                " zbog pojave insekata", razvoj), uslovi, 3  );
+                " zbog pojave insekata"), uslovi, 3  );
         session.insert(uslov);
 
 
@@ -138,42 +110,11 @@ public class KieConfiguration {
         uslovi.add(Uslov.IskrivljenList);
         uslovi.add(Uslov.BraonList);
         uslov = new UsloviAkcija(new Akcija("djubrenje", "Potrebno je nadjubriti zemljiste" +
-                " SKN (sumpor, kalijum, azot) vestackim djubrivom", razvoj), uslovi, 2  );
+                " SKN (sumpor, kalijum, azot) vestackim djubrivom"), uslovi, 2  );
         session.insert(uslov);
-        new Thread(() -> generisiVremenskuPrognozu(session) ).start();
-        session.setGlobal("alertService", alertService);
-
-    }
-
-    private void generisiVremenskuPrognozu(KieSession session) {
-        Random rng = new Random();
-        SessionPseudoClock clock = session.getSessionClock();
-        session.getSessionClock();
-        LocalDateTime pocetak = LocalDateTime.now();
-        while(true){
-            VremenskaPrognoza vp = new VremenskaPrognoza();
-            vp.setTipPadavine(getTipPadavine(rng));
-            vp.setMaximalnaTemperatura(20 + rng.nextInt(15));
-            vp.setMaximalnaTemperatura(-10 + rng.nextInt(20));
-            vp.setJacinaVetra(4 + rng.nextInt(5));
-            vp.setKolicinaPadavina(2 + rng.nextInt(4));
-            session.insert(vp);
-            vp.setDatum(pocetak);
-
-            pocetak = pocetak.plusDays(1);
-            clock.advanceTime(1, TimeUnit.DAYS);
-
-            try {
-                Thread.sleep(5000);
-            }catch (Exception e){
-                return;
-            }
-
-        }
     }
 
 
-    private TipPadavine getTipPadavine(Random rng){
-         return TipPadavine.values()[rng.nextInt(5)];
-    }
+
+
 }

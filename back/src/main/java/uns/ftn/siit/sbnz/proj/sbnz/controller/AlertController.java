@@ -31,7 +31,7 @@ public class AlertController {
     @PatchMapping(value = "/{id}")
     public void pregledajAlert(@PathVariable Long id, Authentication authentication){
         Korisnik logged = (Korisnik) authentication.getPrincipal();
-        alertService.pregledAlert(logged.getId(), id);
+        alertService.pregledAlert(id, logged.getId());
     }
 
 

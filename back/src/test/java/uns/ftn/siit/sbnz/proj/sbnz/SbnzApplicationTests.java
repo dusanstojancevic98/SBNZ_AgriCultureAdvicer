@@ -117,7 +117,7 @@ class SbnzApplicationTests {
 
 
         razvoj.setTrenutnaAkcija(new ArrayList<>());
-        kieSession.insert(new Akcija("Prskanje", "Neko Prskanje", razvoj));
+        kieSession.insert(new Akcija("Prskanje", "Neko Prskanje"));
         kieSession.insert(razvoj);
         kieSession.insert(podaci);
         int fired = kieSession.fireAllRules();
@@ -220,7 +220,7 @@ class SbnzApplicationTests {
 
         VremenskaPrognoza vp = new VremenskaPrognoza();
         vp.setKolicinaPadavina(0);
-        kieSession.insert(new Akcija("Prevencija snega", "SDDDD", razvoj));
+        kieSession.insert(new Akcija("Prevencija snega", "SDDDD"));
         kieSession.insert(vp);
 
         razvoj.setTrenutnaAkcija(new ArrayList<>());

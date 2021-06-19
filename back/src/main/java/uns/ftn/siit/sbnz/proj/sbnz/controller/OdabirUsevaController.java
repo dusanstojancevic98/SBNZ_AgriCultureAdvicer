@@ -74,11 +74,6 @@ public class OdabirUsevaController {
         return new ResponseEntity<>(ponudeUsevaService.getOne(id), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/fastFoward/{time}")
-    public ResponseEntity<Boolean> unapredVreme(@PathVariable Integer time){
-        odabirUsevaService.ubrzajVreme(time);
-        return new ResponseEntity<>(Boolean.TRUE,HttpStatus.OK);
-    }
 
     @GetMapping(path = "/akcije")
     ResponseEntity<List<Akcija>> getAkcija(HttpServletRequest request){

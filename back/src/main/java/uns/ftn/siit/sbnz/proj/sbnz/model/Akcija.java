@@ -33,9 +33,6 @@ public class Akcija {
     @OneToOne
     private Akcija prethodnaAkcija;
 
-    @ManyToOne
-    @NonNull
-    private Razvoj razvoj;
 
     private LocalDateTime datumKreiranja = LocalDateTime.now();
 
