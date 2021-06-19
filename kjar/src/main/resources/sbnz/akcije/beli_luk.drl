@@ -44,6 +44,7 @@ declare TrenutnoVreme
 	trenutnoVreme:Date
 
 end
+
 global RazvojService razvojService;
 global AlertService alertService;
 
@@ -53,47 +54,45 @@ function void saveRazvoj(RazvojService razvojService, Razvoj r) {
 }
 
 
-rule "trenutno-vreme-exists"
-    when
-       not TrenutnoVreme()
-    then
-        TrenutnoVreme trenutnoVreme = new TrenutnoVreme();
-        trenutnoVreme.setTrenutnoVreme(new java.util.Date(
-                drools
-                    .getWorkingMemory()
-                    .getSessionClock()
-                    .getCurrentTime()
-            )
-
-        );
-		insert(trenutnoVreme)
-        help(drools, trenutnoVreme.getTrenutnoVreme().toString())
-end
-
-rule "trenutno-vreme"
-    timer(int: 0s 1d)
-    when
-        $vreme : TrenutnoVreme()
-    then
-        $vreme.setTrenutnoVreme(
-            new java.util.Date(
-                 drools
-                     .getWorkingMemory()
-                     .getSessionClock()
-                     .getCurrentTime()
-             )
-        );
-        help(drools, $vreme.getTrenutnoVreme().toString());
-        help(drools, $vreme.getTrenutnoVreme().getDay());
-        help(drools, $vreme.getTrenutnoVreme().getDate());
-        help(drools, $vreme.getTrenutnoVreme().getMonth());
-		update($vreme);
-end
+//rule "trenutno-vreme-exists"
+//    when
+//        Razvoj(odabraniUsev.naziv=="Beli luk")
+//        not TrenutnoVreme()
+//    then
+//        TrenutnoVreme trenutnoVreme = new TrenutnoVreme();
+//        trenutnoVreme.setTrenutnoVreme(new java.util.Date(
+//                drools
+//                    .getWorkingMemory()
+//                    .getSessionClock()
+//                    .getCurrentTime()
+//            )
+//
+//        );
+//		insert(trenutnoVreme)
+//        help(drools, trenutnoVreme.getTrenutnoVreme().toString())
+//end
+//
+//rule "trenutno-vreme"
+//    timer(int: 0s 1d)
+//    when
+//        $razvoj:Razvoj($akcije: trenutnaAkcija, odabraniUsev.naziv=="Beli luk")
+//        $vreme : TrenutnoVreme()
+//    then
+//        $vreme.setTrenutnoVreme(
+//            new java.util.Date(
+//                 drools
+//                     .getWorkingMemory()
+//                     .getSessionClock()
+//                     .getCurrentTime()
+//             )
+//        );
+//        help(drools, $vreme.getTrenutnoVreme().toString());
+//		update($vreme);
+//end
 
 rule "zemljiste-info"
-    lock-on-active
     when
-        $razvoj:Razvoj($akcije: trenutnaAkcija, odabraniUsev.naziv=="Beli Luk")
+        $razvoj:Razvoj($akcije: trenutnaAkcija, $o: odabraniUsev.naziv=="Beli luk")
         not Akcija(naziv=="Unos informacija o zemljistu") from $akcije
         $zemljiste:Zemljiste(trenutnoStanjeZemljista==null)
     then
@@ -104,20 +103,103 @@ rule "zemljiste-info"
         help(drools, "----------------------------> Uspeh");
 end
 
-rule "luk-sadjenje"
+rule "luk-bacanje-8-16-24"
+    timer(cron: 0 6 * 9 *)
     when
-        TrenutnoVreme(trenutnoVreme.month == 10 && trenutnoVreme.day<16)
-        $razvoj:Razvoj($akcije: trenutnaAkcija, odabraniUsev.naziv=="Beli Luk")
-        not Akcija(naziv=="Unos informacija o zemljistu") from $akcije
-        $zemljiste:Zemljiste(trenutnoStanjeZemljista.procenatVlage<12, trenutnoStanjeZemljista.stanje==TipStanjaZemljista.FINO)
+        $razvoj:Razvoj($akcije: trenutnaAkcija, $iakcije: istorijaAkcija, odabraniUsev.naziv=="Beli luk")
+        not Akcija(naziv=="Djubrenje pred oranje") from $akcije
+        $zemljiste:Zemljiste(trenutnoStanjeZemljista!=null, trenutnoStanjeZemljista.stanje==TipStanjaZemljista.TVRDO)
     then
-        Akcija a = new Akcija("Unos informacija o zemljistu", "Potrebno je uneti informacije o zemljistu(vlaznost, stanje...)");
-        $akcije.add(a);
+        alertService.dodajAlert($razvoj,  new Akcija("Djubrenje pred oranje", "Potrebno je baciti vestacko djubrivo odnosa 8-16-24 NPK pred oranje."));
         update($razvoj)
         saveRazvoj(razvojService, $razvoj);
         help(drools, "----------------------------> Uspeh");
 end
 
+rule "luk-oranje"
+    timer(cron: 0 6 * 9 *)
+    when
+        $razvoj:Razvoj($akcije: trenutnaAkcija, $iakcije: istorijaAkcija, odabraniUsev.naziv=="Beli luk")
+        not Akcija(naziv=="Sadjenje belog luka") from $akcije
+        Akcija(naziv=="Djubrenje pred oranje") from $akcije
+        $zemljiste:Zemljiste(trenutnoStanjeZemljista!=null, trenutnoStanjeZemljista.stanje==TipStanjaZemljista.TVRDO)
+    then
+        alertService.dodajAlert($razvoj,  new Akcija("Duboko oranje zemljista", "Potrebno je odraditi duboko oranje."));
+        update($razvoj)
+        saveRazvoj(razvojService, $razvoj);
+        help(drools, "----------------------------> Uspeh");
+end
+
+rule "luk-kultivisanje"
+    timer(cron: 0 6 * 9 *)
+    when
+        $razvoj:Razvoj($akcije: trenutnaAkcija, odabraniUsev.naziv=="Beli luk")
+        not Akcija(naziv=="Sadjenje belog luka") from $akcije
+        $zemljiste:Zemljiste(trenutnoStanjeZemljista!=null, trenutnoStanjeZemljista.stanje==TipStanjaZemljista.IZORANO || trenutnoStanjeZemljista.stanje==TipStanjaZemljista.MEKO)
+    then
+        alertService.dodajAlert($razvoj,  new Akcija("Kultivisanje zemljista", "Potrebno je odraditi kultivisanje zemljista dok zemljiste ne postane fino ili sitno i spremno za sadnju."));
+        update($razvoj)
+        saveRazvoj(razvojService, $razvoj);
+        help(drools, "----------------------------> Uspeh");
+end
+
+rule "luk-sadjenje"
+    timer(cron: 0 6 0-15 10 *)
+    when
+        VremenskaPrognoza(tipPadavine == TipPadavine.KISA) over window:length(3)
+        $razvoj:Razvoj($akcije: trenutnaAkcija, odabraniUsev.naziv=="Beli luk")
+        not Akcija(naziv=="Sadjenje belog luka") from $akcije
+        $zemljiste:Zemljiste(trenutnoStanjeZemljista!=null,trenutnoStanjeZemljista.procenatVlage<12, trenutnoStanjeZemljista.stanje==TipStanjaZemljista.FINO)
+    then
+        alertService.dodajAlert($razvoj,  new Akcija("Sadjenje belog luka", "Potrebno posaditi beli luk"));
+        update($razvoj)
+        saveRazvoj(razvojService, $razvoj);
+        help(drools, "----------------------------> Uspeh");
+end
+
+rule "luk-zalivanje-posle-sadjenja"
+    timer(cron: 0 6 0/10 10-11 *)
+    when
+        not VremenskaPrognoza(tipPadavine == TipPadavine.KISA) over window:length(10)
+        $razvoj:Razvoj($akcije: trenutnaAkcija, $iakcije: istorijaAkcija, odabraniUsev.naziv=="Beli luk")
+        not Akcija(naziv=="Zalivanje posle sadjenja") from $akcije
+        Akcija(naziv=="Sadjenje belog luka") from $iakcije
+        $zemljiste:Zemljiste(trenutnoStanjeZemljista!=null,trenutnoStanjeZemljista.procenatVlage<12)
+    then
+        alertService.dodajAlert($razvoj,  new Akcija("Zalivanje posle sadjenja", "Potrebno je zaliti luk nakon sadnje zbog male vlage u zemljistu."));
+        update($razvoj)
+        saveRazvoj(razvojService, $razvoj);
+        help(drools, "----------------------------> Uspeh");
+end
+
+rule "luk-herbicid-posle-sadjenja"
+    when
+        not VremenskaPrognoza(tipPadavine == TipPadavine.KISA) over window:length(1)
+        $razvoj:Razvoj($akcije: trenutnaAkcija, $iakcije: istorijaAkcija, odabraniUsev.naziv=="Beli luk")
+        not Akcija(naziv=="Herbicid nakon sadjenja") from $akcije
+        not Akcija(naziv=="Herbicid nakon sadjenja") from $iakcije
+        Akcija(naziv=="Sadjenje belog luka") from $iakcije
+    then
+        alertService.dodajAlert($razvoj,  new Akcija("Herbicid nakon sadjenja", "Potrebno je isprskati luk herbicidom nakon sadnje radi zastite od korova."));
+        update($razvoj)
+        saveRazvoj(razvojService, $razvoj);
+        help(drools, "----------------------------> Uspeh");
+end
+
+
+
+rule "luk-fungicid"
+    timer(cron: 0 6 0/10 3 *)
+    when
+        not VremenskaPrognoza(tipPadavine == TipPadavine.KISA) over window:length(1)
+        $razvoj:Razvoj($akcije: trenutnaAkcija, $iakcije: istorijaAkcija, odabraniUsev.naziv=="Beli luk")
+        not Akcija(naziv=="Prskanje fungicidom") from $akcije
+    then
+        alertService.dodajAlert($razvoj,  new Akcija("Prskanje fungicidom", "Potrebno je isprskati luk fungicidom nakon sadnje radi zastite od plamenjace."));
+        update($razvoj)
+        saveRazvoj(razvojService, $razvoj);
+        help(drools, "----------------------------> Uspeh");
+end
 //
 //rule "zemljiste-info"
 //    lock-on-active
